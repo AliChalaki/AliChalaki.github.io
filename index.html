@@ -6,6 +6,133 @@
     <title>Ali Chalaki - Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @media (max-width: 768px) {
+            .header {
+                padding: 4rem 1rem 5rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+            }
+
+            .header h1 {
+                font-size: 2rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .header p {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .services {
+                padding: 6rem 1rem 4rem; /* Add padding to avoid content overlap with header */
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 10rem; /* Add margin to push the content below the header */
+            }
+
+            .service-card {
+                padding: 1.5rem;
+                margin: 0 0.5rem;
+            }
+
+            .service-icon {
+                font-size: 2rem !important;
+            }
+
+            .start-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .telegram-link {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+                padding: 15px;
+            }
+
+            .theme-toggle {
+                font-size: 1.5rem;
+                top: 15px;
+                right: 15px;
+            }
+
+            .fox-animation {
+                height: 60px;
+                bottom: 5px;
+            }
+
+            footer p {
+                font-size: 0.9rem;
+            }
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .header {
+            text-align: center;
+            padding: 8rem 2rem 6rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 6rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            margin-top: 10rem; /* Adjust for header overlap */
+            overflow-y: auto; /* Allow scrolling for content */
+        }
+
+        .service-card {
+            background: var(--nav-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -15,73 +142,80 @@
             --button-hover: #2980b9;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            height: 100vh; /* پر کردن کل صفحه */
-            overflow: hidden; /* جلوگیری از اسکرول کل صفحه */
+        .dark-mode {
+            --primary: #ecf0f1;
+            --secondary: #1abc9c;
+            --bg: #2c3e50;
+            --text: #ecf0f1;
+            --nav-bg: rgba(44, 62, 80, 0.95);
+            --button-hover: #16a085;
         }
 
-        .header {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+        .theme-toggle {
             position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow-y: auto; /* فقط این بخش اسکرول شود */
-            flex: 1;
-            margin-top: 120px; /* فاصله از هدر */
-            height: calc(100vh - 120px); /* ارتفاع تطبیق باقیمانده صفحه */
-        }
-
-        .service-card {
-            background: var(--nav-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
             cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        footer {
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+
+        .start-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--secondary);
+            color: white !important;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .start-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .dark-mode .start-btn {
+            background: var(--secondary);
+            color: var(--text) !important;
+        }
+
+        /* انیمیشن جدید برای روباه */
+        @keyframes foxWalk {
+            0% { transform: translateX(-100%) rotateY(180deg); }
+            100% { transform: translateX(100%) rotateY(0deg); }
+        }
+
+        .fox-container {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
             background: var(--primary);
-            text-align: center;
-            padding: 1rem;
-            color: white;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
         }
-<body>
-    <header class="header">
-        <h1>Ali Chalaki</h1>
-        <p>Data Scientist & Computer Science Instructor</p>
-    </header>
 
-    <div class="services">
-        <div class="service-card">Python Programming</div>
-        <div class="service-card">Data Science</div>
-        <div class="service-card">Mobile Apps</div>
-        <div class="service-card">Game Developer</div>
-        <div class="service-card">Web Design</div>
-        <div class="service-card">More Services...</div>
-    </div>
+        .fox-animation {
+            position: absolute;
+            bottom: 10px;
+            left: -100px;
+            height: 80px;
+            animation: foxWalk 12s linear infinite;
+        }
+    </style>
+</head>
+<body>
     <button class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-lightbulb"></i>
     </button>
@@ -105,25 +239,21 @@
             </a>
             <p>From basics to advanced concepts</p>
         </div>
-		
         <div class="service-card" onclick="navigate('data-science')">
             <i class="fas fa-chart-line service-icon"></i>
             <h3>Data Science</h3>
             <p>With Python & AI</p>
         </div>
-
         <div class="service-card" onclick="navigate('mobile')">
             <i class="fab fa-android service-icon"></i>
             <h3>Mobile Apps</h3>
             <p>Kotlin Development</p>
         </div>
-		
         <div class="service-card" onclick="navigate('game-dev')">
             <i class="fab fa-unity service-icon"></i>
             <h3>Game Developer</h3>
             <p>With Unity Engine</p>
         </div>
-
         <div class="service-card" onclick="navigate('web-design')">
             <i class="fab fa-wordpress service-icon"></i>
             <h3>Web Design</h3>
@@ -146,18 +276,18 @@
                 'mobile': '#mobile-apps',
                 'web-design': '#web-design'
             };
-            
+
             if(sections[page]) {
                 window.location.hash = sections[page];
             }
         }
     </script>
-	    <div class="fox-container">
+
+    <div class="fox-container">
         <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
     </div>
 
     <footer>
-
         <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
     </footer>
 </body>
