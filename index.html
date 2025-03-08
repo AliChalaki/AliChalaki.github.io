@@ -6,97 +6,6 @@
     <title>Ali Chalaki - Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @media (max-width: 768px) {
-            .header {
-                padding: 4rem 1rem 5rem;
-            }
-
-            .header h1 {
-                font-size: 2rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .header p {
-                font-size: 1.1rem !important;
-                margin-bottom: 1.5rem !important;
-            }
-
-            .services {
-                padding: 3rem 1rem 2rem;
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .service-card {
-                padding: 1.5rem;
-                margin: 0 0.5rem;
-            }
-
-            .service-icon {
-                font-size: 2rem !important;
-            }
-
-            .start-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .telegram-link {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-                padding: 15px;
-            }
-
-            .theme-toggle {
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
-
-            .fox-animation {
-                height: 60px;
-                bottom: 5px;
-            }
-
-            footer p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* رسپانسیو برای تبلت */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .services {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-	        /* انیمیشن جدید برای روباه */
-        @keyframes foxWalk {
-            0% { transform: translateX(-100%) rotateY(180deg); }
-            100% { transform: translateX(100%) rotateY(0deg); }
-        }
-
-        .fox-container {
-            position: relative;
-            height: 100px;
-            overflow: hidden;
-            background: var(--primary);
-        }
-
-        .fox-animation {
-            position: absolute;
-            bottom: 10px;
-            left: -100px;
-            height: 80px;
-            animation: foxWalk 12s linear infinite;
-        }
-
-        footer {
-            background: var(--primary);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-        }
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -126,6 +35,7 @@
             flex-direction: column;
         }
 
+        /* هدر */
         .header {
             text-align: center;
             padding: 8rem 2rem 6rem;
@@ -135,6 +45,93 @@
             margin-top: 0;
         }
 
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* دکمه تغییر تم */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+
+        /* بخش سرویس‌ها */
+        .services {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 6rem 2rem 4rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 0;
+            margin: 0 -1rem;
+        }
+
+        .service-card {
+            background: var(--nav-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            min-width: 300px;
+            scroll-snap-align: start;
+            margin: 0 1rem;
+            flex-shrink: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        /* دکمه شروع */
+        .start-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--secondary);
+            color: white !important;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .start-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* لینک تلگرام */
         .social-container {
             position: absolute;
             bottom: -40px;
@@ -165,88 +162,113 @@
             background: var(--button-hover);
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.3s ease;
+        /* انیمیشن روباه */
+        @keyframes foxWalk {
+            0% { transform: translateX(-100%) rotateY(180deg); }
+            100% { transform: translateX(100%) rotateY(0deg); }
         }
 
-        .theme-toggle:hover {
-            transform: rotate(20deg);
+        .fox-container {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            background: var(--primary);
         }
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 6rem 2rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            flex: 1;
+        .fox-animation {
+            position: absolute;
+            bottom: 10px;
+            left: -100px;
+            height: 80px;
+            animation: foxWalk 12s linear infinite;
         }
 
-        .service-card {
-            background: var(--nav-bg);
+        /* فوتر */
+        footer {
+            background: var(--primary);
             padding: 2rem;
-            border-radius: 15px;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
+            position: relative;
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-		  .start-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 2rem;
-            background: var(--secondary);
-            color: white !important;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        footer p {
+            color: white;
+            margin: 0;
         }
 
-        .start-btn:hover {
-            background: var(--button-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        /* رسپانسیو برای موبایل */
+        @media (max-width: 768px) {
+            .header {
+                padding: 3rem 1rem 4rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .header p {
+                font-size: 1rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .services {
+                padding: 3rem 1rem 2rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+                margin: 0 0.5rem;
+            }
+
+            .social-container {
+                bottom: -30px;
+            }
+
+            .telegram-link {
+                width: 55px;
+                height: 55px;
+                font-size: 1.8rem;
+                padding: 15px;
+            }
+
+            .theme-toggle {
+                font-size: 1.5rem;
+                top: 15px;
+                right: 15px;
+            }
+
+            .fox-animation {
+                height: 50px;
+                bottom: 5px;
+            }
+
+            footer p {
+                font-size: 0.9rem;
+            }
+
+            .services::-webkit-scrollbar {
+                display: none;
+            }
         }
 
-        .dark-mode .start-btn {
-            background: var(--secondary);
-            color: var(--text) !important;
-        }
-
-        /* حذف استایل‌های مربوط به فوتر */
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
+        /* رسپانسیو برای تبلت */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .services {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- محتوای HTML بدون تغییر -->
     <button class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-lightbulb"></i>
     </button>
 
     <header class="header">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
-        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Computer Science Instructor</p>
+        <h1>Ali Chalaki</h1>
+        <p>Data Scientist & Computer Science Instructor</p>
         <div class="social-container">
             <a href="https://t.me/Chalaki" class="telegram-link" target="_blank">
                 <i class="fab fa-telegram-plane"></i>
@@ -263,7 +285,7 @@
             </a>
             <p>From basics to advanced concepts</p>
         </div>
-		
+        
         <div class="service-card" onclick="navigate('data-science')">
             <i class="fas fa-chart-line service-icon"></i>
             <h3>Data Science</h3>
@@ -275,7 +297,7 @@
             <h3>Mobile Apps</h3>
             <p>Kotlin Development</p>
         </div>
-		
+        
         <div class="service-card" onclick="navigate('game-dev')">
             <i class="fab fa-unity service-icon"></i>
             <h3>Game Developer</h3>
@@ -288,6 +310,14 @@
             <p>WordPress Development</p>
         </div>
     </div>
+
+    <div class="fox-container">
+        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
+    </div>
+
+    <footer>
+        <p>© 2023 Ali Chalaki - All Rights Reserved</p>
+    </footer>
 
     <script>
         function toggleTheme() {
@@ -310,13 +340,5 @@
             }
         }
     </script>
-	    <div class="fox-container">
-        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
-    </div>
-
-    <footer>
-
-        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
-    </footer>
 </body>
 </html>
