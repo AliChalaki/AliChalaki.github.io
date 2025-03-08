@@ -41,7 +41,6 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             position: relative;
-            margin-top: 0;
         }
 
         .social-container {
@@ -136,57 +135,27 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
-        .dark-mode .start-btn {
-            background: var(--secondary);
-            color: var(--text) !important;
-        }
-
         .service-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--secondary);
         }
 
-        /* حالت ریسپانسیو برای موبایل */
         @media (max-width: 768px) {
             .header {
                 padding: 4rem 1rem 5rem;
             }
 
-            .header h1 {
-                font-size: 2rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .header p {
-                font-size: 1.1rem !important;
-                margin-bottom: 1.5rem !important;
-            }
-
             .services {
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
-                overflow-x: auto;
+                display: block;
                 padding: 3rem 1rem 2rem;
-                gap: 1.5rem;
-                flex-wrap: nowrap;
             }
 
             .service-card {
-                flex-shrink: 0;
+                width: 100%;
+                margin: 0 0 1.5rem;
                 padding: 1.5rem;
-                margin: 0 0.5rem;
-                min-width: 250px;
-            }
-
-            .service-icon {
-                font-size: 2rem !important;
-            }
-
-            .start-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
+                box-sizing: border-box;
             }
 
             .telegram-link {
@@ -201,15 +170,6 @@
                 top: 15px;
                 right: 15px;
             }
-
-            .fox-animation {
-                height: 60px;
-                bottom: 5px;
-            }
-
-            footer p {
-                font-size: 0.9rem;
-            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -218,32 +178,10 @@
             }
         }
 
-        /* انیمیشن جدید برای روباه */
-        @keyframes foxWalk {
-            0% { transform: translateX(-100%) rotateY(180deg); }
-            100% { transform: translateX(100%) rotateY(0deg); }
-        }
-
-        .fox-container {
-            position: relative;
-            height: 100px;
-            overflow: hidden;
-            background: var(--primary);
-        }
-
-        .fox-animation {
-            position: absolute;
-            bottom: 10px;
-            left: -100px;
-            height: 80px;
-            animation: foxWalk 12s linear infinite;
-        }
-
         footer {
             background: var(--primary);
             padding: 2rem;
             text-align: center;
-            position: relative;
         }
     </style>
 </head>
@@ -271,7 +209,7 @@
             </a>
             <p>From basics to advanced concepts</p>
         </div>
-		
+
         <div class="service-card">
             <i class="fas fa-chart-line service-icon"></i>
             <h3>Data Science</h3>
@@ -283,7 +221,7 @@
             <h3>Mobile Apps</h3>
             <p>Kotlin Development</p>
         </div>
-		
+
         <div class="service-card">
             <i class="fab fa-unity service-icon"></i>
             <h3>Game Developer</h3>
@@ -304,10 +242,6 @@
             bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
         }
     </script>
-
-    <div class="fox-container">
-        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
-    </div>
 
     <footer>
         <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
