@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Chalaki - Portfolio</title>
+    <title>Ali Chalaki - Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --bg: #f8f9fa;
             --text: #2c3e50;
             --nav-bg: rgba(255, 255, 255, 0.95);
+            --button-hover: #2980b9;
         }
 
         body {
@@ -21,13 +22,13 @@
             color: var(--text);
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+            height: 100vh; /* پر کردن کل صفحه */
+            overflow: hidden; /* جلوگیری از اسکرول کل صفحه */
         }
 
         .header {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             position: fixed;
@@ -42,10 +43,11 @@
             gap: 1rem;
             padding: 1rem;
             max-width: 1200px;
-            margin: 120px auto 0;
-            overflow-y: auto;
+            margin: 0 auto;
+            overflow-y: auto; /* فقط این بخش اسکرول شود */
             flex: 1;
-            height: calc(100vh - 120px);
+            margin-top: 120px; /* فاصله از هدر */
+            height: calc(100vh - 120px); /* ارتفاع تطبیق باقیمانده صفحه */
         }
 
         .service-card {
@@ -57,27 +59,6 @@
             cursor: pointer;
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .social-container {
-            margin-top: 1rem;
-        }
-
-        .social-container a {
-            color: white;
-            font-size: 2rem;
-            text-decoration: none;
-        }
-
         footer {
             background: var(--primary);
             text-align: center;
@@ -87,20 +68,11 @@
             width: 100%;
             bottom: 0;
         }
-    </style>
-</head>
 <body>
     <header class="header">
         <h1>Ali Chalaki</h1>
         <p>Data Scientist & Computer Science Instructor</p>
-        <div class="social-container">
-            <a href="https://t.me/Chalaki" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-        </div>
     </header>
-    
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-lightbulb"></i>
-    </button>
 
     <div class="services">
         <div class="service-card">Python Programming</div>
@@ -108,15 +80,85 @@
         <div class="service-card">Mobile Apps</div>
         <div class="service-card">Game Developer</div>
         <div class="service-card">Web Design</div>
+        <div class="service-card">More Services...</div>
     </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-lightbulb"></i>
+    </button>
 
-    <footer>© 2024 Ali Chalaki - All Rights Reserved</footer>
+    <header class="header">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Computer Science Instructor</p>
+        <div class="social-container">
+            <a href="https://t.me/Chalaki" class="telegram-link" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="services">
+        <div class="service-card">
+            <i class="fab fa-python service-icon"></i>
+            <h3>Python Programming</h3>
+            <a href="python-course.html" class="start-btn">
+                Start Learning <i class="fas fa-arrow-right"></i>
+            </a>
+            <p>From basics to advanced concepts</p>
+        </div>
+		
+        <div class="service-card" onclick="navigate('data-science')">
+            <i class="fas fa-chart-line service-icon"></i>
+            <h3>Data Science</h3>
+            <p>With Python & AI</p>
+        </div>
+
+        <div class="service-card" onclick="navigate('mobile')">
+            <i class="fab fa-android service-icon"></i>
+            <h3>Mobile Apps</h3>
+            <p>Kotlin Development</p>
+        </div>
+		
+        <div class="service-card" onclick="navigate('game-dev')">
+            <i class="fab fa-unity service-icon"></i>
+            <h3>Game Developer</h3>
+            <p>With Unity Engine</p>
+        </div>
+
+        <div class="service-card" onclick="navigate('web-design')">
+            <i class="fab fa-wordpress service-icon"></i>
+            <h3>Web Design</h3>
+            <p>WordPress Development</p>
+        </div>
+    </div>
 
     <script>
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            document.querySelector('.fa-lightbulb').classList.toggle('active');
+            const bulb = document.querySelector('.fa-lightbulb');
+            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
+        }
+
+        function navigate(page) {
+            const sections = {
+                'python': '#python',
+                'data-science': '#data-science',
+                'game-dev': '#game-development',
+                'mobile': '#mobile-apps',
+                'web-design': '#web-design'
+            };
+            
+            if(sections[page]) {
+                window.location.hash = sections[page];
+            }
         }
     </script>
+	    <div class="fox-container">
+        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
+    </div>
+
+    <footer>
+
+        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
+    </footer>
 </body>
 </html>
