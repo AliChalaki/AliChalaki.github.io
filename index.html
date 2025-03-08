@@ -1,422 +1,258 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Quick Reference</title>
+    <title>Ali Chalaki - Professional Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+	        /* انیمیشن جدید برای روباه */
+        @keyframes foxWalk {
+            0% { transform: translateX(-100%) rotateY(180deg); }
+            100% { transform: translateX(100%) rotateY(0deg); }
+        }
+
+        .fox-container {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            background: var(--primary);
+        }
+
+        .fox-animation {
+            position: absolute;
+            bottom: 10px;
+            left: -100px;
+            height: 80px;
+            animation: foxWalk 12s linear infinite;
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
         :root {
-            --primary: #3498db;
-            --bg: #ffffff;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --bg: #f8f9fa;
             --text: #2c3e50;
-            --card-bg: #ffffff;
-            --code-bg: #f8f9fa;
-            --border: #e0e0e0;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --button-hover: #2980b9;
         }
 
         .dark-mode {
-            --primary: #1abc9c;
+            --primary: #ecf0f1;
+            --secondary: #1abc9c;
             --bg: #2c3e50;
             --text: #ecf0f1;
-            --card-bg: #34495e;
-            --code-bg: #2c3e50;
-            --border: #46627f;
+            --nav-bg: rgba(44, 62, 80, 0.95);
+            --button-hover: #16a085;
         }
 
         body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             color: var(--text);
             transition: all 0.3s ease;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
             text-align: center;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            padding: 8rem 2rem 6rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             position: relative;
+            margin-top: 0;
+        }
+
+        .social-container {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        .telegram-link {
+            color: white;
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background: var(--secondary);
+            padding: 18px;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 3px solid white;
+        }
+
+        .telegram-link:hover {
+            transform: scale(1.1) translateY(-5px);
+            background: var(--button-hover);
         }
 
         .theme-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255,255,255,0.1);
+            background: none;
             border: none;
-            padding: 10px 15px;
-            border-radius: 25px;
             color: white;
+            font-size: 1.8rem;
             cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        .container {
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 6rem 2rem 4rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            flex: 1;
         }
 
-        .section {
-            margin: 3rem 0;
-            background: var(--card-bg);
+        .service-card {
+            background: var(--nav-bg);
+            padding: 2rem;
             border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 0.4s ease-out;
-        }
-
-        .section.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        h2 {
-            color: var(--primary);
-            border-left: 4px solid var(--primary);
-            padding-left: 1rem;
-            margin: 2rem 0;
-        }
-
-        pre {
-            background: var(--code-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            overflow-x: auto;
-            border: 1px solid var(--border);
-        }
-
-        code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-        }
-
-        .exercise {
-            margin: 2rem 0;
-            background: var(--code-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
-
-        .question {
-            font-family: Tahoma;
-            color: #e74c3c;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .answer {
-            display: none;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
-        }
-
-        .toggle-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: opacity 0.3s;
         }
 
-        .toggle-btn:hover {
-            opacity: 0.9;
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-		<style>
-    :root {
-        /* سایر متغیرها */
-        --card-bg-hover: #f0f0f0;
-    }
+		  .start-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--secondary);
+            color: white !important;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
 
-    .dark-mode {
-        /* سایر متغیرها */
-        --card-bg-hover: #3b4f66;
-    }
+        .start-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
 
-    .section {
-        transition: 
-            transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            box-shadow 0.2s ease,
-            background-color 0.3s ease;
-    }
+        .dark-mode .start-btn {
+            background: var(--secondary);
+            color: var(--text) !important;
+        }
 
-    .section:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-        background-color: var(--card-bg-hover);
-    }
-</style>
+        /* حذف استایل‌های مربوط به فوتر */
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-lightbulb"></i>
+    </button>
 
     <header class="header">
-        <h1>Ali Chalaki</h1>
-        <p>Python Instructor & Data Scientist</p>
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Computer Science Instructor</p>
+        <div class="social-container">
+            <a href="https://t.me/Chalaki" class="telegram-link" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- Introduction -->
-        <div class="section">
-            <h2>Introduction</h2>
-            <pre><code># Python Basics Cheat Sheet
-print("Let's Start Coding!")</code></pre>
+    <div class="services">
+        <div class="service-card">
+            <i class="fab fa-python service-icon"></i>
+            <h3>Python Programming</h3>
+            <a href="python-course.html" class="start-btn">
+                Start Learning <i class="fas fa-arrow-right"></i>
+            </a>
+            <p>From basics to advanced concepts</p>
+        </div>
+		
+        <div class="service-card" onclick="navigate('data-science')">
+            <i class="fas fa-chart-line service-icon"></i>
+            <h3>Data Science</h3>
+            <p>With Python & AI</p>
         </div>
 
-        <!-- Hello World -->
-        <div class="section">
-            <h2>Hello World</h2>
-            <pre><code>print("Hello, World!")</code></pre>
-            <div class="exercise">
-                <div class="question">برنامه‌ای بنویسید که نام کاربر را بگیرد و سلام کند</div>
-                <button class="toggle-btn" onclick="toggleAnswer(0)">Show Answer</button>
-                <div class="answer" id="answer0">
-                    <pre><code>name = input("Enter your name: ")
-print(f"Hello {name}!")</code></pre>
-                </div>
-            </div>
+        <div class="service-card" onclick="navigate('mobile')">
+            <i class="fab fa-android service-icon"></i>
+            <h3>Mobile Apps</h3>
+            <p>Kotlin Development</p>
+        </div>
+		
+        <div class="service-card" onclick="navigate('game-dev')">
+            <i class="fab fa-unity service-icon"></i>
+            <h3>Game Developer</h3>
+            <p>With Unity Engine</p>
         </div>
 
-        <!-- Variables -->
-        <div class="section">
-            <h2>Variables</h2>
-            <pre><code>age = 25
-name = "Ali"
-is_active = True</code></pre>
-            <div class="exercise">
-                <div class="question">متغیری برای ذخیره سن کاربر ایجاد کنید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(1)">Show Answer</button>
-                <div class="answer" id="answer1">
-                    <pre><code>user_age = int(input("Enter your age: "))</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Data Types -->
-        <div class="section">
-            <h2>Data Types</h2>
-            <pre><code># Integer
-x = 10
-
-# Float
-y = 3.14
-
-# String
-text = "Python"
-
-# Boolean
-flag = False</code></pre>
-            <div class="exercise">
-                <div class="question">نوع داده متغیر زیر را تشخیص دهید: var = 3.1415</div>
-                <button class="toggle-btn" onclick="toggleAnswer(2)">Show Answer</button>
-                <div class="answer" id="answer2">
-                    <pre><code>print(type(var))  # &lt;class 'float'&gt;</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slicing String -->
-        <div class="section">
-            <h2>Slicing String</h2>
-            <pre><code>text = "HelloPython"
-print(text[2:7])  # lloPy</code></pre>
-            <div class="exercise">
-                <div class="question">3 کاراکتر اول یک رشته را نمایش دهید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(3)">Show Answer</button>
-                <div class="answer" id="answer3">
-                    <pre><code>s = "Programming"
-print(s[:3])  # Pro</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Lists -->
-        <div class="section">
-            <h2>Lists</h2>
-            <pre><code>fruits = ["apple", "banana", "cherry"]
-fruits.append("orange")</code></pre>
-            <div class="exercise">
-                <div class="question">آیتم اول لیست را حذف کنید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(4)">Show Answer</button>
-                <div class="answer" id="answer4">
-                    <pre><code>fruits.pop(0)</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- If Else -->
-        <div class="section">
-            <h2>If Else</h2>
-            <pre><code>age = 18
-if age >= 18:
-    print("Adult")
-else:
-    print("Minor")</code></pre>
-            <div class="exercise">
-                <div class="question">بررسی کنید عدد مثبت است یا منفی</div>
-                <button class="toggle-btn" onclick="toggleAnswer(5)">Show Answer</button>
-                <div class="answer" id="answer5">
-                    <pre><code>num = 5
-if num > 0:
-    print("Positive")
-else:
-    print("Negative")</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Loops -->
-        <div class="section">
-            <h2>Loops</h2>
-            <pre><code># For loop
-for i in range(3):
-    print(i)
-
-# While loop
-count = 0
-while count < 3:
-    print(count)
-    count += 1</code></pre>
-            <div class="exercise">
-                <div class="question">اعداد 1 تا 5 را با while loop چاپ کنید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(6)">Show Answer</button>
-                <div class="answer" id="answer6">
-                    <pre><code>num = 1
-while num <= 5:
-    print(num)
-    num += 1</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Functions -->
-        <div class="section">
-            <h2>Functions</h2>
-            <pre><code>def square(num):
-    return num ** 2
-
-print(square(5))  # 25</code></pre>
-            <div class="exercise">
-                <div class="question">تابعی برای جمع دو عدد بنویسید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(7)">Show Answer</button>
-                <div class="answer" id="answer7">
-                    <pre><code>def add(a, b):
-    return a + b</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Plus-Equals -->
-        <div class="section">
-            <h2>Plus-Equals</h2>
-            <pre><code>counter = 0
-counter += 5
-print(counter)  # 5</code></pre>
-            <div class="exercise">
-                <div class="question">مقدار x را 10 واحد افزایش دهید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(8)">Show Answer</button>
-                <div class="answer" id="answer8">
-                    <pre><code>x = 5
-x += 10</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Strings -->
-        <div class="section">
-            <h2>Strings</h2>
-            <pre><code>msg = "Python Rocks!"
-print(msg.upper())  # PYTHON ROCKS!</code></pre>
-            <div class="exercise">
-                <div class="question">طول رشته را بدست آورید</div>
-                <button class="toggle-btn" onclick="toggleAnswer(9)">Show Answer</button>
-                <div class="answer" id="answer9">
-                    <pre><code>text = "Hello"
-print(len(text))  # 5</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Numbers -->
-        <div class="section">
-            <h2>Numbers</h2>
-            <pre><code>a = 10
-b = 3
-print(a // b)  # 3 (floor division)</code></pre>
-            <div class="exercise">
-                <div class="question">توان دو عدد را محاسبه کنید (2^3)</div>
-                <button class="toggle-btn" onclick="toggleAnswer(10)">Show Answer</button>
-                <div class="answer" id="answer10">
-                    <pre><code>print(2 ** 3)  # 8</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Booleans -->
-        <div class="section">
-            <h2>Booleans</h2>
-            <pre><code>x = 10
-y = 15
-print(x > y)  # False</code></pre>
-            <div class="exercise">
-                <div class="question">بررسی کنید عدد زوج است یا نه</div>
-                <button class="toggle-btn" onclick="toggleAnswer(11)">Show Answer</button>
-                <div class="answer" id="answer11">
-                    <pre><code>num = 4
-print(num % 2 == 0)  # True</code></pre>
-                </div>
-            </div>
+        <div class="service-card" onclick="navigate('web-design')">
+            <i class="fab fa-wordpress service-icon"></i>
+            <h3>Web Design</h3>
+            <p>WordPress Development</p>
         </div>
     </div>
 
     <script>
-        // Theme Toggle
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            const btn = document.querySelector('.theme-toggle');
-            btn.textContent = document.body.classList.contains('dark-mode') ? '🌞 Light Mode' : '🌙 Dark Mode';
+            const bulb = document.querySelector('.fa-lightbulb');
+            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
         }
 
-        // Answer Toggle
-        function toggleAnswer(index) {
-            const answer = document.getElementById(`answer${index}`);
-            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Section Animation
-        const sections = document.querySelectorAll('.section');
-        const options = {
-            threshold: 0.1,
-            rootMargin: '0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, options);
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-        // Initialize theme based on system preference
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-            document.querySelector('.theme-toggle').textContent = '🌞 Light Mode';
+        function navigate(page) {
+            const sections = {
+                'python': '#python',
+                'data-science': '#data-science',
+                'game-dev': '#game-development',
+                'mobile': '#mobile-apps',
+                'web-design': '#web-design'
+            };
+            
+            if(sections[page]) {
+                window.location.hash = sections[page];
+            }
         }
     </script>
+	    <div class="fox-container">
+        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
+    </div>
+
+    <footer>
+
+        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
+    </footer>
 </body>
 </html>

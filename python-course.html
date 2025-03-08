@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quick Reference</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --bg: #ffffff;
+            --text: #2c3e50;
+            --card-bg: #ffffff;
+            --code-bg: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        .dark-mode {
+            --primary: #1abc9c;
+            --bg: #2c3e50;
+            --text: #ecf0f1;
+            --card-bg: #34495e;
+            --code-bg: #2c3e50;
+            --border: #46627f;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.4s ease-out;
+        }
+
+        .section.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+            margin: 2rem 0;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .exercise {
+            margin: 2rem 0;
+            background: var(--code-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .question {
+            font-family: Tahoma;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .answer {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .toggle-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .toggle-btn:hover {
+            opacity: 0.9;
+        }
+		<style>
+    :root {
+        /* سایر متغیرها */
+        --card-bg-hover: #f0f0f0;
+    }
+
+    .dark-mode {
+        /* سایر متغیرها */
+        --card-bg-hover: #3b4f66;
+    }
+
+    .section {
+        transition: 
+            transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            box-shadow 0.2s ease,
+            background-color 0.3s ease;
+    }
+
+    .section:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        background-color: var(--card-bg-hover);
+    }
+</style>
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+
+    <header class="header">
+        <h1>Ali Chalaki</h1>
+        <p>Python Instructor & Data Scientist</p>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <div class="section">
+            <h2>Introduction</h2>
+            <pre><code># Python Basics Cheat Sheet
+print("Let's Start Coding!")</code></pre>
+        </div>
+
+        <!-- Hello World -->
+        <div class="section">
+            <h2>Hello World</h2>
+            <pre><code>print("Hello, World!")</code></pre>
+            <div class="exercise">
+                <div class="question">برنامه‌ای بنویسید که نام کاربر را بگیرد و سلام کند</div>
+                <button class="toggle-btn" onclick="toggleAnswer(0)">Show Answer</button>
+                <div class="answer" id="answer0">
+                    <pre><code>name = input("Enter your name: ")
+print(f"Hello {name}!")</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Variables -->
+        <div class="section">
+            <h2>Variables</h2>
+            <pre><code>age = 25
+name = "Ali"
+is_active = True</code></pre>
+            <div class="exercise">
+                <div class="question">متغیری برای ذخیره سن کاربر ایجاد کنید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(1)">Show Answer</button>
+                <div class="answer" id="answer1">
+                    <pre><code>user_age = int(input("Enter your age: "))</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Types -->
+        <div class="section">
+            <h2>Data Types</h2>
+            <pre><code># Integer
+x = 10
+
+# Float
+y = 3.14
+
+# String
+text = "Python"
+
+# Boolean
+flag = False</code></pre>
+            <div class="exercise">
+                <div class="question">نوع داده متغیر زیر را تشخیص دهید: var = 3.1415</div>
+                <button class="toggle-btn" onclick="toggleAnswer(2)">Show Answer</button>
+                <div class="answer" id="answer2">
+                    <pre><code>print(type(var))  # &lt;class 'float'&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slicing String -->
+        <div class="section">
+            <h2>Slicing String</h2>
+            <pre><code>text = "HelloPython"
+print(text[2:7])  # lloPy</code></pre>
+            <div class="exercise">
+                <div class="question">3 کاراکتر اول یک رشته را نمایش دهید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(3)">Show Answer</button>
+                <div class="answer" id="answer3">
+                    <pre><code>s = "Programming"
+print(s[:3])  # Pro</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lists -->
+        <div class="section">
+            <h2>Lists</h2>
+            <pre><code>fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")</code></pre>
+            <div class="exercise">
+                <div class="question">آیتم اول لیست را حذف کنید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(4)">Show Answer</button>
+                <div class="answer" id="answer4">
+                    <pre><code>fruits.pop(0)</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- If Else -->
+        <div class="section">
+            <h2>If Else</h2>
+            <pre><code>age = 18
+if age >= 18:
+    print("Adult")
+else:
+    print("Minor")</code></pre>
+            <div class="exercise">
+                <div class="question">بررسی کنید عدد مثبت است یا منفی</div>
+                <button class="toggle-btn" onclick="toggleAnswer(5)">Show Answer</button>
+                <div class="answer" id="answer5">
+                    <pre><code>num = 5
+if num > 0:
+    print("Positive")
+else:
+    print("Negative")</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loops -->
+        <div class="section">
+            <h2>Loops</h2>
+            <pre><code># For loop
+for i in range(3):
+    print(i)
+
+# While loop
+count = 0
+while count < 3:
+    print(count)
+    count += 1</code></pre>
+            <div class="exercise">
+                <div class="question">اعداد 1 تا 5 را با while loop چاپ کنید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(6)">Show Answer</button>
+                <div class="answer" id="answer6">
+                    <pre><code>num = 1
+while num <= 5:
+    print(num)
+    num += 1</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Functions -->
+        <div class="section">
+            <h2>Functions</h2>
+            <pre><code>def square(num):
+    return num ** 2
+
+print(square(5))  # 25</code></pre>
+            <div class="exercise">
+                <div class="question">تابعی برای جمع دو عدد بنویسید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(7)">Show Answer</button>
+                <div class="answer" id="answer7">
+                    <pre><code>def add(a, b):
+    return a + b</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plus-Equals -->
+        <div class="section">
+            <h2>Plus-Equals</h2>
+            <pre><code>counter = 0
+counter += 5
+print(counter)  # 5</code></pre>
+            <div class="exercise">
+                <div class="question">مقدار x را 10 واحد افزایش دهید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(8)">Show Answer</button>
+                <div class="answer" id="answer8">
+                    <pre><code>x = 5
+x += 10</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strings -->
+        <div class="section">
+            <h2>Strings</h2>
+            <pre><code>msg = "Python Rocks!"
+print(msg.upper())  # PYTHON ROCKS!</code></pre>
+            <div class="exercise">
+                <div class="question">طول رشته را بدست آورید</div>
+                <button class="toggle-btn" onclick="toggleAnswer(9)">Show Answer</button>
+                <div class="answer" id="answer9">
+                    <pre><code>text = "Hello"
+print(len(text))  # 5</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Numbers -->
+        <div class="section">
+            <h2>Numbers</h2>
+            <pre><code>a = 10
+b = 3
+print(a // b)  # 3 (floor division)</code></pre>
+            <div class="exercise">
+                <div class="question">توان دو عدد را محاسبه کنید (2^3)</div>
+                <button class="toggle-btn" onclick="toggleAnswer(10)">Show Answer</button>
+                <div class="answer" id="answer10">
+                    <pre><code>print(2 ** 3)  # 8</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booleans -->
+        <div class="section">
+            <h2>Booleans</h2>
+            <pre><code>x = 10
+y = 15
+print(x > y)  # False</code></pre>
+            <div class="exercise">
+                <div class="question">بررسی کنید عدد زوج است یا نه</div>
+                <button class="toggle-btn" onclick="toggleAnswer(11)">Show Answer</button>
+                <div class="answer" id="answer11">
+                    <pre><code>num = 4
+print(num % 2 == 0)  # True</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = document.body.classList.contains('dark-mode') ? '🌞 Light Mode' : '🌙 Dark Mode';
+        }
+
+        // Answer Toggle
+        function toggleAnswer(index) {
+            const answer = document.getElementById(`answer${index}`);
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Section Animation
+        const sections = document.querySelectorAll('.section');
+        const options = {
+            threshold: 0.1,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initialize theme based on system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '🌞 Light Mode';
+        }
+    </script>
+</body>
+</html>
