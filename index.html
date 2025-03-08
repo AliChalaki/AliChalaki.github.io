@@ -1,294 +1,233 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Chalaki - Professional Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @media (max-width: 768px) {
-            .header {
-                padding: 4rem 1rem 5rem;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-                width: 100%;
-                background: linear-gradient(135deg, var(--primary), var(--secondary));
-                color: white;
-            }
+@media (max-width: 768px) {
+    .header {
+        padding: 3rem 1rem;
+    }
 
-            .header h1 {
-                font-size: 2rem !important;
-                margin-bottom: 0.5rem !important;
-            }
+    .header h1 {
+        font-size: 2rem !important;
+        margin-bottom: 1rem !important;
+    }
 
-            .header p {
-                font-size: 1.1rem !important;
-                margin-bottom: 1.5rem !important;
-            }
+    .header p {
+        font-size: 1.2rem !important;
+        margin-bottom: 1.5rem !important;
+    }
 
-            .services {
-                padding: 6rem 1rem 4rem; /* Add padding to avoid content overlap with header */
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                margin-top: 10rem; /* Add margin to push the content below the header */
-            }
+    .services {
+        padding: 3rem 1rem;
+        grid-template-columns: 1fr; /* نمایش کارت‌ها به صورت عمودی */
+        gap: 1.5rem;
+    }
 
-            .service-card {
-                padding: 1.5rem;
-                margin: 0 0.5rem;
-            }
+    .service-card {
+        padding: 1.5rem;
+        margin: 0 0.5rem;
+    }
 
-            .service-icon {
-                font-size: 2rem !important;
-            }
+    .service-icon {
+        font-size: 2rem !important;
+    }
 
-            .start-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
-            }
+    .start-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
 
-            .telegram-link {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-                padding: 15px;
-            }
+    .telegram-link {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        padding: 15px;
+    }
 
-            .theme-toggle {
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
+    .theme-toggle {
+        font-size: 1.5rem;
+        top: 15px;
+        right: 15px;
+    }
 
-            .fox-animation {
-                height: 60px;
-                bottom: 5px;
-            }
+    .fox-animation {
+        height: 60px;
+        bottom: 5px;
+    }
 
-            footer p {
-                font-size: 0.9rem;
-            }
-        }
+    footer p {
+        font-size: 0.9rem;
+    }
+}
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-        }
+/* رسپانسیو برای تبلت */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .services {
+        grid-template-columns: repeat(2, 1fr); /* نمایش دو ستونه برای تبلت */
+    }
+}
 
-        .header {
-            text-align: center;
-            padding: 8rem 2rem 6rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            width: 100%;
-            margin-top: 0;
-        }
+/* انیمیشن جدید برای روباه */
+@keyframes foxWalk {
+    0% { transform: translateX(-100%) rotateY(180deg); }
+    100% { transform: translateX(100%) rotateY(0deg); }
+}
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 6rem 2rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            flex: 1;
-            margin-top: 10rem; /* Adjust for header overlap */
-            overflow-y: auto; /* Allow scrolling for content */
-        }
+.fox-container {
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+    background: var(--primary);
+}
 
-        .service-card {
-            background: var(--nav-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
+.fox-animation {
+    position: absolute;
+    bottom: 10px;
+    left: -100px;
+    height: 80px;
+    animation: foxWalk 12s linear infinite;
+}
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
+footer {
+    background: var(--primary);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
 
-        footer {
-            background: var(--primary);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-        }
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --bg: #f8f9fa;
+    --text: #2c3e50;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --button-hover: #2980b9;
+}
 
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --bg: #f8f9fa;
-            --text: #2c3e50;
-            --nav-bg: rgba(255, 255, 255, 0.95);
-            --button-hover: #2980b9;
-        }
+.dark-mode {
+    --primary: #ecf0f1;
+    --secondary: #1abc9c;
+    --bg: #2c3e50;
+    --text: #ecf0f1;
+    --nav-bg: rgba(44, 62, 80, 0.95);
+    --button-hover: #16a085;
+}
 
-        .dark-mode {
-            --primary: #ecf0f1;
-            --secondary: #1abc9c;
-            --bg: #2c3e50;
-            --text: #ecf0f1;
-            --nav-bg: rgba(44, 62, 80, 0.95);
-            --button-hover: #16a085;
-        }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: all 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
+.header {
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    position: relative;
+    margin-top: 0;
+}
 
-        .theme-toggle:hover {
-            transform: rotate(20deg);
-        }
+.social-container {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
 
-        .start-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 2rem;
-            background: var(--secondary);
-            color: white !important;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+.telegram-link {
+    color: white;
+    font-size: 2.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    background: var(--secondary);
+    padding: 18px;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    border: 3px solid white;
+}
 
-        .start-btn:hover {
-            background: var(--button-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
+.telegram-link:hover {
+    transform: scale(1.1) translateY(-5px);
+    background: var(--button-hover);
+}
 
-        .dark-mode .start-btn {
-            background: var(--secondary);
-            color: var(--text) !important;
-        }
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
 
-        /* انیمیشن جدید برای روباه */
-        @keyframes foxWalk {
-            0% { transform: translateX(-100%) rotateY(180deg); }
-            100% { transform: translateX(100%) rotateY(0deg); }
-        }
+.theme-toggle:hover {
+    transform: rotate(20deg);
+}
 
-        .fox-container {
-            position: relative;
-            height: 100px;
-            overflow: hidden;
-            background: var(--primary);
-        }
+.services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 6rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+}
 
-        .fox-animation {
-            position: absolute;
-            bottom: 10px;
-            left: -100px;
-            height: 80px;
-            animation: foxWalk 12s linear infinite;
-        }
-    </style>
-</head>
-<body>
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-lightbulb"></i>
-    </button>
+.service-card {
+    background: var(--nav-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
 
-    <header class="header">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
-        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Computer Science Instructor</p>
-        <div class="social-container">
-            <a href="https://t.me/Chalaki" class="telegram-link" target="_blank">
-                <i class="fab fa-telegram-plane"></i>
-            </a>
-        </div>
-    </header>
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
 
-    <div class="services">
-        <div class="service-card">
-            <i class="fab fa-python service-icon"></i>
-            <h3>Python Programming</h3>
-            <a href="python-course.html" class="start-btn">
-                Start Learning <i class="fas fa-arrow-right"></i>
-            </a>
-            <p>From basics to advanced concepts</p>
-        </div>
-        <div class="service-card" onclick="navigate('data-science')">
-            <i class="fas fa-chart-line service-icon"></i>
-            <h3>Data Science</h3>
-            <p>With Python & AI</p>
-        </div>
-        <div class="service-card" onclick="navigate('mobile')">
-            <i class="fab fa-android service-icon"></i>
-            <h3>Mobile Apps</h3>
-            <p>Kotlin Development</p>
-        </div>
-        <div class="service-card" onclick="navigate('game-dev')">
-            <i class="fab fa-unity service-icon"></i>
-            <h3>Game Developer</h3>
-            <p>With Unity Engine</p>
-        </div>
-        <div class="service-card" onclick="navigate('web-design')">
-            <i class="fab fa-wordpress service-icon"></i>
-            <h3>Web Design</h3>
-            <p>WordPress Development</p>
-        </div>
-    </div>
+.start-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    background: var(--secondary);
+    color: white !important;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const bulb = document.querySelector('.fa-lightbulb');
-            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
-        }
+.start-btn:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
 
-        function navigate(page) {
-            const sections = {
-                'python': '#python',
-                'data-science': '#data-science',
-                'game-dev': '#game-development',
-                'mobile': '#mobile-apps',
-                'web-design': '#web-design'
-            };
+.dark-mode .start-btn {
+    background: var(--secondary);
+    color: var(--text) !important;
+}
 
-            if(sections[page]) {
-                window.location.hash = sections[page];
-            }
-        }
-    </script>
-
-    <div class="fox-container">
-        <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif" class="fox-animation" alt="Walking Fox">
-    </div>
-
-    <footer>
-        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
-    </footer>
-</body>
-</html>
+.service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+}
