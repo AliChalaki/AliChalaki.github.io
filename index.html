@@ -147,6 +147,7 @@
             color: var(--secondary);
         }
 
+        /* حالت ریسپانسیو برای موبایل */
         @media (max-width: 768px) {
             .header {
                 padding: 4rem 1rem 5rem;
@@ -164,10 +165,12 @@
 
             .services {
                 display: flex;
-                flex-wrap: nowrap;
+                flex-direction: column;
+                gap: 1.5rem;
                 overflow-x: auto;
                 padding: 3rem 1rem 2rem;
                 gap: 1.5rem;
+                flex-wrap: nowrap;
             }
 
             .service-card {
