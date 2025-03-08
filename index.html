@@ -6,97 +6,6 @@
     <title>Ali Chalaki - Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @media (max-width: 768px) {
-            .header {
-                padding: 4rem 1rem 5rem;
-            }
-
-            .header h1 {
-                font-size: 2rem !important;
-                margin-bottom: 0.5rem !important;
-            }
-
-            .header p {
-                font-size: 1.1rem !important;
-                margin-bottom: 1.5rem !important;
-            }
-
-            .services {
-                padding: 3rem 1rem 2rem;
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .service-card {
-                padding: 1.5rem;
-                margin: 0 0.5rem;
-            }
-
-            .service-icon {
-                font-size: 2rem !important;
-            }
-
-            .start-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .telegram-link {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-                padding: 15px;
-            }
-
-            .theme-toggle {
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
-
-            .fox-animation {
-                height: 60px;
-                bottom: 5px;
-            }
-
-            footer p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* رسپانسیو برای تبلت */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .services {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-	        /* انیمیشن جدید برای روباه */
-        @keyframes foxWalk {
-            0% { transform: translateX(-100%) rotateY(180deg); }
-            100% { transform: translateX(100%) rotateY(0deg); }
-        }
-
-        .fox-container {
-            position: relative;
-            height: 100px;
-            overflow: hidden;
-            background: var(--primary);
-        }
-
-        .fox-animation {
-            position: absolute;
-            bottom: 10px;
-            left: -100px;
-            height: 80px;
-            animation: foxWalk 12s linear infinite;
-        }
-
-        footer {
-            background: var(--primary);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-        }
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -106,199 +15,73 @@
             --button-hover: #2980b9;
         }
 
-        .dark-mode {
-            --primary: #ecf0f1;
-            --secondary: #1abc9c;
-            --bg: #2c3e50;
-            --text: #ecf0f1;
-            --nav-bg: rgba(44, 62, 80, 0.95);
-            --button-hover: #16a085;
-        }
-
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            height: 100vh; /* پر کردن کل صفحه */
+            overflow: hidden; /* جلوگیری از اسکرول کل صفحه */
         }
 
         .header {
             text-align: center;
-            padding: 8rem 2rem 6rem;
+            padding: 3rem 1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            position: relative;
-            margin-top: 0;
-        }
-
-        .social-container {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-        }
-
-        .telegram-link {
-            color: white;
-            font-size: 2.5rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            background: var(--secondary);
-            padding: 18px;
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            border: 3px solid white;
-        }
-
-        .telegram-link:hover {
-            transform: scale(1.1) translateY(-5px);
-            background: var(--button-hover);
-        }
-
-        .theme-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
+            width: 100%;
+            top: 0;
             z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(20deg);
         }
 
         .services {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 6rem 2rem 4rem;
+            gap: 1rem;
+            padding: 1rem;
             max-width: 1200px;
             margin: 0 auto;
+            overflow-y: auto; /* فقط این بخش اسکرول شود */
             flex: 1;
+            margin-top: 120px; /* فاصله از هدر */
+            height: calc(100vh - 120px); /* ارتفاع تطبیق باقیمانده صفحه */
         }
 
         .service-card {
             background: var(--nav-bg);
-            padding: 2rem;
-            border-radius: 15px;
+            padding: 1.5rem;
+            border-radius: 10px;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             cursor: pointer;
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        footer {
+            background: var(--primary);
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
-		  .start-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 2rem;
-            background: var(--secondary);
-            color: white !important;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .start-btn:hover {
-            background: var(--button-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
-
-        .dark-mode .start-btn {
-            background: var(--secondary);
-            color: var(--text) !important;
-        }
-
-        /* حذف استایل‌های مربوط به فوتر */
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-	
-		@media (max-width: 768px) {
-		.header {
-			padding: 4rem 1rem 5rem;
-		}
-
-		.header h1 {
-			font-size: 2rem !important;
-			margin-bottom: 0.5rem !important;
-		}
-
-		.header p {
-			font-size: 1.1rem !important;
-			margin-bottom: 1.5rem !important;
-		}
-
-		.services {
-			padding: 3rem 1rem 2rem;
-			grid-template-columns: 1fr;
-			gap: 1.5rem;
-		}
-
-		.service-card {
-			padding: 1.5rem;
-			margin: 0 0.5rem;
-		}
-
-		.service-icon {
-			font-size: 2rem !important;
-		}
-
-		.start-btn {
-			padding: 0.6rem 1.5rem;
-			font-size: 0.9rem;
-		}
-
-		.telegram-link {
-			width: 60px;
-			height: 60px;
-			font-size: 2rem;
-			padding: 15px;
-		}
-
-		.theme-toggle {
-			font-size: 1.5rem;
-			top: 15px;
-			right: 15px;
-		}
-
-		.fox-animation {
-			height: 60px;
-			bottom: 5px;
-		}
-
-		footer p {
-			font-size: 0.9rem;
-		}
-	}
-
-    </style>
-</head>
 <body>
+    <header class="header">
+        <h1>Ali Chalaki</h1>
+        <p>Data Scientist & Computer Science Instructor</p>
+    </header>
+
+    <div class="services">
+        <div class="service-card">Python Programming</div>
+        <div class="service-card">Data Science</div>
+        <div class="service-card">Mobile Apps</div>
+        <div class="service-card">Game Developer</div>
+        <div class="service-card">Web Design</div>
+        <div class="service-card">More Services...</div>
+    </div>
     <button class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-lightbulb"></i>
     </button>
