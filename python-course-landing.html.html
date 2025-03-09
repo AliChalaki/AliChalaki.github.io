@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali Chalaki - Python Masterclass</title>
+    <style>
+        :root {
+            --primary: #1abc9c;
+            --secondary: #3498db;
+            --bg: #2c3e50;
+            --text: #ecf0f1;
+            --card-bg: #34495e;
+            --border: #46627f;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 8rem 2rem 6rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 45%,
+                rgba(255,255,255,0.1) 50%,
+                transparent 55%);
+            animation: shine 8s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-150%); }
+            100% { transform: rotate(45deg) translateX(150%); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            color: white;
+            letter-spacing: 3px;
+            position: relative;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            color: rgba(255,255,255,0.9);
+            margin: 1.5rem 0;
+            font-weight: 300;
+            position: relative;
+        }
+
+        .instructor {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 100;
+            perspective: 1000px;
+        }
+
+        .instructor-badge {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            display: inline-block;
+            transform-style: preserve-3d;
+            animation: float 4s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .instructor-badge:hover {
+            transform: translateY(-3px) rotateX(15deg) rotateY(10deg);
+            box-shadow: 0 15px 40px rgba(26, 188, 156, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardEntrance 1s forwards;
+        }
+
+        @keyframes cardEntrance {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .course-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .course-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .topics-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .topic-item {
+            padding: 1.8rem;
+            margin: 1.8rem 0;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.1),
+                transparent);
+            transition: left 0.6s;
+        }
+
+        .topic-item:hover::before {
+            left: 100%;
+        }
+
+        .topic-item:hover {
+            transform: translateX(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .topic-number {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(26, 188, 156, 0.3);
+        }
+
+        .topic-content h3 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        .topic-content p {
+            margin: 0.8rem 0 0;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+        }
+
+        .start-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 18px 60px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            margin: 3rem auto 0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.2),
+                transparent);
+            transition: left 0.6s;
+        }
+
+        .start-btn:hover::before {
+            left: 100%;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(26, 188, 156, 0.4);
+        }
+
+        /* Sticker Section */
+        .sticker-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 3rem 0;
+        }
+
+        .sticker {
+            width: 120px;
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .sticker.fox {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/616/616430.png');
+        }
+
+        .sticker.robot {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/4712/4712035.png');
+        }
+
+        .sticker-text {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px var(--primary); }
+            100% { text-shadow: 0 0 20px var(--primary); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 6rem 1rem 4rem;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .course-card {
+                padding: 2rem;
+            }
+
+            .topic-item {
+                padding: 1.2rem;
+                gap: 15px;
+            }
+
+            .start-btn {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+
+            .sticker-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .sticker {
+                width: 80px;
+                height: 80px;
+            }
+
+            .sticker-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="instructor">
+        <div class="instructor-badge">
+            👨🏫 Instructor: Ali Chalaki
+        </div>
+    </div>
+
+    <header class="header">
+        <h1>Python Programming Masterclass</h1>
+        <h2>Transform from Beginner to Expert in 10 Steps</h2>
+    </header>
+
+    <div class="container">
+        <!-- Sticker Section -->
+        <div class="sticker-container">
+            <div class="sticker fox"></div>
+            <div class="sticker-text">Ali Chalaki</div>
+            <div class="sticker robot"></div>
+        </div>
+
+        <div class="course-card">
+            <h2 class="course-title">Course Curriculum 🎓</h2>
+            
+            <ul class="topics-list">
+                <!-- Lesson 1-10 -->
+                <li class="topic-item">
+                    <div class="topic-number">1</div>
+                    <div class="topic-content">
+                        <h3>Python Essentials</h3>
+                        <p>Setup, Basic Syntax, Variables, Data Types</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">2</div>
+                    <div class="topic-content">
+                        <h3>Control Flow</h3>
+                        <p>Conditionals, Loops, Operators</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">3</div>
+                    <div class="topic-content">
+                        <h3>Functions & Modules</h3>
+                        <p>Advanced Functions, Module System</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">4</div>
+                    <div class="topic-content">
+                        <h3>Data Structures</h3>
+                        <p>Lists, Tuples, Dictionaries, Sets</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">5</div>
+                    <div class="topic-content">
+                        <h3>File Operations</h3>
+                        <p>File I/O, Exception Handling</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">6</div>
+                    <div class="topic-content">
+                        <h3>OOP Concepts</h3>
+                        <p>Classes, Inheritance, Polymorphism</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">7</div>
+                    <div class="topic-content">
+                        <h3>Advanced Techniques</h3>
+                        <p>Decorators, Generators, Context Managers</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">8</div>
+                    <div class="topic-content">
+                        <h3>API Integration</h3>
+                        <p>REST APIs, JSON Handling, Requests</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">9</div>
+                    <div class="topic-content">
+                        <h3>Database Management</h3>
+                        <p>SQLite, MySQL, ORM Concepts</p>
+                    </div>
+                </li>
+
+                <li class="topic-item">
+                    <div class="topic-number">10</div>
+                    <div class="topic-content">
+                        <h3>Capstone Project</h3>
+                        <p>Full-stack Python Application Development</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div style="text-align: center;">
+                <a href="python-course.html" class="start-btn">
+                    <span>Start Journey</span>
+                    <span>🚀</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
