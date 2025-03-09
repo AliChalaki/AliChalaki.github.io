@@ -50,7 +50,7 @@
             z-index: 100;
             display: flex;
             align-items: center;
-            gap: 10px; /* فاصله بین آیکون‌ها کمتر شده */
+            gap: 15px;
         }
 
         .fox-image {
@@ -69,24 +69,34 @@
 
         .social-link {
             color: white;
-            font-size: 1.2rem; /* سایز آیکون‌ها کوچک‌تر شده */
+            font-size: 1.5rem;
             transition: all 0.3s ease;
             text-decoration: none;
             background: var(--secondary);
-            padding: 8px; /* پدینگ کمتر شده */
+            padding: 12px;
             border-radius: 50%;
-            width: 40px; /* عرض و ارتفاع کوچک‌تر شده */
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             border: 2px solid white;
+            animation: float 3s ease-in-out infinite;
         }
 
         .social-link:hover {
             transform: scale(1.1) translateY(-5px);
             background: var(--button-hover);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .theme-toggle {
@@ -208,7 +218,7 @@
             .social-container {
                 left: 10px;
                 bottom: -30px;
-                gap: 8px; /* فاصله کمتر برای موبایل */
+                gap: 10px;
             }
 
             .fox-image {
@@ -217,10 +227,10 @@
             }
 
             .social-link {
-                width: 35px; /* کوچک‌تر برای موبایل */
-                height: 35px;
-                font-size: 1rem;
-                padding: 6px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                padding: 10px;
             }
 
             .theme-toggle {
