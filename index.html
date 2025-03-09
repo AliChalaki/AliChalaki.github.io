@@ -50,7 +50,7 @@
             z-index: 100;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px; /* فاصله بین آیکون‌ها کمتر شده */
         }
 
         .fox-image {
@@ -61,6 +61,16 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: transform 0.3s ease;
+            animation: rotateFox 5s linear infinite; /* چرخش هر ۵ ثانیه */
+        }
+
+        @keyframes rotateFox {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .fox-image:hover {
@@ -69,34 +79,24 @@
 
         .social-link {
             color: white;
-            font-size: 1.5rem;
+            font-size: 1rem; /* سایز آیکون‌ها کوچک‌تر شده */
             transition: all 0.3s ease;
             text-decoration: none;
             background: var(--secondary);
-            padding: 12px;
+            padding: 8px; /* پدینگ کمتر شده */
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 35px; /* عرض و ارتفاع کوچک‌تر شده */
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             border: 2px solid white;
-            animation: float 3s ease-in-out infinite;
         }
 
         .social-link:hover {
             transform: scale(1.1) translateY(-5px);
             background: var(--button-hover);
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
         }
 
         .theme-toggle {
@@ -218,7 +218,7 @@
             .social-container {
                 left: 10px;
                 bottom: -30px;
-                gap: 10px;
+                gap: 8px; /* فاصله کمتر برای موبایل */
             }
 
             .fox-image {
@@ -227,10 +227,10 @@
             }
 
             .social-link {
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
-                padding: 10px;
+                width: 30px; /* کوچک‌تر برای موبایل */
+                height: 30px;
+                font-size: 0.9rem;
+                padding: 6px;
             }
 
             .theme-toggle {
