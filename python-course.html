@@ -36,62 +36,50 @@
 
         .header {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 2rem 1rem;
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            position: relative;
         }
 
         .theme-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.1);
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            padding: 10px 15px;
+            padding: 0.5rem 1rem;
             border-radius: 25px;
             color: white;
             cursor: pointer;
             backdrop-filter: blur(5px);
             transition: all 0.3s ease;
+            z-index: 1000;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
         }
 
         .section {
-            margin: 3rem 0;
+            margin: 2rem 0;
             background: var(--card-bg);
             border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transform: translateY(30px);
-            opacity: 0;
-            transition: 
-                transform 0.4s ease-out,
-                opacity 0.4s ease-out,
-                box-shadow 0.2s ease,
-                background-color 0.3s ease;
-        }
-
-        .section.active {
-            transform: translateY(0);
-            opacity: 1;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
         .section:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-            background-color: var(--card-bg-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .section-title {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 0.5rem;
             color: var(--primary);
             border-bottom: 2px solid var(--primary);
             padding-bottom: 1rem;
@@ -99,31 +87,31 @@
 
         .columns {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
         }
 
         .feature-card {
             background: var(--card-bg);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .styled-list li {
-            padding: 10px;
-            margin: 8px 0;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
             background: var(--code-bg);
             border-radius: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
         }
 
         pre {
             background: var(--code-bg);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: 10px;
             overflow-x: auto;
             border: 1px solid var(--border);
@@ -135,9 +123,9 @@
         }
 
         .exercise {
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             background: var(--code-bg);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: 10px;
             border: 1px solid var(--border);
         }
@@ -160,7 +148,7 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
             cursor: pointer;
             transition: opacity 0.3s;
@@ -180,64 +168,67 @@
             padding: 1rem;
             border-radius: 10px;
             border: 1px solid var(--border);
-            margin: 10px 0;
         }
 
         .type-card h4 {
-            margin: 0 0 10px 0;
+            margin: 0 0 0.5rem 0;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
         .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
             background: var(--primary);
             color: white;
-            padding: 12px 24px;
+            padding: 0.5rem 1rem;
             border-radius: 8px;
             text-decoration: none;
-            margin: 10px 0;
+            margin: 0.5rem 0;
             transition: transform 0.2s;
         }
 
         .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .operator-group {
-            margin: 1.5rem 0;
+            margin: 1rem 0;
             background: var(--card-bg);
-            padding: 1.2rem;
+            padding: 1rem;
             border-radius: 10px;
             border: 1px solid var(--border);
         }
 
         .operator-group h4 {
             color: var(--primary);
-            margin: 0 0 1rem 0;
+            margin: 0 0 0.5rem 0;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.1em;
-        }
-
-        .operator-group h4 .emoji {
-            font-size: 1.3em;
+            gap: 0.5rem;
         }
 
         @media (max-width: 768px) {
-            .container {
+            .theme-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.5rem;
+            }
+
+            .header {
                 padding: 1rem;
             }
 
+            .container {
+                padding: 0.5rem;
+            }
+
             .section {
-                margin: 2rem 0;
-                padding: 1.5rem;
+                margin: 1rem 0;
+                padding: 1rem;
             }
 
             .columns {
@@ -245,20 +236,16 @@
             }
 
             .feature-card {
-                padding: 1rem;
+                padding: 0.5rem;
             }
 
             pre {
-                padding: 1rem;
+                padding: 0.5rem;
             }
 
             .operator-group {
-                margin: 1rem 0;
-                padding: 1rem;
-            }
-
-            .operator-group h4 {
-                font-size: 1em;
+                margin: 0.5rem 0;
+                padding: 0.5rem;
             }
         }
     </style>
@@ -273,7 +260,7 @@
 
     <div class="container">
         <!-- Section 1: Introduction -->
-        <div class="section active">
+        <div class="section">
             <h2 class="section-title">
                 <span class="emoji">🐍</span>
                 Python Introduction
