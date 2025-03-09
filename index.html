@@ -46,29 +46,39 @@
         .social-container {
             position: absolute;
             bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 20px; /* Changed to left */
             z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .telegram-link {
+        .fox-image {
+            width: 100px; /* دو برابر آیکون تلگرام */
+            height: 100px; /* دو برابر آیکون تلگرام */
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .social-link {
             color: white;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
             text-decoration: none;
             background: var(--secondary);
-            padding: 18px;
+            padding: 10px;
             border-radius: 50%;
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            border: 3px solid white;
+            border: 2px solid white;
         }
 
-        .telegram-link:hover {
+        .social-link:hover {
             transform: scale(1.1) translateY(-5px);
             background: var(--button-hover);
         }
@@ -158,11 +168,22 @@
                 box-sizing: border-box;
             }
 
-            .telegram-link {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-                padding: 15px;
+            .social-container {
+                left: 10px;
+                bottom: -30px;
+                gap: 10px;
+            }
+
+            .fox-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                padding: 8px;
             }
 
             .theme-toggle {
@@ -194,8 +215,18 @@
         <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
         <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Computer Science Instructor</p>
         <div class="social-container">
-            <a href="https://t.me/Chalaki" class="telegram-link" target="_blank">
+            <img src="Fox.png" alt="Fox" class="fox-image">
+            <a href="https://github.com/yourusername" class="social-link" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://t.me/Chalaki" class="social-link" target="_blank">
                 <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://instagram.com/yourusername" class="social-link" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="tel:+1234567890" class="social-link">
+                <i class="fas fa-phone"></i>
             </a>
         </div>
     </header>
