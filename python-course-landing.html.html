@@ -274,10 +274,6 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        .sticker.fox {
-            background-image: url('https://cdn-icons-png.flaticon.com/512/616/616430.png');
-        }
-
         .sticker.robot {
             background-image: url('https://cdn-icons-png.flaticon.com/512/4712/4712035.png');
         }
@@ -293,6 +289,52 @@
         @keyframes glow {
             0% { text-shadow: 0 0 10px var(--primary); }
             100% { text-shadow: 0 0 20px var(--primary); }
+        }
+
+        /* Animation for Instructor Badge Click */
+        .instructor-badge.clicked {
+            animation: explode 0.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            border-radius: 50%;
+            animation: firework 1s ease-out forwards;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
         }
 
         @media (max-width: 768px) {
@@ -336,10 +378,12 @@
 </head>
 <body>
     <div class="instructor">
-        <div class="instructor-badge">
-            👨🏫 Instructor: Ali Chalaki
+        <div class="instructor-badge" id="instructorBadge">
+            🤖 Instructor: Ali Chalaki 🦊
         </div>
     </div>
+
+    <div class="fireworks" id="fireworksContainer"></div>
 
     <header class="header">
         <h1>Python Programming Masterclass</h1>
@@ -349,8 +393,7 @@
     <div class="container">
         <!-- Sticker Section -->
         <div class="sticker-container">
-            <div class="sticker fox"></div>
-            <div class="sticker-text">Ali Chalaki</div>
+            <div class="sticker-text">Teach with Passion</div>
             <div class="sticker robot"></div>
         </div>
 
@@ -448,5 +491,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Add click event to instructor badge
+        const instructorBadge = document.getElementById('instructorBadge');
+        const fireworksContainer = document.getElementById('fireworksContainer');
+
+        instructorBadge.addEventListener('click', () => {
+            // Add explode animation
+            instructorBadge.classList.add('clicked');
+
+            // Create fireworks
+            for (let i = 0; i < 50; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                fireworksContainer.appendChild(firework);
+
+                // Remove firework after animation
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+
+            // Reset badge after animation
+            setTimeout(() => {
+                instructorBadge.classList.remove('clicked');
+            }, 500);
+        });
+    </script>
 </body>
 </html>
