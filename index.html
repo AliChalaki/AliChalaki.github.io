@@ -33,6 +33,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
         .header {
@@ -309,6 +310,139 @@
             }
         }
 
+        /* افکت کهکشان و ستاره‌ها */
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .galaxy {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0.3;
+            animation: rotateGalaxy infinite linear;
+        }
+
+        @keyframes rotateGalaxy {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.8));
+            transform: rotate(-45deg);
+            transform-origin: left;
+            opacity: 0;
+            animation: shoot 8s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 0;
+                left: 0;
+                top: 0;
+                width: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            70% {
+                opacity: 0.8;
+                width: 100px;
+            }
+            100% {
+                opacity: 0;
+                left: calc(100% + 100px);
+                top: 100px;
+                width: 0;
+            }
+        }
+
+        /* ستاره‌های جدید */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
+            overflow: hidden;
+        }
+
+        .real-star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: starShoot linear infinite;
+        }
+
+        @keyframes starShoot {
+            0% {
+                transform: translate(0, 0) scale(0.3);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            70% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* کهکشان در فوتر */
+        .footer-galaxy {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .footer-galaxy .galaxy {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            animation: rotateGalaxy 60s infinite linear;
+        }
+
         @media (max-width: 768px) {
             .header {
                 padding: 4rem 1rem 5rem;
@@ -355,6 +489,10 @@
                 margin: 10% auto;
                 padding: 20px;
             }
+
+            .footer-galaxy {
+                height: 150px;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -367,6 +505,7 @@
             background: var(--primary);
             padding: 2rem;
             text-align: center;
+            position: relative;
         }
     </style>
 </head>
@@ -374,6 +513,10 @@
     <button class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-lightbulb"></i>
     </button>
+
+    <!-- پس‌زمینه کهکشان -->
+    <div class="space-background" id="spaceBackground"></div>
+    <div class="stars-container" id="starsContainer"></div>
 
     <header class="header">
         <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
@@ -551,6 +694,14 @@
 
     <div class="fireworks" id="fireworksContainer"></div>
 
+    <!-- فوتر با کهکشان -->
+    <div class="footer-galaxy">
+        <div class="galaxy"></div>
+    </div>
+    <footer>
+        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
+    </footer>
+
     <script>
         // Toggle Theme
         function toggleTheme() {
@@ -597,10 +748,119 @@
                 document.body.style.overflow = 'auto';
             }
         }
-    </script>
 
-    <footer>
-        <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
-    </footer>
+        // ایجاد کهکشان و ستاره‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            const spaceBg = document.getElementById('spaceBackground');
+            const starsContainer = document.getElementById('starsContainer');
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // ایجاد کهکشان‌های پس‌زمینه
+            for (let i = 0; i < 3; i++) {
+                const galaxy = document.createElement('div');
+                galaxy.className = 'galaxy';
+                
+                // اندازه و موقعیت تصادفی
+                const size = Math.random() * 500 + 300;
+                galaxy.style.width = `${size}px`;
+                galaxy.style.height = `${size}px`;
+                galaxy.style.left = `${Math.random() * 100}%`;
+                galaxy.style.top = `${Math.random() * 100}%`;
+                
+                // سرعت چرخش متفاوت
+                galaxy.style.animationDuration = `${Math.random() * 100 + 100}s`;
+                
+                spaceBg.appendChild(galaxy);
+            }
+
+            // ایجاد ستاره‌های ثابت
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // اندازه تصادفی
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // زمان‌بندی متغیر برای جلوه چشمک زدن
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                spaceBg.appendChild(star);
+            }
+
+            // ایجاد شهاب‌ها
+            function createShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                
+                // موقعیت شروع تصادفی از سمت چپ
+                shootingStar.style.left = `${-100}px`;
+                shootingStar.style.top = `${Math.random() * 100}%`;
+                
+                // زمان‌بندی متغیر
+                shootingStar.style.animationDelay = `${Math.random() * 2}s`;
+                shootingStar.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                
+                spaceBg.appendChild(shootingStar);
+                
+                // حذف عنصر پس از پایان انیمیشن
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 8000);
+            }
+
+            // ایجاد ستاره‌های پرتابی از مرکز
+            function createStar() {
+                const star = document.createElement('div');
+                star.className = 'real-star';
+                
+                // اندازه تصادفی
+                const size = Math.random() * 20 + 10;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // موقعیت شروع در مرکز صفحه
+                star.style.left = `${centerX}px`;
+                star.style.top = `${centerY}px`;
+                
+                // جهت حرکت تصادفی
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 500 + 300;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                star.style.setProperty('--tx', `${tx}px`);
+                star.style.setProperty('--ty', `${ty}px`);
+                
+                // مدت زمان انیمیشن
+                const duration = Math.random() * 3 + 2;
+                star.style.animationDuration = `${duration}s`;
+                
+                starsContainer.appendChild(star);
+                
+                // حذف ستاره پس از پایان انیمیشن
+                setTimeout(() => {
+                    star.remove();
+                }, duration * 1000);
+            }
+
+            // ایجاد شهاب‌ها به صورت دوره‌ای
+            setInterval(createShootingStar, 1000);
+            
+            // ایجاد ستاره‌های پرتابی به صورت دوره‌ای
+            setInterval(createStar, 300);
+            
+            // ایجاد چند ستاره در ابتدا
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createStar, i * 300);
+            }
+        });
+    </script>
 </body>
 </html>
