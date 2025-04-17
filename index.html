@@ -13,6 +13,7 @@
             --text: #2c3e50;
             --nav-bg: rgba(255, 255, 255, 0.95);
             --button-hover: #2980b9;
+            --bulb-color: #f39c12; /* New bulb color variable */
         }
 
         .dark-mode {
@@ -22,6 +23,7 @@
             --text: #ecf0f1;
             --nav-bg: rgba(44, 62, 80, 0.95);
             --button-hover: #16a085;
+            --bulb-color: #f1c40f; /* Golden color for dark mode */
         }
 
         body {
@@ -125,15 +127,17 @@
             right: 20px;
             background: none;
             border: none;
-            color: white;
+            color: var(--bulb-color); /* Using the new bulb color variable */
             font-size: 1.8rem;
             cursor: pointer;
             z-index: 1000;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
         }
 
         .theme-toggle:hover {
             transform: rotate(20deg);
+            text-shadow: 0 0 15px var(--bulb-color);
         }
 
         .projects {
@@ -428,8 +432,9 @@
         .footer-galaxy {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 300px; /* Increased height */
             overflow: hidden;
+            background: linear-gradient(to bottom, transparent, var(--primary));
         }
 
         .footer-galaxy .galaxy {
@@ -437,10 +442,28 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
-            animation: rotateGalaxy 60s infinite linear;
+            width: 500px; /* Larger galaxy */
+            height: 500px;
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.3) 0%, 
+                rgba(255,255,255,0.1) 40%, 
+                transparent 70%);
+            animation: rotateGalaxy 120s infinite linear;
+            box-shadow: 0 0 100px rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-galaxy .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-galaxy .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 5s infinite ease-in-out;
         }
 
         @media (max-width: 768px) {
@@ -491,7 +514,7 @@
             }
 
             .footer-galaxy {
-                height: 150px;
+                height: 200px;
             }
         }
 
@@ -506,6 +529,7 @@
             padding: 2rem;
             text-align: center;
             position: relative;
+            z-index: 1;
         }
     </style>
 </head>
@@ -712,30 +736,6 @@
             <h2 class="modal-title">Game Development</h2>
             
             <div class="project-item">
-                <div class="project-name">Persian Adventure</div>
-                <div class="project-description">
-                    2D platformer game featuring Persian mythology and folklore.
-                </div>
-            </div>
-            
-            <div class="project-item">
-                <div class="project-name">Puzzle Master</div>
-                <div class="project-description">
-                    Collection of brain-teasing puzzles with innovative mechanics.
-                </div>
-            </div>
-            
-            <div class="project-item">
-                <div class="project-name">Pacman Mouse Chase Game</div>
-                <div class="project-description">
-                    Modern twist on classic Pacman with mouse chasing mechanics.
-                </div>
-                <a href="https://alichalaki.github.io/Pacman-Mouse-Chase-Game/" class="website-link" target="_blank">
-                    Play Game <i class="fas fa-external-link-alt"></i>
-                </a>
-            </div>
-            
-            <div class="project-item">
                 <div class="project-name">VR Home Appliance Store</div>
                 <div class="project-description">
                     Virtual reality shopping experience for home appliances.
@@ -747,6 +747,16 @@
                 <div class="project-description">
                     Immersive virtual reality first-person shooting game.
                 </div>
+            </div>
+            
+            <div class="project-item">
+                <div class="project-name">Pacman Mouse Chase Game</div>
+                <div class="project-description">
+                    Modern twist on classic Pacman with mouse chasing mechanics.
+                </div>
+                <a href="https://alichalaki.github.io/Pacman-Mouse-Chase-Game/" class="website-link" target="_blank">
+                    Play Game <i class="fas fa-external-link-alt"></i>
+                </a>
             </div>
             
             <div class="project-item">
@@ -769,14 +779,29 @@
                     Side-scrolling 2D platformer with dark aesthetics.
                 </div>
             </div>
+            
+            <div class="project-item">
+                <div class="project-name">Persian Adventure</div>
+                <div class="project-description">
+                    2D platformer game featuring Persian mythology and folklore.
+                </div>
+            </div>
+            
+            <div class="project-item">
+                <div class="project-name">Puzzle Master</div>
+                <div class="project-description">
+                    Collection of brain-teasing puzzles with innovative mechanics.
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="fireworks" id="fireworksContainer"></div>
 
     <!-- فوتر با کهکشان -->
-    <div class="footer-galaxy">
+    <div class="footer-galaxy" id="footerGalaxy">
         <div class="galaxy"></div>
+        <div class="stars" id="footerStars"></div>
     </div>
     <footer>
         <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
@@ -787,7 +812,7 @@
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const bulb = document.querySelector('.fa-lightbulb');
-            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
+            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : '#f39c12';
         }
 
         // Fireworks Effect
@@ -833,6 +858,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const spaceBg = document.getElementById('spaceBackground');
             const starsContainer = document.getElementById('starsContainer');
+            const footerStars = document.getElementById('footerStars');
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
 
@@ -874,6 +900,18 @@
                 spaceBg.appendChild(star);
             }
 
+            // ایجاد ستاره‌های فوتر
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                footerStars.appendChild(star);
+            }
+
             // ایجاد شهاب‌ها
             function createShootingStar() {
                 const shootingStar = document.createElement('div');
@@ -890,6 +928,21 @@
                 spaceBg.appendChild(shootingStar);
                 
                 // حذف عنصر پس از پایان انیمیشن
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 8000);
+            }
+
+            // ایجاد شهاب‌های فوتر
+            function createFooterShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = `${-100}px`;
+                shootingStar.style.top = `${Math.random() * 100}%`;
+                shootingStar.style.animationDelay = `${Math.random() * 2}s`;
+                shootingStar.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                footerStars.appendChild(shootingStar);
+                
                 setTimeout(() => {
                     shootingStar.remove();
                 }, 8000);
@@ -932,6 +985,7 @@
 
             // ایجاد شهاب‌ها به صورت دوره‌ای
             setInterval(createShootingStar, 1000);
+            setInterval(createFooterShootingStar, 1500);
             
             // ایجاد ستاره‌های پرتابی به صورت دوره‌ای
             setInterval(createStar, 300);
