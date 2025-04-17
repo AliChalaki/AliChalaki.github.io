@@ -42,21 +42,16 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             position: relative;
-            overflow: hidden;
         }
 
         .social-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: -30px auto 30px;
-            position: relative;
+            position: absolute;
+            bottom: -40px;
+            left: 20px;
             z-index: 100;
-            background: var(--bg);
-            padding: 15px;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .fox-image {
@@ -91,10 +86,10 @@
             transition: all 0.3s ease;
             text-decoration: none;
             background: var(--secondary);
-            padding: 10px;
+            padding: 8px;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -145,7 +140,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 4rem 2rem;
+            padding: 6rem 2rem 4rem;
             max-width: 1200px;
             margin: 0 auto;
             flex: 1;
@@ -285,7 +280,37 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
-        /* افکت‌های فضایی */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            border-radius: 50%;
+            animation: firework 1s ease-out forwards;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* افکت کهکشان و ستاره‌ها */
         .space-background {
             position: fixed;
             top: 0;
@@ -359,8 +384,19 @@
             }
         }
 
-        /* ستاره‌های پرتابی در هدر */
-        .header-star {
+        /* ستاره‌های جدید */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
+            overflow: hidden;
+        }
+
+        .real-star {
             position: absolute;
             width: 20px;
             height: 20px;
@@ -368,19 +404,19 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
             background-size: contain;
             background-repeat: no-repeat;
-            animation: headerStarShoot linear infinite;
+            animation: starShoot linear infinite;
         }
 
-        @keyframes headerStarShoot {
+        @keyframes starShoot {
             0% {
                 transform: translate(0, 0) scale(0.3);
                 opacity: 0;
             }
             10% {
-                opacity: 0.8;
+                opacity: 0.5;
             }
             70% {
-                opacity: 0.8;
+                opacity: 0.5;
             }
             100% {
                 transform: translate(var(--tx), var(--ty)) scale(1);
@@ -394,7 +430,6 @@
             width: 100%;
             height: 200px;
             overflow: hidden;
-            background: linear-gradient(to bottom, transparent, var(--primary));
         }
 
         .footer-galaxy .galaxy {
@@ -408,66 +443,14 @@
             animation: rotateGalaxy 60s infinite linear;
         }
 
-        .footer-stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .footer-star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: twinkle 5s infinite ease-in-out;
-        }
-
-        /* افکت آتشبازی */
-        .fireworks {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-        }
-
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff0;
-            border-radius: 50%;
-            animation: firework 1s ease-out forwards;
-        }
-
-        @keyframes firework {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
-        }
-
         @media (max-width: 768px) {
             .header {
-                padding: 4rem 1rem 3rem;
-            }
-
-            .social-container {
-                gap: 8px;
-                margin: -20px auto 20px;
-                padding: 10px;
-                border-radius: 30px;
+                padding: 4rem 1rem 5rem;
             }
 
             .projects {
                 display: block;
-                padding: 2rem 1rem;
+                padding: 3rem 1rem 2rem;
             }
 
             .project-card {
@@ -477,16 +460,22 @@
                 box-sizing: border-box;
             }
 
+            .social-container {
+                left: 10px;
+                bottom: -30px;
+                gap: 8px;
+            }
+
             .fox-image {
                 width: 80px;
                 height: 80px;
             }
 
             .social-link {
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
                 font-size: 1rem;
-                padding: 8px;
+                padding: 6px;
             }
 
             .theme-toggle {
@@ -525,37 +514,32 @@
         <i class="fas fa-lightbulb"></i>
     </button>
 
-    <!-- پس‌زمینه کهکشان و ستاره‌ها -->
+    <!-- پس‌زمینه کهکشان -->
     <div class="space-background" id="spaceBackground"></div>
-    <div class="fireworks" id="fireworksContainer"></div>
+    <div class="stars-container" id="starsContainer"></div>
 
     <header class="header">
-        <!-- ستاره‌های پرتابی در هدر -->
-        <div id="headerStars"></div>
-        
         <h1 style="font-size: 3rem; margin-bottom: 1rem;">Ali Chalaki</h1>
-        <p style="font-size: 1.5rem; margin-bottom: 1rem;">Data Scientist & Full Stack Developer</p>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Full Stack Developer</p>
+        <div class="social-container">
+            <img src="Fox.png" alt="Fox" class="fox-image" id="foxImage">
+            <a href="https://t.me/TechByChalaki" class="social-link" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://instagram.com/TechByChalaki" class="social-link" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://linkedin.com/in/Ali-Chalaki" class="social-link" target="_blank">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/AliChalaki" class="social-link" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="tel:+989102655884" class="social-link">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
     </header>
-
-    <!-- بخش شبکه‌های اجتماعی -->
-    <div class="social-container">
-        <img src="Fox.png" alt="Fox" class="fox-image" id="foxImage">
-        <a href="https://t.me/TechByChalaki" class="social-link" target="_blank">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
-        <a href="https://instagram.com/TechByChalaki" class="social-link" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://linkedin.com/in/Ali-Chalaki" class="social-link" target="_blank">
-            <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/AliChalaki" class="social-link" target="_blank">
-            <i class="fab fa-github"></i>
-        </a>
-        <a href="tel:+989102655884" class="social-link">
-            <i class="fas fa-phone"></i>
-        </a>
-    </div>
 
     <div class="projects">
         <div class="project-card" onclick="openModal('aiModal')">
@@ -673,6 +657,13 @@
                     Collection of scripts for automating various business processes and workflows.
                 </div>
             </div>
+            
+            <div class="project-item">
+                <div class="project-name">Telegram Game Collection</div>
+                <div class="project-description">
+                    Multiple interactive games developed for Telegram platform.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -721,6 +712,20 @@
             <h2 class="modal-title">Game Development</h2>
             
             <div class="project-item">
+                <div class="project-name">Persian Adventure</div>
+                <div class="project-description">
+                    2D platformer game featuring Persian mythology and folklore.
+                </div>
+            </div>
+            
+            <div class="project-item">
+                <div class="project-name">Puzzle Master</div>
+                <div class="project-description">
+                    Collection of brain-teasing puzzles with innovative mechanics.
+                </div>
+            </div>
+            
+            <div class="project-item">
                 <div class="project-name">Pacman Mouse Chase Game</div>
                 <div class="project-description">
                     Modern twist on classic Pacman with mouse chasing mechanics.
@@ -767,10 +772,11 @@
         </div>
     </div>
 
+    <div class="fireworks" id="fireworksContainer"></div>
+
     <!-- فوتر با کهکشان -->
     <div class="footer-galaxy">
         <div class="galaxy"></div>
-        <div class="footer-stars" id="footerStars"></div>
     </div>
     <footer>
         <p style="color: white; margin: 0;">© 2023 Ali Chalaki - All Rights Reserved</p>
@@ -804,11 +810,29 @@
             }
         });
 
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         // ایجاد کهکشان و ستاره‌ها
         document.addEventListener('DOMContentLoaded', function() {
             const spaceBg = document.getElementById('spaceBackground');
-            const headerStars = document.getElementById('headerStars');
-            const footerStars = document.getElementById('footerStars');
+            const starsContainer = document.getElementById('starsContainer');
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
 
@@ -871,19 +895,19 @@
                 }, 8000);
             }
 
-            // ایجاد ستاره‌های پرتابی در هدر
-            function createHeaderStar() {
+            // ایجاد ستاره‌های پرتابی از مرکز
+            function createStar() {
                 const star = document.createElement('div');
-                star.className = 'header-star';
+                star.className = 'real-star';
                 
                 // اندازه تصادفی
                 const size = Math.random() * 20 + 10;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 
-                // موقعیت شروع در مرکز هدر
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
+                // موقعیت شروع در مرکز صفحه
+                star.style.left = `${centerX}px`;
+                star.style.top = `${centerY}px`;
                 
                 // جهت حرکت تصادفی
                 const angle = Math.random() * Math.PI * 2;
@@ -898,7 +922,7 @@
                 const duration = Math.random() * 3 + 2;
                 star.style.animationDuration = `${duration}s`;
                 
-                headerStars.appendChild(star);
+                starsContainer.appendChild(star);
                 
                 // حذف ستاره پس از پایان انیمیشن
                 setTimeout(() => {
@@ -906,56 +930,17 @@
                 }, duration * 1000);
             }
 
-            // ایجاد ستاره‌های ثابت در فوتر
-            for (let i = 0; i < 50; i++) {
-                const star = document.createElement('div');
-                star.className = 'footer-star';
-                
-                // اندازه تصادفی
-                const size = Math.random() * 3 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // موقعیت تصادفی
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                
-                // زمان‌بندی متغیر برای جلوه چشمک زدن
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                
-                footerStars.appendChild(star);
-            }
-
             // ایجاد شهاب‌ها به صورت دوره‌ای
             setInterval(createShootingStar, 1000);
             
-            // ایجاد ستاره‌های پرتابی در هدر به صورت دوره‌ای
-            setInterval(createHeaderStar, 500);
+            // ایجاد ستاره‌های پرتابی به صورت دوره‌ای
+            setInterval(createStar, 300);
             
             // ایجاد چند ستاره در ابتدا
             for (let i = 0; i < 10; i++) {
-                setTimeout(createHeaderStar, i * 500);
+                setTimeout(createStar, i * 300);
             }
         });
-
-        // Modal Functions
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
-        }
-
-        // Close modal when clicking outside content
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
     </script>
 </body>
 </html>
