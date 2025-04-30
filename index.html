@@ -23,7 +23,7 @@
             --text: #ecf0f1;
             --nav-bg: rgba(44, 62, 80, 0.95);
             --button-hover: #16a085;
-            --bulb-color: #f1c40f; /* Golden color for dark mode */
+            --bulb-color: #ffffff; /* White color for dark mode */
         }
 
         body {
@@ -822,14 +822,18 @@
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const bulb = document.querySelector('.fa-lightbulb');
-            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : '#f39c12';
+            bulb.style.color = document.body.classList.contains('dark-mode') ? '#ffffff' : '#f39c12';
         }
 
-        // Fireworks Effect
+        // Fox click counter
+        let foxClickCount = 0;
         const foxImage = document.getElementById('foxImage');
         const fireworksContainer = document.getElementById('fireworksContainer');
 
         foxImage.addEventListener('click', () => {
+            foxClickCount++;
+            
+            // Show fireworks effect
             for (let i = 0; i < 50; i++) {
                 const firework = document.createElement('div');
                 firework.classList.add('firework');
@@ -842,6 +846,11 @@
                 setTimeout(() => {
                     firework.remove();
                 }, 1000);
+            }
+            
+            // Check if clicked 9 times
+            if (foxClickCount >= 9) {
+                window.location.href = 'hide.html';
             }
         });
 
