@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Private Space</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,18 +11,20 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background: #0a0a1a;
             color: #fff;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
             background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000');
             background-size: cover;
             background-position: center;
             animation: bgMove 120s linear infinite;
+            touch-action: manipulation;
         }
 
         @keyframes bgMove {
@@ -42,21 +44,24 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 20px;
         }
 
         .password-box {
             background: rgba(20, 20, 40, 0.8);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(100, 100, 255, 0.3);
             text-align: center;
             max-width: 400px;
-            width: 90%;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .password-box h2 {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: #4fc3f7;
+            font-size: 1.5rem;
         }
 
         .password-box input {
@@ -83,9 +88,8 @@
             margin-bottom: 10px;
         }
 
-        .password-box button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        .password-box button:active {
+            transform: translateY(1px);
         }
 
         .home-btn {
@@ -103,77 +107,84 @@
             text-align: center;
         }
 
-        .home-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        .home-btn:active {
+            transform: translateY(1px);
         }
 
         .timer {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 10px;
             background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #ff5252;
             z-index: 100;
             box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
         }
 
         .content {
-            padding: 20px;
+            padding: 15px;
             max-width: 800px;
-            margin: 80px auto 0;
+            margin: 60px auto 0;
             position: relative;
             z-index: 10;
             transition: all 0.5s;
         }
 
+        .content h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .content p {
+            font-size: 0.9rem;
+        }
+
         .box-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
             transition: all 0.5s;
         }
 
         .box {
             background: rgba(30, 30, 60, 0.7);
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             cursor: pointer;
             transition: all 0.3s;
             border: 1px solid rgba(100, 100, 255, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
-            border: 1px solid rgba(100, 100, 255, 0.5);
+        .box:active {
+            transform: translateY(2px);
         }
 
         .box h3 {
             color: #4fc3f7;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .box p {
             color: #aaa;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* Spaceship Button */
         .spaceship-container {
-            margin-top: 40px;
+            margin-top: 30px;
             text-align: center;
             position: relative;
         }
 
         .spaceship {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: radial-gradient(circle at 30% 40%, #4cc9f0, #3a0ca3);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             position: relative;
@@ -186,16 +197,20 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        .spaceship:active {
+            transform: scale(0.95);
+        }
+
         .spaceship::before {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 20%;
             width: 60%;
-            height: 20px;
+            height: 15px;
             background: #f8f8f8;
             border-radius: 50%;
-            filter: blur(10px);
+            filter: blur(8px);
             opacity: 0.7;
             animation: engineGlow 1.5s infinite alternate;
         }
@@ -203,20 +218,20 @@
         .spaceship::after {
             content: '';
             position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 15px;
-            height: 15px;
+            top: 10px;
+            left: 10px;
+            width: 12px;
+            height: 12px;
             background: rgba(255,255,255,0.8);
             border-radius: 50%;
             box-shadow: 
-                25px 0 0 rgba(255,255,255,0.8),
-                12px 20px 0 rgba(255,255,255,0.6);
+                20px 0 0 rgba(255,255,255,0.8),
+                10px 15px 0 rgba(255,255,255,0.6);
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
 
         @keyframes engineGlow {
@@ -245,8 +260,8 @@
 
         .real-star {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             opacity: 0.5;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
             background-size: contain;
@@ -263,26 +278,30 @@
 
         .moon {
             position: fixed;
-            top: 50px;
-            right: 50px;
-            width: 100px;
-            height: 100px;
+            top: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
             background: #f5f5dc;
             border-radius: 50%;
-            box-shadow: 0 0 30px #f5f5dc;
+            box-shadow: 0 0 20px #f5f5dc;
             z-index: 1;
             animation: moonGlow 5s infinite, moonFloat 15s infinite ease-in-out;
             cursor: pointer;
             transition: all 0.5s;
         }
 
+        .moon:active {
+            transform: scale(0.95);
+        }
+
         .moon::before {
             content: '';
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 20px;
-            height: 20px;
+            top: 15px;
+            left: 15px;
+            width: 15px;
+            height: 15px;
             background: #d0d0d0;
             border-radius: 50%;
         }
@@ -290,10 +309,10 @@
         .moon::after {
             content: '';
             position: absolute;
-            top: 40px;
-            left: 40px;
-            width: 15px;
-            height: 15px;
+            top: 30px;
+            left: 30px;
+            width: 10px;
+            height: 10px;
             background: #d0d0d0;
             border-radius: 50%;
         }
@@ -315,12 +334,12 @@
             }
             70% {
                 opacity: 0.8;
-                width: 100px;
+                width: 80px;
             }
             100% {
                 opacity: 0;
-                left: calc(var(--end-x) + 100px);
-                top: calc(var(--end-y) + 100px);
+                left: calc(var(--end-x) + 80px);
+                top: calc(var(--end-y) + 80px);
                 width: 0;
             }
         }
@@ -343,20 +362,20 @@
         }
 
         @keyframes moonGlow {
-            0%, 100% { box-shadow: 0 0 30px #f5f5dc; }
-            50% { box-shadow: 0 0 60px #f5f5dc; }
+            0%, 100% { box-shadow: 0 0 20px #f5f5dc; }
+            50% { box-shadow: 0 0 40px #f5f5dc; }
         }
 
         @keyframes moonPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+            50% { transform: scale(1.2); }
         }
 
         @keyframes moonFloat {
             0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(5px, 5px); }
-            50% { transform: translate(0, 10px); }
-            75% { transform: translate(-5px, 5px); }
+            25% { transform: translate(3px, 3px); }
+            50% { transform: translate(0, 6px); }
+            75% { transform: translate(-3px, 3px); }
         }
 
         /* Milky Way Effect */
@@ -380,13 +399,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(20, 20, 40, 0.95);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 0 30px rgba(100, 100, 255, 0.5);
+            box-shadow: 0 0 20px rgba(100, 100, 255, 0.5);
             z-index: 2000;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            max-width: 90%;
+            width: 300px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s;
@@ -400,11 +419,13 @@
         .popup h2 {
             color: #ff5252;
             margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
         .popup p {
             margin-bottom: 1.5rem;
             color: #ddd;
+            font-size: 0.9rem;
         }
 
         .popup-btn {
@@ -416,48 +437,193 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s;
+            width: 100%;
         }
 
-        .popup-btn:hover {
+        .popup-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Weekly Schedule Password Popup - طراحی زیباتر */
+        .weekly-password-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(25, 25, 50, 0.98);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.6);
+            z-index: 2000;
+            text-align: center;
+            max-width: 90%;
+            width: 320px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+        }
+
+        .weekly-password-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .weekly-password-popup h2 {
+            color: #4fc3f7;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .weekly-password-popup input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .weekly-password-popup input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .weekly-password-popup .popup-btn {
+            background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .weekly-password-popup .popup-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
         }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
+        .weekly-password-popup .popup-btn:active {
+            transform: translateY(0);
+        }
+
+        .weekly-password-popup .cancel-btn {
+            background: linear-gradient(45deg, #ff5252, #ff7675);
+            margin-top: 10px;
+        }
+
+        /* Landscape orientation adjustments */
+        @media (orientation: landscape) {
+            .password-box {
+                max-width: 350px;
+                padding: 1rem;
+            }
+            
             .content {
-                margin-top: 60px;
-                padding: 15px;
+                margin-top: 40px;
             }
-
+            
             .box-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
-
+            
             .moon {
-                width: 60px;
-                height: 60px;
-                top: 20px;
-                right: 20px;
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
             }
-
+            
             .moon::before {
                 top: 10px;
                 left: 10px;
-                width: 12px;
-                height: 12px;
+                width: 10px;
+                height: 10px;
             }
-
+            
             .moon::after {
-                top: 25px;
-                left: 25px;
+                top: 20px;
+                left: 20px;
                 width: 8px;
                 height: 8px;
             }
+        }
 
+        /* Larger screens */
+        @media (min-width: 768px) {
+            .password-box {
+                padding: 2rem;
+            }
+            
+            .content {
+                margin-top: 80px;
+                padding: 20px;
+            }
+            
+            .content h1 {
+                font-size: 2rem;
+            }
+            
+            .content p {
+                font-size: 1rem;
+            }
+            
+            .box-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+            
+            .box {
+                padding: 20px;
+            }
+            
+            .box h3 {
+                font-size: 1.2rem;
+            }
+            
+            .box p {
+                font-size: 0.9rem;
+            }
+            
+            .moon {
+                width: 100px;
+                height: 100px;
+                top: 30px;
+                right: 30px;
+            }
+            
+            .moon::before {
+                top: 20px;
+                left: 20px;
+                width: 20px;
+                height: 20px;
+            }
+            
+            .moon::after {
+                top: 40px;
+                left: 40px;
+                width: 15px;
+                height: 15px;
+            }
+            
             .spaceship {
-                width: 60px;
-                height: 60px;
+                width: 80px;
+                height: 80px;
+            }
+            
+            .spaceship::after {
+                top: 15px;
+                left: 15px;
+                width: 15px;
+                height: 15px;
             }
         }
     </style>
@@ -488,7 +654,7 @@
         <p>Welcome to your secure area. Time is limited!</p>
         
         <div class="box-container" id="boxContainer">
-            <div class="box" onclick="window.location.href='WeeklySchedule.html'">
+            <div class="box" id="weeklyScheduleBox">
                 <h3>Weekly Schedule</h3>
                 <p>Access your weekly schedule and planning</p>
             </div>
@@ -511,6 +677,14 @@
         <p>Please enter password again.</p>
         <button class="popup-btn" onclick="closePopup()">OK</button>
     </div>
+    
+    <!-- Weekly Schedule Password Popup - طراحی زیباتر -->
+    <div class="weekly-password-popup" id="weeklyPasswordPopup">
+        <h2>Enter Weekly Schedule Password</h2>
+        <input type="password" id="weeklyPasswordInput" placeholder="Enter password (2060)">
+        <button class="popup-btn" onclick="checkWeeklyPassword()">Access</button>
+        <button class="popup-btn cancel-btn" onclick="closeWeeklyPopup()">Cancel</button>
+    </div>
 
     <script>
         // Global variables
@@ -525,8 +699,12 @@
         function createStars() {
             const body = document.body;
             
+            // Reduce number of stars on mobile
+            const starCount = window.innerWidth < 768 ? 100 : 200;
+            const realStarCount = window.innerWidth < 768 ? 25 : 50;
+            
             // Small twinkling stars
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
@@ -546,7 +724,6 @@
                 star.style.setProperty('--tx', `-${tx}px`);
                 star.style.setProperty('--ty', `-${ty}px`);
                 
-                const duration = Math.random() * 60 + 60;
                 star.style.animationDuration = `5s, ${baseStarSpeed}s`;
                 
                 body.appendChild(star);
@@ -554,11 +731,11 @@
             }
             
             // Star-shaped stars
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < realStarCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'real-star';
                 
-                const size = Math.random() * 20 + 10;
+                const size = Math.random() * 15 + 5;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 star.style.left = `${Math.random() * 100}%`;
@@ -574,7 +751,6 @@
                 star.style.setProperty('--tx', `-${tx}px`);
                 star.style.setProperty('--ty', `-${ty}px`);
                 
-                const duration = Math.random() * 120 + 120;
                 star.style.animationDuration = `linear infinite, ${baseStarSpeed * 2}s`;
                 
                 body.appendChild(star);
@@ -585,6 +761,8 @@
         // Create shooting stars
         function createShootingStars() {
             const body = document.body;
+            const interval = window.innerWidth < 768 ? 2000 : 1000;
+            
             setInterval(() => {
                 const shootingStar = document.createElement('div');
                 shootingStar.className = 'shooting-star';
@@ -614,7 +792,7 @@
                 setTimeout(() => {
                     shootingStar.remove();
                 }, 8000);
-            }, 1000);
+            }, interval);
         }
 
         // Create star bursts
@@ -622,12 +800,13 @@
             const body = document.body;
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
+            const interval = window.innerWidth < 768 ? 500 : 300;
             
             setInterval(() => {
                 const star = document.createElement('div');
                 star.className = 'real-star';
                 
-                const size = Math.random() * 20 + 10;
+                const size = Math.random() * 15 + 5;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 star.style.left = `${centerX}px`;
@@ -649,7 +828,7 @@
                 setTimeout(() => {
                     star.remove();
                 }, duration * 1000);
-            }, 300);
+            }, interval);
         }
 
         // Check password
@@ -666,6 +845,29 @@
                 alert('Incorrect password!');
                 passwordInput.value = '';
             }
+        }
+
+        // Check weekly schedule password
+        function checkWeeklyPassword() {
+            const weeklyPasswordInput = document.getElementById('weeklyPasswordInput');
+            
+            if (weeklyPasswordInput.value === '2060') {
+                window.location.href = 'WeeklySchedule.html';
+            } else {
+                alert('Incorrect password for Weekly Schedule!');
+                weeklyPasswordInput.value = '';
+            }
+        }
+
+        // Show weekly password popup
+        function showWeeklyPasswordPopup() {
+            document.getElementById('weeklyPasswordPopup').classList.add('active');
+        }
+
+        // Close weekly password popup
+        function closeWeeklyPopup() {
+            document.getElementById('weeklyPasswordPopup').classList.remove('active');
+            document.getElementById('weeklyPasswordInput').value = '';
         }
 
         // Start countdown timer
@@ -815,9 +1017,31 @@
                 }
             });
             
-            // Moon click event
+            // Allow pressing Enter to submit weekly password
+            document.getElementById('weeklyPasswordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkWeeklyPassword();
+                }
+            });
+            
+            // Moon click/touch event
             document.getElementById('moon').addEventListener('click', enterMilkyWay);
+            document.getElementById('moon').addEventListener('touchend', function(e) {
+                e.preventDefault();
+                enterMilkyWay();
+            });
+            
+            // Weekly schedule box click event
+            document.getElementById('weeklyScheduleBox').addEventListener('click', showWeeklyPasswordPopup);
         };
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            // Reset stars and animations
+            starElements.forEach(star => star.remove());
+            starElements = [];
+            createStars();
+        });
     </script>
 </body>
 </html>
