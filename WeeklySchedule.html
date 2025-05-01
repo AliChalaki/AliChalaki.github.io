@@ -6,6 +6,83 @@
   <title>برنامه هفتگی علی</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
   <style>
+    /* Password Page Styles */
+    .password-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: Arial, sans-serif;
+      direction: ltr;
+    }
+
+    .password-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .password-title {
+      color: #4361ee;
+      margin-bottom: 1.5rem;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .password-submit {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      margin-right: 0.5rem;
+    }
+
+    .password-submit:hover {
+      background: #3a0ca3;
+    }
+
+    .password-back {
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .password-back:hover {
+      background: #5a6268;
+    }
+
+    .password-error {
+      color: #f72585;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    /* Main App Styles (hidden by default) */
+    .main-app {
+      display: none;
+    }
+
     :root {
       --primary-color: #4361ee;
       --secondary-color: #3a0ca3;
@@ -346,4 +423,873 @@
       align-items: center;
       opacity: 0;
       transition: opacity 0.3s ease;
-   
+    }
+
+    .modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transform: translateY(-50px);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .modal.show .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .modal-title {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .modal-text {
+      white-space: pre-line;
+      line-height: 1.8;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    /* Todo Section Styles */
+    .todo-container {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .todo-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+
+    .todo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .todo-form {
+      display: flex;
+      margin-bottom: 1.5rem;
+    }
+
+    .todo-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 2px solid rgba(0,0,0,0.1);
+      border-radius: 8px;
+      font-family: 'Vazir';
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .todo-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .dark-mode .todo-input {
+      border-color: rgba(255,255,255,0.1);
+      background: var(--card-bg);
+      color: var(--dark-color);
+    }
+
+    .add-todo {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      margin-right: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Vazir';
+      transition: var(--transition);
+    }
+
+    .add-todo:hover {
+      background: var(--secondary-color);
+    }
+
+    .todo-list {
+      list-style: none;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: rgba(0,0,0,0.02);
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .dark-mode .todo-item {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .todo-item:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+
+    .todo-item.completed {
+      opacity: 0.7;
+    }
+
+    .todo-item.completed .todo-text {
+      text-decoration: line-through;
+    }
+
+    .todo-text {
+      flex: 1;
+      margin: 0 0.5rem;
+    }
+
+    .todo-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .delete-todo {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .delete-todo:hover {
+      background: #d91a6a;
+      transform: scale(1.1);
+    }
+
+    /* Confirmation Modal */
+    .confirmation-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .confirmation-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .confirmation-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transform: translateY(-50px);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .confirmation-modal.show .confirmation-content {
+      transform: translateY(0);
+    }
+
+    .confirmation-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .confirm-btn, .cancel-btn {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Vazir';
+      transition: var(--transition);
+      margin: 0 0.5rem;
+    }
+
+    .confirm-btn {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .confirm-btn:hover {
+      background: #d91a6a;
+    }
+
+    .cancel-btn {
+      background: var(--gray-color);
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background: #5a6268;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      #datetime {
+        font-size: 0.9rem;
+      }
+
+      #digital-clock {
+        font-size: 2rem;
+      }
+
+      section {
+        padding: 1rem;
+      }
+
+      th, td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+      }
+
+      .theme-toggle {
+        width: 40px;
+        height: 40px;
+        bottom: 15px;
+        left: 15px;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+      }
+
+      .todo-container {
+        padding: 0 1rem;
+      }
+
+      .todo-form {
+        flex-direction: column;
+      }
+
+      .add-todo {
+        margin-right: 0;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.3rem;
+      }
+
+      #datetime {
+        font-size: 0.8rem;
+      }
+
+      #digital-clock {
+        font-size: 1.5rem;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .view-notes, .save-note {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .todo-actions {
+        margin-top: 0.5rem;
+        align-self: flex-end;
+      }
+
+      .confirmation-buttons {
+        flex-direction: column;
+      }
+
+      .confirm-btn, .cancel-btn {
+        width: 100%;
+        margin: 0.25rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Password Page -->
+  <div class="password-page" id="password-page">
+    <div class="password-container">
+      <h1 class="password-title">Enter Password</h1>
+      <input type="password" class="password-input" id="password-input" placeholder="Password">
+      <div class="password-error" id="password-error">Incorrect password. Please try again.</div>
+      <button class="password-submit" id="password-submit">Submit</button>
+      <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- Main App (hidden by default) -->
+  <div class="main-app" id="main-app">
+    <header>
+      <h1>خوش اومدی علی چالاکی! 👋</h1>
+      <div id="datetime"></div>
+      <div id="digital-clock"></div>
+    </header>
+
+    <section>
+      <h2 class="section-title">🗓 برنامه هفتگی (نسخه اولیه - قابل تنظیم با بازخوردت)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>روز</th>
+            <th>برنامه</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>شنبه</td>
+            <td>
+              <div>17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس – هفته‌ای یک بار پاییتون، یک بار کالستنیکس)</div>
+              <div>18:30 تا 19:30 → شام و استراحت</div>
+              <div>19:30 تا 20:30 → ضبط ویدیو سابلیمینال</div>
+              <div>20:30 تا 23:00 → کلاس یوگا</div>
+            </td>
+          </tr>
+          <tr>
+            <td>یک‌شنبه</td>
+            <td>
+              <div>17:30 تا 18:30 → برنامه‌نویسی پایتون</div>
+              <div>18:30 تا 19:00 → استراحت و شام</div>
+              <div>19:00 تا 20:30 → طراحی سایت هوپی‌دوبی</div>
+              <div>20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت</div>
+              <div>21:30 تا 22:30 → آزاد یا استراحت</div>
+            </td>
+          </tr>
+          <tr>
+            <td>دوشنبه</td>
+            <td>
+              <div>17:30 تا 18:30 → ورزش کالستنیکس</div>
+              <div>18:30 تا 19:30 → استراحت و شام</div>
+              <div>19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه</div>
+              <div>21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه</div>
+            </td>
+          </tr>
+          <tr>
+            <td>سه‌شنبه</td>
+            <td>
+              <div>17:30 تا 18:30 → پیاده‌روی سبک</div>
+              <div>18:30 تا 19:30 → تولید سابلیمینال</div>
+              <div>20:30 تا 23:00 → کلاس یوگا</div>
+            </td>
+          </tr>
+          <tr>
+            <td>چهارشنبه</td>
+            <td>
+              <div>17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)</div>
+              <div>18:30 تا 19:30 → شام و استراحت</div>
+              <div>19:30 تا 21:30 → طراحی سایت هوپی‌دوبی</div>
+              <div>21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب</div>
+            </td>
+          </tr>
+          <tr>
+            <td>پنج‌شنبه (تعطیل)</td>
+            <td>
+              <div>9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه (دوره / سایت / برنامه ویبینار)</div>
+              <div>11:00 تا 12:00 → استراحت</div>
+              <div>13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب</div>
+              <div>17:00 به بعد → دورهمی (دوستانه یا کاری)</div>
+            </td>
+          </tr>
+          <tr>
+            <td>جمعه (تعطیل)</td>
+            <td>
+              <div>9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه</div>
+              <div>11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها</div>
+              <div>عصر → آزاد یا دورهمی (مطابق برنامه‌ریزی)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title" id="today-title">✅ برنامه امروز</h2>
+      <div class="checklist-item" id="today-checklist"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">📝 نکات مهم</h2>
+      <div class="checklist-item"><input type="checkbox"> سه ویدیو و سه شورت یوتیوب در هفته: تقسیم شده بین شنبه، یک‌شنبه، چهارشنبه و پنج‌شنبه</div>
+      <div class="checklist-item"><input type="checkbox"> سابلیمینال: یک روز ساخت + روز بعد آپلود (مثلاً سه‌شنبه شب بساز، چهارشنبه صبح یا عصر آپلود)</div>
+      <div class="checklist-item"><input type="checkbox"> کالستنیکس و پایتون تو یه روز نیستن</div>
+      <div class="checklist-item"><input type="checkbox"> یوگا برنامه‌ریزی شده در شب‌هایی که فعالیت‌های سبک‌تری داری</div>
+      <div class="checklist-item"><input type="checkbox"> آموزشگاه و طراحی سایت هم جای مشخصی دارن ولی فشارت نمیاد</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">🎯 چک‌لیست هفتگی</h2>
+      <div class="checklist-item"><input type="checkbox"> ۳ ویدیو سابلیمینال ضبط شده</div>
+      <div class="checklist-item"><input type="checkbox"> ۳ شورت یوتیوب تولید شده</div>
+      <div class="checklist-item"><input type="checkbox"> ۲ جلسه پایتون تمرین شده</div>
+      <div class="checklist-item"><input type="checkbox"> ۲ بار ورزش کالستنیکس</div>
+      <div class="checklist-item"><input type="checkbox"> طراحی سایت هوپی دوبی (۲ جلسه)</div>
+      <div class="checklist-item"><input type="checkbox"> ضبط دوره رایگان آموزشگاه</div>
+      <div class="checklist-item"><input type="checkbox"> شرکت در یوگا</div>
+      <div class="checklist-item"><input type="checkbox"> اجرای دورهمی پنج‌شنبه یا جمعه</div>
+    </section>
+
+    <!-- Todo Section -->
+    <div class="todo-container">
+      <div class="todo-card">
+        <h2 class="section-title">TODO</h2>
+        <form class="todo-form" id="todo-form">
+          <input type="text" class="todo-input" id="todo-input" placeholder="کاری که می‌خواهی انجام بدی..." required>
+          <button type="submit" class="add-todo">اضافه کردن</button>
+        </form>
+        <ul class="todo-list" id="todo-list"></ul>
+      </div>
+    </div>
+
+    <section class="card">
+      <h2 class="section-title">📝 یادداشت‌ها</h2>
+      <textarea id="note-text" placeholder="نکاتی که باید یادم باشه یا ایده‌هایی که به ذهنم رسید..."></textarea>
+      <div class="button-group">
+        <button class="view-notes" id="view-notes">مشاهده یادداشت‌ها</button>
+        <button class="save-note" id="save-note">ذخیره یادداشت</button>
+      </div>
+    </section>
+
+    <div class="theme-toggle" id="theme-toggle">
+      <span id="theme-icon">🌙</span>
+    </div>
+
+    <div class="notification" id="notification">
+      یادداشت شما ذخیره شد!
+    </div>
+
+    <!-- Modal for viewing notes -->
+    <div class="modal" id="notes-modal">
+      <div class="modal-content">
+        <button class="modal-close" id="modal-close">×</button>
+        <h2 class="modal-title">یادداشت‌های ذخیره شده</h2>
+        <div class="modal-text" id="saved-notes"></div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmation-modal">
+      <div class="confirmation-content">
+        <h2 class="modal-title">حذف آیتم</h2>
+        <p>آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟</p>
+        <div class="confirmation-buttons">
+          <button class="confirm-btn" id="confirm-delete">بله، حذف شود</button>
+          <button class="cancel-btn" id="cancel-delete">انصراف</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password Check Functionality
+    const passwordPage = document.getElementById('password-page');
+    const mainApp = document.getElementById('main-app');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const passwordError = document.getElementById('password-error');
+
+    // Check if already authenticated
+    if (localStorage.getItem('authenticated') {
+      passwordPage.style.display = 'none';
+      mainApp.style.display = 'block';
+    }
+
+    passwordSubmit.addEventListener('click', () => {
+      if (passwordInput.value === '1399') {
+        localStorage.setItem('authenticated', 'true');
+        passwordPage.style.display = 'none';
+        mainApp.style.display = 'block';
+      } else {
+        passwordError.style.display = 'block';
+        passwordInput.value = '';
+      }
+    });
+
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        if (passwordInput.value === '1399') {
+          localStorage.setItem('authenticated', 'true');
+          passwordPage.style.display = 'none';
+          mainApp.style.display = 'block';
+        } else {
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+        }
+      }
+    });
+
+    // Dark mode toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+      themeIcon.textContent = '☀️';
+    }
+
+    // Date and time
+    function updateDateTime() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const datetimeEl = document.getElementById('datetime');
+      datetimeEl.innerHTML = now.toLocaleDateString('fa-IR', options) + ' - ' + now.toLocaleTimeString('fa-IR');
+    }
+
+    // Digital clock
+    function updateDigitalClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById('digital-clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Update clock and date every second
+    setInterval(() => {
+      updateDateTime();
+      updateDigitalClock();
+    }, 1000);
+
+    // Initialize
+    updateDateTime();
+    updateDigitalClock();
+
+    // Save note functionality
+    const saveNoteBtn = document.getElementById('save-note');
+    const noteText = document.getElementById('note-text');
+    const notification = document.getElementById('notification');
+
+    saveNoteBtn.addEventListener('click', () => {
+      if (noteText.value.trim() === '') {
+        notification.textContent = 'لطفاً یادداشت خود را وارد کنید!';
+        notification.style.background = 'var(--accent-color)';
+      } else {
+        notification.textContent = 'یادداشت شما ذخیره شد!';
+        notification.style.background = 'var(--success-color)';
+        localStorage.setItem('savedNote', noteText.value);
+      }
+      
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    });
+
+    // View notes functionality
+    const viewNotesBtn = document.getElementById('view-notes');
+    const notesModal = document.getElementById('notes-modal');
+    const modalClose = document.getElementById('modal-close');
+    const savedNotes = document.getElementById('saved-notes');
+
+    viewNotesBtn.addEventListener('click', () => {
+      const note = localStorage.getItem('savedNote');
+      if (note) {
+        savedNotes.textContent = note;
+      } else {
+        savedNotes.textContent = 'هنوز یادداشتی ذخیره نکرده‌اید.';
+      }
+      notesModal.classList.add('show');
+    });
+
+    modalClose.addEventListener('click', () => {
+      notesModal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside
+    notesModal.addEventListener('click', (e) => {
+      if (e.target === notesModal) {
+        notesModal.classList.remove('show');
+      }
+    });
+
+    // Load saved note if exists
+    if (localStorage.getItem('savedNote')) {
+      noteText.value = localStorage.getItem('savedNote');
+    }
+
+    // Add hover effect to table rows
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+      row.addEventListener('mouseenter', () => {
+        row.style.transform = 'scale(1.01)';
+        row.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+      });
+      
+      row.addEventListener('mouseleave', () => {
+        row.style.transform = 'scale(1)';
+        row.style.boxShadow = 'none';
+      });
+    });
+
+    // Show today's schedule
+    function showTodaySchedule() {
+      const days = ['یک‌شنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+      const now = new Date();
+      const todayIndex = now.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+      const todayName = days[todayIndex];
+      
+      document.getElementById('today-title').textContent = `✅ برنامه روز ${todayName}`;
+      
+      const schedule = {
+        'شنبه': [
+          '17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس)',
+          '18:30 تا 19:30 → شام و استراحت',
+          '19:30 تا 20:30 → ضبط ویدیو سابلیمینال',
+          '20:30 تا 23:00 → کلاس یوگا'
+        ],
+        'یک‌شنبه': [
+          '17:30 تا 18:30 → برنامه‌نویسی پایتون',
+          '18:30 تا 19:00 → استراحت و شام',
+          '19:00 تا 20:30 → طراحی سایت هوپی‌دوبی',
+          '20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت',
+          '21:30 تا 22:30 → آزاد یا استراحت'
+        ],
+        'دوشنبه': [
+          '17:30 تا 18:30 → ورزش کالستنیکس',
+          '18:30 تا 19:30 → استراحت و شام',
+          '19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه',
+          '21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه'
+        ],
+        'سه‌شنبه': [
+          '17:30 تا 18:30 → پیاده‌روی سبک',
+          '18:30 تا 19:30 → تولید سابلیمینال',
+          '20:30 تا 23:00 → کلاس یوگا'
+        ],
+        'چهارشنبه': [
+          '17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)',
+          '18:30 تا 19:30 → شام و استراحت',
+          '19:30 تا 21:30 → طراحی سایت هوپی‌دوبی',
+          '21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب'
+        ],
+        'پنج‌شنبه': [
+          '9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه',
+          '11:00 تا 12:00 → استراحت',
+          '13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب',
+          '17:00 به بعد → دورهمی (دوستانه یا کاری)'
+        ],
+        'جمعه': [
+          '9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه',
+          '11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها',
+          'عصر → آزاد یا دورهمی'
+        ]
+      };
+      
+      const todayChecklist = document.getElementById('today-checklist');
+      todayChecklist.innerHTML = '';
+      
+      schedule[todayName].forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'checklist-item';
+        div.innerHTML = `<input type="checkbox"> ${item}`;
+        todayChecklist.appendChild(div);
+      });
+    }
+
+    // Initialize today's schedule
+    showTodaySchedule();
+
+    // Todo List Functionality
+    const todoForm = document.getElementById('todo-form');
+    const todoInput = document.getElementById('todo-input');
+    const todoList = document.getElementById('todo-list');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmDeleteBtn = document.getElementById('confirm-delete');
+    const cancelDeleteBtn = document.getElementById('cancel-delete');
+
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+    let todoToDelete = null;
+
+    // Render todos
+    function renderTodos() {
+      todoList.innerHTML = '';
+      
+      todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        li.innerHTML = `
+          <input type="checkbox" ${todo.completed ? 'checked' : ''}>
+          <span class="todo-text">${todo.text}</span>
+          <div class="todo-actions">
+            <button class="delete-todo">×</button>
+          </div>
+        `;
+        
+        const checkbox = li.querySelector('input');
+        const deleteBtn = li.querySelector('.delete-todo');
+        
+        checkbox.addEventListener('change', () => {
+          todos[index].completed = checkbox.checked;
+          saveTodos();
+          li.classList.toggle('completed', checkbox.checked);
+        });
+        
+        deleteBtn.addEventListener('click', () => {
+          todoToDelete = index;
+          confirmationModal.classList.add('show');
+        });
+        
+        todoList.appendChild(li);
+      });
+    }
+
+    // Save todos to localStorage
+    function saveTodos() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    // Add new todo
+    todoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const text = todoInput.value.trim();
+      if (text) {
+        todos.push({
+          text,
+          completed: false
+        });
+        
+        saveTodos();
+        renderTodos();
+        todoInput.value = '';
+        
+        // Show notification
+        notification.textContent = 'کار جدید اضافه شد!';
+        notification.style.background = 'var(--success-color)';
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 2000);
+      }
+    });
+
+    // Confirm delete
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (todoToDelete !== null) {
+        todos.splice(todoToDelete, 1);
+        saveTodos();
+        renderTodos();
+        todoToDelete = null;
+        confirmationModal.classList.remove('show');
+        
+        // Show notification
+        notification.textContent = 'آیتم حذف شد!';
+        notification.style.background = 'var(--accent-color)';
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 2000);
+      }
+    });
+
+    // Cancel delete
+    cancelDeleteBtn.addEventListener('click', () => {
+      todoToDelete = null;
+      confirmationModal.classList.remove('show');
+    });
+
+    // Close confirmation modal when clicking outside
+    confirmationModal.addEventListener('click', (e) => {
+      if (e.target === confirmationModal) {
+        todoToDelete = null;
+        confirmationModal.classList.remove('show');
+      }
+    });
+
+    // Initialize todos
+    renderTodos();
+  </script>
+</body>
+</html>
