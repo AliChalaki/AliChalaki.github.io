@@ -965,12 +965,12 @@
     const passwordError = document.getElementById('password-error');
 
     // Check if already authenticated
-    if (localStorage.getItem('authenticated') {
+    if (localStorage.getItem('authenticated') === 'true') {
       passwordPage.style.display = 'none';
       mainApp.style.display = 'block';
     }
 
-    passwordSubmit.addEventListener('click', () => {
+    function checkPassword() {
       if (passwordInput.value === '1399') {
         localStorage.setItem('authenticated', 'true');
         passwordPage.style.display = 'none';
@@ -978,19 +978,15 @@
       } else {
         passwordError.style.display = 'block';
         passwordInput.value = '';
+        passwordInput.focus();
       }
-    });
+    }
+
+    passwordSubmit.addEventListener('click', checkPassword);
 
     passwordInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
-        if (passwordInput.value === '1399') {
-          localStorage.setItem('authenticated', 'true');
-          passwordPage.style.display = 'none';
-          mainApp.style.display = 'block';
-        } else {
-          passwordError.style.display = 'block';
-          passwordInput.value = '';
-        }
+        checkPassword();
       }
     });
 
