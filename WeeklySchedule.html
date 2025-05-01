@@ -6,55 +6,89 @@
   <title>برنامه هفتگی علی</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
   <style>
-    /* Password Page Styles */
+    /* Password Page Styles - Improved */
     .password-page {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      font-family: Arial, sans-serif;
-      direction: ltr;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Vazir', sans-serif;
+      direction: rtl;
     }
 
     .password-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
       text-align: center;
       max-width: 400px;
       width: 90%;
+      animation: fadeIn 0.5s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .password-title {
       color: #4361ee;
       margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .password-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: 0;
+      width: 60px;
+      height: 3px;
+      background: #4361ee;
+      border-radius: 3px;
     }
 
     .password-input {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
       border: 2px solid #ddd;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 1rem;
+      font-family: 'Vazir';
+      transition: all 0.3s ease;
+    }
+
+    .password-input:focus {
+      outline: none;
+      border-color: #4361ee;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
 
     .password-submit {
-      background: #4361ee;
+      background: linear-gradient(to right, #4361ee, #3a0ca3);
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 5px;
+      padding: 1rem 2rem;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
+      font-family: 'Vazir';
       transition: all 0.3s ease;
-      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
     }
 
     .password-submit:hover {
-      background: #3a0ca3;
+      background: linear-gradient(to right, #3a0ca3, #4361ee);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
     }
 
     .password-back {
@@ -62,10 +96,12 @@
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
+      font-family: 'Vazir';
       transition: all 0.3s ease;
+      width: 100%;
     }
 
     .password-back:hover {
@@ -74,10 +110,64 @@
 
     .password-error {
       color: #f72585;
-      margin-top: 1rem;
+      margin: 1rem 0;
       display: none;
+      font-weight: bold;
+      animation: shake 0.5s;
     }
 
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    .password-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #4361ee;
+    }
+
+    /* Improved Today's Schedule for Mobile */
+    #today-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    #today-checklist .checklist-item {
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    #today-checklist .checklist-item:hover {
+      background: rgba(67, 97, 238, 0.1);
+      transform: translateX(5px);
+    }
+
+    #today-checklist .checklist-item input[type="checkbox"] {
+      min-width: 22px;
+      min-height: 22px;
+      margin-left: 0.75rem;
+    }
+
+    @media (max-width: 480px) {
+      #today-checklist .checklist-item {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.75rem;
+      }
+      
+      #today-checklist .checklist-item div {
+        flex: 1;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Rest of your existing CSS... */
     /* Main App Styles (hidden by default) */
     .main-app {
       display: none;
@@ -784,14 +874,15 @@
   </style>
 </head>
 <body>
-  <!-- Password Page -->
+  <!-- Password Page - Improved -->
   <div class="password-page" id="password-page">
     <div class="password-container">
-      <h1 class="password-title">Enter Password</h1>
-      <input type="password" class="password-input" id="password-input" placeholder="Password">
-      <div class="password-error" id="password-error">Incorrect password. Please try again.</div>
-      <button class="password-submit" id="password-submit">Submit</button>
-      <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">Back to Home</button>
+      <div class="password-icon">🔒</div>
+      <h1 class="password-title">ورود به برنامه</h1>
+      <input type="password" class="password-input" id="password-input" placeholder="رمز عبور را وارد کنید">
+      <div class="password-error" id="password-error">رمز عبور اشتباه است. لطفاً دوباره تلاش کنید.</div>
+      <button class="password-submit" id="password-submit">ورود</button>
+      <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">بازگشت به صفحه اصلی</button>
     </div>
   </div>
 
@@ -881,7 +972,7 @@
 
     <section class="card">
       <h2 class="section-title" id="today-title">✅ برنامه امروز</h2>
-      <div class="checklist-item" id="today-checklist"></div>
+      <div id="today-checklist"></div>
     </section>
 
     <section class="card">
@@ -1167,7 +1258,10 @@
       schedule[todayName].forEach(item => {
         const div = document.createElement('div');
         div.className = 'checklist-item';
-        div.innerHTML = `<input type="checkbox"> ${item}`;
+        div.innerHTML = `
+          <input type="checkbox">
+          <div>${item}</div>
+        `;
         todayChecklist.appendChild(div);
       });
     }
