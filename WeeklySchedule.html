@@ -346,458 +346,4 @@
       align-items: center;
       opacity: 0;
       transition: opacity 0.3s ease;
-    }
-
-    .modal.show {
-      display: flex;
-      opacity: 1;
-    }
-
-    .modal-content {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 600px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      transform: translateY(-50px);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .modal.show .modal-content {
-      transform: translateY(0);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .modal-title {
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-size: 1.5rem;
-    }
-
-    .modal-text {
-      white-space: pre-line;
-      line-height: 1.8;
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      #datetime {
-        font-size: 0.9rem;
-      }
-
-      #digital-clock {
-        font-size: 2rem;
-      }
-
-      section {
-        padding: 1rem;
-      }
-
-      th, td {
-        padding: 0.5rem;
-        font-size: 0.9rem;
-      }
-
-      .section-title {
-        font-size: 1.3rem;
-      }
-
-      .theme-toggle {
-        width: 40px;
-        height: 40px;
-        bottom: 15px;
-        left: 15px;
-      }
-
-      .modal-content {
-        padding: 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 1.3rem;
-      }
-
-      #datetime {
-        font-size: 0.8rem;
-      }
-
-      #digital-clock {
-        font-size: 1.5rem;
-      }
-
-      table {
-        display: block;
-        overflow-x: auto;
-      }
-
-      .section-title {
-        font-size: 1.2rem;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .view-notes, .save-note {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 0.5rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>خوش اومدی علی چالاکی! 👋</h1>
-    <div id="datetime"></div>
-    <div id="digital-clock"></div>
-  </header>
-
-  <section>
-    <h2 class="section-title">🗓 برنامه هفتگی (نسخه اولیه - قابل تنظیم با بازخوردت)</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>روز</th>
-          <th>برنامه</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>شنبه</td>
-          <td>
-            <div>17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس – هفته‌ای یک بار پاییتون، یک بار کالستنیکس)</div>
-            <div>18:30 تا 19:30 → شام و استراحت</div>
-            <div>19:30 تا 20:30 → ضبط ویدیو سابلیمینال</div>
-            <div>20:30 تا 23:00 → کلاس یوگا</div>
-          </td>
-        </tr>
-        <tr>
-          <td>یک‌شنبه</td>
-          <td>
-            <div>17:30 تا 18:30 → برنامه‌نویسی پایتون</div>
-            <div>18:30 تا 19:00 → استراحت و شام</div>
-            <div>19:00 تا 20:30 → طراحی سایت هوپی‌دوبی</div>
-            <div>20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت</div>
-            <div>21:30 تا 22:30 → آزاد یا استراحت</div>
-          </td>
-        </tr>
-        <tr>
-          <td>دوشنبه</td>
-          <td>
-            <div>17:30 تا 18:30 → ورزش کالستنیکس</div>
-            <div>18:30 تا 19:30 → استراحت و شام</div>
-            <div>19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه</div>
-            <div>21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه</div>
-          </td>
-        </tr>
-        <tr>
-          <td>سه‌شنبه</td>
-          <td>
-            <div>17:30 تا 18:30 → پیاده‌روی سبک</div>
-            <div>18:30 تا 19:30 → تولید سابلیمینال</div>
-            <div>20:30 تا 23:00 → کلاس یوگا</div>
-          </td>
-        </tr>
-        <tr>
-          <td>چهارشنبه</td>
-          <td>
-            <div>17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)</div>
-            <div>18:30 تا 19:30 → شام و استراحت</div>
-            <div>19:30 تا 21:30 → طراحی سایت هوپی‌دوبی</div>
-            <div>21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب</div>
-          </td>
-        </tr>
-        <tr>
-          <td>پنج‌شنبه (تعطیل)</td>
-          <td>
-            <div>9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه (دوره / سایت / برنامه ویبینار)</div>
-            <div>11:00 تا 12:00 → استراحت</div>
-            <div>13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب</div>
-            <div>17:00 به بعد → دورهمی (دوستانه یا کاری)</div>
-          </td>
-        </tr>
-        <tr>
-          <td>جمعه (تعطیل)</td>
-          <td>
-            <div>9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه</div>
-            <div>11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها</div>
-            <div>عصر → آزاد یا دورهمی (مطابق برنامه‌ریزی)</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="card">
-    <h2 class="section-title" id="today-title">✅ برنامه امروز</h2>
-    <div class="checklist-item" id="today-checklist"></div>
-  </section>
-
-  <section class="card">
-    <h2 class="section-title">📝 نکات مهم</h2>
-    <div class="checklist-item"><input type="checkbox"> سه ویدیو و سه شورت یوتیوب در هفته: تقسیم شده بین شنبه، یک‌شنبه، چهارشنبه و پنج‌شنبه</div>
-    <div class="checklist-item"><input type="checkbox"> سابلیمینال: یک روز ساخت + روز بعد آپلود (مثلاً سه‌شنبه شب بساز، چهارشنبه صبح یا عصر آپلود)</div>
-    <div class="checklist-item"><input type="checkbox"> کالستنیکس و پایتون تو یه روز نیستن</div>
-    <div class="checklist-item"><input type="checkbox"> یوگا برنامه‌ریزی شده در شب‌هایی که فعالیت‌های سبک‌تری داری</div>
-    <div class="checklist-item"><input type="checkbox"> آموزشگاه و طراحی سایت هم جای مشخصی دارن ولی فشارت نمیاد</div>
-  </section>
-
-  <section class="card">
-    <h2 class="section-title">🎯 چک‌لیست هفتگی</h2>
-    <div class="checklist-item"><input type="checkbox"> ۳ ویدیو سابلیمینال ضبط شده</div>
-    <div class="checklist-item"><input type="checkbox"> ۳ شورت یوتیوب تولید شده</div>
-    <div class="checklist-item"><input type="checkbox"> ۲ جلسه پایتون تمرین شده</div>
-    <div class="checklist-item"><input type="checkbox"> ۲ بار ورزش کالستنیکس</div>
-    <div class="checklist-item"><input type="checkbox"> طراحی سایت هوپی دوبی (۲ جلسه)</div>
-    <div class="checklist-item"><input type="checkbox"> ضبط دوره رایگان آموزشگاه</div>
-    <div class="checklist-item"><input type="checkbox"> شرکت در یوگا</div>
-    <div class="checklist-item"><input type="checkbox"> اجرای دورهمی پنج‌شنبه یا جمعه</div>
-  </section>
-
-  <section class="card">
-    <h2 class="section-title">📝 یادداشت‌ها</h2>
-    <textarea id="note-text" placeholder="نکاتی که باید یادم باشه یا ایده‌هایی که به ذهنم رسید..."></textarea>
-    <div class="button-group">
-      <button class="view-notes" id="view-notes">مشاهده یادداشت‌ها</button>
-      <button class="save-note" id="save-note">ذخیره یادداشت</button>
-    </div>
-  </section>
-
-  <div class="theme-toggle" id="theme-toggle">
-    <span id="theme-icon">🌙</span>
-  </div>
-
-  <div class="notification" id="notification">
-    یادداشت شما ذخیره شد!
-  </div>
-
-  <!-- Modal for viewing notes -->
-  <div class="modal" id="notes-modal">
-    <div class="modal-content">
-      <button class="modal-close" id="modal-close">×</button>
-      <h2 class="modal-title">یادداشت‌های ذخیره شده</h2>
-      <div class="modal-text" id="saved-notes"></div>
-    </div>
-  </div>
-
-  <script>
-    // Dark mode toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const body = document.body;
-
-    themeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      
-      if (body.classList.contains('dark-mode')) {
-        themeIcon.textContent = '☀️';
-        localStorage.setItem('theme', 'dark');
-      } else {
-        themeIcon.textContent = '🌙';
-        localStorage.setItem('theme', 'light');
-      }
-    });
-
-    // Check for saved theme preference
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark-mode');
-      themeIcon.textContent = '☀️';
-    }
-
-    // Date and time
-    function updateDateTime() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const datetimeEl = document.getElementById('datetime');
-      datetimeEl.innerHTML = now.toLocaleDateString('fa-IR', options) + ' - ' + now.toLocaleTimeString('fa-IR');
-    }
-
-    // Digital clock
-    function updateDigitalClock() {
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      document.getElementById('digital-clock').textContent = `${hours}:${minutes}:${seconds}`;
-    }
-
-    // Update clock and date every second
-    setInterval(() => {
-      updateDateTime();
-      updateDigitalClock();
-    }, 1000);
-
-    // Initialize
-    updateDateTime();
-    updateDigitalClock();
-
-    // Save note functionality
-    const saveNoteBtn = document.getElementById('save-note');
-    const noteText = document.getElementById('note-text');
-    const notification = document.getElementById('notification');
-
-    saveNoteBtn.addEventListener('click', () => {
-      if (noteText.value.trim() === '') {
-        notification.textContent = 'لطفاً یادداشت خود را وارد کنید!';
-        notification.style.background = 'var(--accent-color)';
-      } else {
-        notification.textContent = 'یادداشت شما ذخیره شد!';
-        notification.style.background = 'var(--success-color)';
-        localStorage.setItem('savedNote', noteText.value);
-      }
-      
-      notification.classList.add('show');
-      
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 3000);
-    });
-
-    // View notes functionality
-    const viewNotesBtn = document.getElementById('view-notes');
-    const notesModal = document.getElementById('notes-modal');
-    const modalClose = document.getElementById('modal-close');
-    const savedNotes = document.getElementById('saved-notes');
-
-    viewNotesBtn.addEventListener('click', () => {
-      const note = localStorage.getItem('savedNote');
-      if (note) {
-        savedNotes.textContent = note;
-      } else {
-        savedNotes.textContent = 'هنوز یادداشتی ذخیره نکرده‌اید.';
-      }
-      notesModal.classList.add('show');
-    });
-
-    modalClose.addEventListener('click', () => {
-      notesModal.classList.remove('show');
-    });
-
-    // Close modal when clicking outside
-    notesModal.addEventListener('click', (e) => {
-      if (e.target === notesModal) {
-        notesModal.classList.remove('show');
-      }
-    });
-
-    // Load saved note if exists
-    if (localStorage.getItem('savedNote')) {
-      noteText.value = localStorage.getItem('savedNote');
-    }
-
-    // Add hover effect to table rows
-    const tableRows = document.querySelectorAll('tbody tr');
-    tableRows.forEach(row => {
-      row.addEventListener('mouseenter', () => {
-        row.style.transform = 'scale(1.01)';
-        row.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
-      });
-      
-      row.addEventListener('mouseleave', () => {
-        row.style.transform = 'scale(1)';
-        row.style.boxShadow = 'none';
-      });
-    });
-
-    // Show today's schedule
-    function showTodaySchedule() {
-      const days = ['یک‌شنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
-      const now = new Date();
-      const todayIndex = now.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-      const todayName = days[todayIndex];
-      
-      document.getElementById('today-title').textContent = `✅ برنامه روز ${todayName}`;
-      
-      const schedule = {
-        'شنبه': [
-          '17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس)',
-          '18:30 تا 19:30 → شام و استراحت',
-          '19:30 تا 20:30 → ضبط ویدیو سابلیمینال',
-          '20:30 تا 23:00 → کلاس یوگا'
-        ],
-        'یک‌شنبه': [
-          '17:30 تا 18:30 → برنامه‌نویسی پایتون',
-          '18:30 تا 19:00 → استراحت و شام',
-          '19:00 تا 20:30 → طراحی سایت هوپی‌دوبی',
-          '20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت',
-          '21:30 تا 22:30 → آزاد یا استراحت'
-        ],
-        'دوشنبه': [
-          '17:30 تا 18:30 → ورزش کالستنیکس',
-          '18:30 تا 19:30 → استراحت و شام',
-          '19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه',
-          '21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه'
-        ],
-        'سه‌شنبه': [
-          '17:30 تا 18:30 → پیاده‌روی سبک',
-          '18:30 تا 19:30 → تولید سابلیمینال',
-          '20:30 تا 23:00 → کلاس یوگا'
-        ],
-        'چهارشنبه': [
-          '17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)',
-          '18:30 تا 19:30 → شام و استراحت',
-          '19:30 تا 21:30 → طراحی سایت هوپی‌دوبی',
-          '21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب'
-        ],
-        'پنج‌شنبه': [
-          '9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه',
-          '11:00 تا 12:00 → استراحت',
-          '13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب',
-          '17:00 به بعد → دورهمی (دوستانه یا کاری)'
-        ],
-        'جمعه': [
-          '9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه',
-          '11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها',
-          'عصر → آزاد یا دورهمی'
-        ]
-      };
-      
-      const todayChecklist = document.getElementById('today-checklist');
-      todayChecklist.innerHTML = '';
-      
-      schedule[todayName].forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'checklist-item';
-        div.innerHTML = `<input type="checkbox"> ${item}`;
-        todayChecklist.appendChild(div);
-      });
-    }
-
-    // Initialize today's schedule
-    showTodaySchedule();
-  </script>
-</body>
-</html>
+   
