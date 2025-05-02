@@ -14,8 +14,8 @@
       align-items: center;
       min-height: 100vh;
       background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-      font-family: 'Vazir', sans-serif;
-      direction: rtl;
+      font-family: Arial, sans-serif;
+      direction: ltr;
       padding: 20px;
     }
 
@@ -59,8 +59,8 @@
       content: '';
       position: absolute;
       bottom: -10px;
-      right: 50%;
-      transform: translateX(50%);
+      left: 50%;
+      transform: translateX(-50%);
       width: 50px;
       height: 3px;
       background: #f72585;
@@ -79,9 +79,8 @@
       border: 2px solid #ddd;
       border-radius: 8px;
       font-size: 1rem;
-      font-family: 'Vazir';
       transition: all 0.3s ease;
-      padding-right: 45px;
+      padding-left: 45px;
     }
 
     .password-input:focus {
@@ -107,9 +106,8 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
-      font-family: 'Vazir';
       transition: all 0.3s ease;
-      margin-left: 0.5rem;
+      margin-right: 0.5rem;
       width: 100%;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
@@ -128,7 +126,6 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
-      font-family: 'Vazir';
       transition: all 0.3s ease;
       width: 100%;
       margin-top: 0.5rem;
@@ -146,12 +143,6 @@
       margin-top: 1rem;
       display: none;
       font-size: 0.9rem;
-    }
-
-    .password-footer {
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: #6c757d;
     }
 
     /* Lock button in main app */
@@ -907,21 +898,18 @@
   <!-- Password Page -->
   <div class="password-page" id="password-page">
     <div class="password-container">
-      <h1 class="password-title">ورود به برنامه</h1>
+      <h1 class="password-title">Enter Password</h1>
       <div class="password-input-container">
-        <input type="password" class="password-input" id="password-input" placeholder="رمز عبور را وارد کنید">
+        <input type="password" class="password-input" id="password-input" placeholder="Enter your password">
         <i class="fas fa-lock password-icon" id="toggle-password"></i>
       </div>
-      <div class="password-error" id="password-error">رمز عبور اشتباه است. لطفاً دوباره تلاش کنید.</div>
+      <div class="password-error" id="password-error">Incorrect password. Please try again.</div>
       <button class="password-submit" id="password-submit">
-        <i class="fas fa-sign-in-alt"></i> ورود
+        <i class="fas fa-sign-in-alt"></i> Submit
       </button>
       <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">
-        <i class="fas fa-home"></i> بازگشت به صفحه اصلی
+        <i class="fas fa-home"></i> Back to Home
       </button>
-      <div class="password-footer">
-        رمز عبور پیش‌فرض: 1399
-      </div>
     </div>
   </div>
 
