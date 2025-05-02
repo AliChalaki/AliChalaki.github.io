@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>برنامه هفتگی علی</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Password Page Styles - Improved */
+    /* Password Page Styles */
     .password-page {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
       font-family: 'Vazir', sans-serif;
       direction: rtl;
+      padding: 20px;
     }
 
     .password-container {
@@ -23,15 +25,26 @@
       border-radius: 15px;
       box-shadow: 0 15px 30px rgba(0,0,0,0.2);
       text-align: center;
-      max-width: 400px;
-      width: 90%;
-      animation: fadeIn 0.5s ease;
-      border: 1px solid rgba(255,255,255,0.2);
+      max-width: 450px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .password-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0) 50%
+      );
+      transform: rotate(30deg);
+      pointer-events: none;
     }
 
     .password-title {
@@ -46,22 +59,29 @@
       content: '';
       position: absolute;
       bottom: -10px;
-      right: 0;
-      width: 60px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 50px;
       height: 3px;
-      background: #4361ee;
+      background: #f72585;
       border-radius: 3px;
+    }
+
+    .password-input-container {
+      position: relative;
+      margin-bottom: 1.5rem;
     }
 
     .password-input {
       width: 100%;
       padding: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.5rem;
       border: 2px solid #ddd;
       border-radius: 8px;
       font-size: 1rem;
       font-family: 'Vazir';
       transition: all 0.3s ease;
+      padding-right: 45px;
     }
 
     .password-input:focus {
@@ -70,25 +90,34 @@
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
 
+    .password-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+      cursor: pointer;
+    }
+
     .password-submit {
       background: linear-gradient(to right, #4361ee, #3a0ca3);
       color: white;
       border: none;
-      padding: 1rem 2rem;
+      padding: 0.75rem 1.5rem;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
       font-family: 'Vazir';
       transition: all 0.3s ease;
-      margin-bottom: 1rem;
+      margin-left: 0.5rem;
       width: 100%;
-      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .password-submit:hover {
-      background: linear-gradient(to right, #3a0ca3, #4361ee);
+      background: linear-gradient(to right, #3a0ca3, #2a0878);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
 
     .password-back {
@@ -102,72 +131,54 @@
       font-family: 'Vazir';
       transition: all 0.3s ease;
       width: 100%;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .password-back:hover {
       background: #5a6268;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
 
     .password-error {
       color: #f72585;
-      margin: 1rem 0;
+      margin-top: 1rem;
       display: none;
-      font-weight: bold;
-      animation: shake 0.5s;
+      font-size: 0.9rem;
     }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
+    .password-footer {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #6c757d;
     }
 
-    .password-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #4361ee;
-    }
-
-    /* Improved Today's Schedule for Mobile */
-    #today-checklist {
+    /* Lock button in main app */
+    .lock-button {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: #f72585;
+      color: white;
+      border-radius: 50%;
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    #today-checklist .checklist-item {
-      background: rgba(67, 97, 238, 0.05);
-      border-radius: 10px;
-      padding: 1rem;
-      border: 1px solid rgba(67, 97, 238, 0.1);
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 100;
       transition: all 0.3s ease;
     }
 
-    #today-checklist .checklist-item:hover {
-      background: rgba(67, 97, 238, 0.1);
-      transform: translateX(5px);
+    .lock-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      background: #d91a6a;
     }
 
-    #today-checklist .checklist-item input[type="checkbox"] {
-      min-width: 22px;
-      min-height: 22px;
-      margin-left: 0.75rem;
-    }
-
-    @media (max-width: 480px) {
-      #today-checklist .checklist-item {
-        flex-direction: row;
-        align-items: center;
-        padding: 0.75rem;
-      }
-      
-      #today-checklist .checklist-item div {
-        flex: 1;
-        font-size: 0.9rem;
-      }
-    }
-
-    /* Rest of your existing CSS... */
     /* Main App Styles (hidden by default) */
     .main-app {
       display: none;
@@ -769,6 +780,14 @@
     }
 
     @media (max-width: 768px) {
+      .password-container {
+        padding: 1.5rem;
+      }
+      
+      .password-title {
+        font-size: 1.5rem;
+      }
+      
       header h1 {
         font-size: 1.5rem;
       }
@@ -794,11 +813,14 @@
         font-size: 1.3rem;
       }
 
-      .theme-toggle {
+      .theme-toggle, .lock-button {
         width: 40px;
         height: 40px;
         bottom: 15px;
-        left: 15px;
+      }
+      
+      .lock-button {
+        bottom: 70px;
       }
 
       .modal-content {
@@ -821,6 +843,14 @@
     }
 
     @media (max-width: 480px) {
+      .password-container {
+        padding: 1.2rem;
+      }
+      
+      .password-title {
+        font-size: 1.3rem;
+      }
+      
       header h1 {
         font-size: 1.3rem;
       }
@@ -874,15 +904,24 @@
   </style>
 </head>
 <body>
-  <!-- Password Page - Improved -->
+  <!-- Password Page -->
   <div class="password-page" id="password-page">
     <div class="password-container">
-      <div class="password-icon">🔒</div>
       <h1 class="password-title">ورود به برنامه</h1>
-      <input type="password" class="password-input" id="password-input" placeholder="رمز عبور را وارد کنید">
+      <div class="password-input-container">
+        <input type="password" class="password-input" id="password-input" placeholder="رمز عبور را وارد کنید">
+        <i class="fas fa-lock password-icon" id="toggle-password"></i>
+      </div>
       <div class="password-error" id="password-error">رمز عبور اشتباه است. لطفاً دوباره تلاش کنید.</div>
-      <button class="password-submit" id="password-submit">ورود</button>
-      <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">بازگشت به صفحه اصلی</button>
+      <button class="password-submit" id="password-submit">
+        <i class="fas fa-sign-in-alt"></i> ورود
+      </button>
+      <button class="password-back" id="password-back" onclick="window.location.href='https://alichalaki.github.io/'">
+        <i class="fas fa-home"></i> بازگشت به صفحه اصلی
+      </button>
+      <div class="password-footer">
+        رمز عبور پیش‌فرض: 1399
+      </div>
     </div>
   </div>
 
@@ -972,7 +1011,7 @@
 
     <section class="card">
       <h2 class="section-title" id="today-title">✅ برنامه امروز</h2>
-      <div id="today-checklist"></div>
+      <div class="checklist-item" id="today-checklist"></div>
     </section>
 
     <section class="card">
@@ -1020,6 +1059,10 @@
     <div class="theme-toggle" id="theme-toggle">
       <span id="theme-icon">🌙</span>
     </div>
+    
+    <div class="lock-button" id="lock-button" title="قفل کردن برنامه">
+      <i class="fas fa-lock"></i>
+    </div>
 
     <div class="notification" id="notification">
       یادداشت شما ذخیره شد!
@@ -1054,6 +1097,21 @@
     const passwordInput = document.getElementById('password-input');
     const passwordSubmit = document.getElementById('password-submit');
     const passwordError = document.getElementById('password-error');
+    const togglePassword = document.getElementById('toggle-password');
+    const lockButton = document.getElementById('lock-button');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePassword.classList.remove('fa-lock');
+        togglePassword.classList.add('fa-unlock');
+      } else {
+        passwordInput.type = 'password';
+        togglePassword.classList.remove('fa-unlock');
+        togglePassword.classList.add('fa-lock');
+      }
+    });
 
     // Check if already authenticated
     if (localStorage.getItem('authenticated') === 'true') {
@@ -1079,6 +1137,15 @@
       if (e.key === 'Enter') {
         checkPassword();
       }
+    });
+
+    // Lock button functionality
+    lockButton.addEventListener('click', () => {
+      localStorage.removeItem('authenticated');
+      passwordPage.style.display = 'flex';
+      mainApp.style.display = 'none';
+      passwordInput.value = '';
+      passwordInput.focus();
     });
 
     // Dark mode toggle
@@ -1258,10 +1325,7 @@
       schedule[todayName].forEach(item => {
         const div = document.createElement('div');
         div.className = 'checklist-item';
-        div.innerHTML = `
-          <input type="checkbox">
-          <div>${item}</div>
-        `;
+        div.innerHTML = `<input type="checkbox"> ${item}`;
         todayChecklist.appendChild(div);
       });
     }
