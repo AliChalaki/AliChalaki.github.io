@@ -770,32 +770,6 @@
       background: #5a6268;
     }
 
-    /* Today Schedule Styles */
-    .today-schedule {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .today-schedule-item {
-      display: flex;
-      align-items: flex-start;
-      padding: 0.5rem;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .today-schedule-item:last-child {
-      border-bottom: none;
-    }
-
-    .today-schedule-item input[type="checkbox"] {
-      margin-left: 0.5rem;
-    }
-
-    .today-schedule-item-content {
-      flex: 1;
-    }
-
     @media (max-width: 768px) {
       .password-container {
         padding: 1.5rem;
@@ -857,18 +831,6 @@
         margin-top: 0.5rem;
         padding: 0.5rem;
       }
-
-      /* Today schedule mobile styles */
-      .today-schedule-item {
-        flex-direction: column;
-        padding: 0.75rem 0;
-      }
-
-      .today-schedule-item input[type="checkbox"] {
-        margin-left: 0;
-        margin-top: 0.5rem;
-        align-self: flex-start;
-      }
     }
 
     @media (max-width: 480px) {
@@ -928,11 +890,6 @@
       .confirm-btn, .cancel-btn {
         width: 100%;
         margin: 0.25rem 0;
-      }
-
-      /* Today schedule mobile styles */
-      .today-schedule-item {
-        padding: 0.75rem 0;
       }
     }
   </style>
@@ -1042,7 +999,7 @@
 
     <section class="card">
       <h2 class="section-title" id="today-title">✅ برنامه امروز</h2>
-      <div class="today-schedule" id="today-checklist"></div>
+      <div id="today-checklist"></div>
     </section>
 
     <section class="card">
@@ -1355,11 +1312,8 @@
       
       schedule[todayName].forEach(item => {
         const div = document.createElement('div');
-        div.className = 'today-schedule-item';
-        div.innerHTML = `
-          <div class="today-schedule-item-content">${item}</div>
-          <input type="checkbox">
-        `;
+        div.className = 'checklist-item';
+        div.innerHTML = `<input type="checkbox"> ${item}`;
         todayChecklist.appendChild(div);
       });
     }
