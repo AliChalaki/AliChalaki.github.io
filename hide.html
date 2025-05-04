@@ -659,9 +659,14 @@
                 <p>Access your weekly schedule and planning</p>
             </div>
             
-            <div class="box" onclick="downloadFile()">
+            <div class="box" onclick="downloadOPMS()">
                 <h3>Organizational property management system</h3>
                 <p>Download the OPMS file</p>
+            </div>
+            
+            <div class="box" onclick="downloadCMS()">
+                <h3>Class attendance management system</h3>
+                <p>Download the CMS file</p>
             </div>
         </div>
 
@@ -930,11 +935,21 @@
             popup.classList.remove('active');
         }
 
-        // Download file function
-        function downloadFile() {
+        // Download OPMS file
+        function downloadOPMS() {
             const link = document.createElement('a');
-            link.href = 'OPMS.html';
+            link.href = 'https://alichalaki.github.io/Organizational-Property-Management-System/OPMS.html';
             link.download = 'OPMS.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Download CMS file
+        function downloadCMS() {
+            const link = document.createElement('a');
+            link.href = 'https://alichalaki.github.io/Class-Attendance-Management-System/CMSHTML';
+            link.download = 'CMSHTML';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
