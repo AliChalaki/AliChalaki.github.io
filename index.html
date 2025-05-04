@@ -736,6 +736,32 @@
                     Visit Website <i class="fas fa-external-link-alt"></i>
                 </a>
             </div>
+
+            <div class="project-item">
+                <div class="project-name">Organizational Property Management System</div>
+                <div class="project-description">
+                    A system for managing organizational properties and assets.
+                </div>
+                <a href="https://alichalaki.github.io/Organizational-Property-Management-System/" class="website-link" target="_blank">
+                    Visit Website <i class="fas fa-external-link-alt"></i>
+                </a>
+                <button class="website-link" onclick="downloadFile('https://alichalaki.github.io/Organizational-Property-Management-System/OPMS.html', 'OPMS.html')" style="margin-top: 10px;">
+                    Download OPMS.html <i class="fas fa-download"></i>
+                </button>
+            </div>
+
+            <div class="project-item">
+                <div class="project-name">Class attendance management system</div>
+                <div class="project-description">
+                    A system for managing class attendance and student records.
+                </div>
+                <a href="https://alichalaki.github.io/Class-Attendance-Management-System/" class="website-link" target="_blank">
+                    Visit Website <i class="fas fa-external-link-alt"></i>
+                </a>
+                <button class="website-link" onclick="downloadFile('https://alichalaki.github.io/Class-Attendance-Management-System/CMSHTML', 'CMSHTML')" style="margin-top: 10px;">
+                    Download CMSHTML <i class="fas fa-download"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -848,11 +874,33 @@
                 }, 1000);
             }
             
-            // Check if clicked 9 times
-            if (foxClickCount >= 9) {
+            // Check if clicked exactly 9 times
+            if (foxClickCount === 9) {
                 window.location.href = 'hide.html';
             }
+            // If clicked more than 9 times, refresh the page
+            else if (foxClickCount > 9) {
+                window.location.reload();
+            }
         });
+
+        // File download function
+        function downloadFile(url, filename) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+                .catch(error => {
+                    console.error('Error downloading file:', error);
+                    alert('Error downloading file. Please try again.');
+                });
+        }
 
         // Modal Functions
         function openModal(modalId) {
