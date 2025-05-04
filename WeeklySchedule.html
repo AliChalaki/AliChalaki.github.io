@@ -770,6 +770,118 @@
       background: #5a6268;
     }
 
+    /* Weekly Schedule Editor */
+    .edit-schedule-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      font-family: 'Vazir';
+      transition: var(--transition);
+    }
+
+    .edit-schedule-btn:hover {
+      background: #d91a6a;
+      transform: translateY(-2px);
+    }
+
+    .schedule-editor {
+      display: none;
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .schedule-editor.show {
+      display: block;
+    }
+
+    .day-schedule {
+      margin-bottom: 1.5rem;
+    }
+
+    .day-title {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .schedule-items {
+      margin-bottom: 0.5rem;
+    }
+
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .schedule-item input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 5px;
+      margin-left: 0.5rem;
+      font-family: 'Vazir';
+    }
+
+    .dark-mode .schedule-item input {
+      border-color: rgba(255,255,255,0.1);
+      background: var(--card-bg);
+      color: var(--dark-color);
+    }
+
+    .add-item-btn, .remove-item-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .add-item-btn {
+      background: var(--success-color);
+      margin-right: 0.5rem;
+    }
+
+    .remove-item-btn {
+      background: var(--accent-color);
+    }
+
+    .add-item-btn:hover, .remove-item-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+
+    .save-schedule-btn {
+      background: var(--success-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Vazir';
+      transition: var(--transition);
+      margin-top: 1rem;
+    }
+
+    .save-schedule-btn:hover {
+      background: #3aa8d1;
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
       .password-container {
         padding: 1.5rem;
@@ -830,6 +942,22 @@
         margin-right: 0;
         margin-top: 0.5rem;
         padding: 0.5rem;
+      }
+
+      .schedule-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .schedule-item input {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+
+      .schedule-item .item-actions {
+        margin-top: 0.5rem;
+        align-self: flex-end;
       }
     }
 
@@ -922,77 +1050,27 @@
     </header>
 
     <section>
-      <h2 class="section-title">🗓 برنامه هفتگی (نسخه اولیه - قابل تنظیم با بازخوردت)</h2>
-      <table>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 class="section-title">🗓 برنامه هفتگی</h2>
+        <button class="edit-schedule-btn" id="edit-schedule-btn">ویرایش برنامه</button>
+      </div>
+      
+      <!-- Schedule Editor -->
+      <div class="schedule-editor" id="schedule-editor">
+        <div id="schedule-editor-content"></div>
+        <button class="save-schedule-btn" id="save-schedule-btn">ذخیره برنامه</button>
+      </div>
+      
+      <!-- Schedule Display -->
+      <table id="schedule-table">
         <thead>
           <tr>
             <th>روز</th>
             <th>برنامه</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>شنبه</td>
-            <td>
-              <div>17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس – هفته‌ای یک بار پاییتون، یک بار کالستنیکس)</div>
-              <div>18:30 تا 19:30 → شام و استراحت</div>
-              <div>19:30 تا 20:30 → ضبط ویدیو سابلیمینال</div>
-              <div>20:30 تا 23:00 → کلاس یوگا</div>
-            </td>
-          </tr>
-          <tr>
-            <td>یک‌شنبه</td>
-            <td>
-              <div>17:30 تا 18:30 → برنامه‌نویسی پایتون</div>
-              <div>18:30 تا 19:00 → استراحت و شام</div>
-              <div>19:00 تا 20:30 → طراحی سایت هوپی‌دوبی</div>
-              <div>20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت</div>
-              <div>21:30 تا 22:30 → آزاد یا استراحت</div>
-            </td>
-          </tr>
-          <tr>
-            <td>دوشنبه</td>
-            <td>
-              <div>17:30 تا 18:30 → ورزش کالستنیکس</div>
-              <div>18:30 تا 19:30 → استراحت و شام</div>
-              <div>19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه</div>
-              <div>21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه</div>
-            </td>
-          </tr>
-          <tr>
-            <td>سه‌شنبه</td>
-            <td>
-              <div>17:30 تا 18:30 → پیاده‌روی سبک</div>
-              <div>18:30 تا 19:30 → تولید سابلیمینال</div>
-              <div>20:30 تا 23:00 → کلاس یوگا</div>
-            </td>
-          </tr>
-          <tr>
-            <td>چهارشنبه</td>
-            <td>
-              <div>17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)</div>
-              <div>18:30 تا 19:30 → شام و استراحت</div>
-              <div>19:30 تا 21:30 → طراحی سایت هوپی‌دوبی</div>
-              <div>21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب</div>
-            </td>
-          </tr>
-          <tr>
-            <td>پنج‌شنبه (تعطیل)</td>
-            <td>
-              <div>9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه (دوره / سایت / برنامه ویبینار)</div>
-              <div>11:00 تا 12:00 → استراحت</div>
-              <div>13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب</div>
-              <div>17:00 به بعد → دورهمی (دوستانه یا کاری)</div>
-            </td>
-          </tr>
-          <tr>
-            <td>جمعه (تعطیل)</td>
-            <td>
-              <div>9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه</div>
-              <div>11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها</div>
-              <div>عصر → آزاد یا دورهمی (مطابق برنامه‌ریزی)</div>
-            </td>
-          </tr>
+        <tbody id="schedule-body">
+          <!-- Schedule will be loaded here -->
         </tbody>
       </table>
     </section>
@@ -1254,6 +1332,171 @@
       });
     });
 
+    // Weekly Schedule Data
+    const defaultSchedule = {
+      'شنبه': [
+        '17:30–18:30 | یادگیری Python',
+        '18:30–20:00 | طراحی سایت (Front-end/NoCode)',
+        '20:00–21:00 | تولید SUB (LONG و SHORT)'
+      ],
+      'یک‌شنبه': [
+        '17:30–18:30 | یادگیری Python',
+        '18:30–20:00 | SUB - ضبط ویدیو',
+        '20:30–23:00 | کلاس یوگا'
+      ],
+      'دوشنبه': [
+        '17:30–18:30 | کلستنیکس',
+        '18:30–20:30 | سایت آموزشگاه (دوره رایگان، صفحات سایت)',
+        '20:30–21:00 | مطالعه یا ریلکس'
+      ],
+      'سه‌شنبه': [
+        '17:30–18:30 | یادگیری Python',
+        '18:30–20:00 | SUB - ضبط ویدیو',
+        '20:30–23:00 | کلاس یوگا'
+      ],
+      'چهارشنبه': [
+        '17:30–18:30 | کلستنیکس',
+        '18:30–20:30 | طراحی سایت یا آماده‌سازی ویبینار',
+        '20:30–21:00 | مطالعه آزاد/ریلکس'
+      ],
+      'پنج‌شنبه': [
+        '09:00–10:00 | ضبط SUB (LONG و SHORT)',
+        '10:00–12:00 | آموزشگاه (ساخت دوره رایگان یا تنظیم سایت)',
+        '16:00–17:30 | کلستنیکس',
+        '18:00–21:00 | دورهمی'
+      ],
+      'جمعه': [
+        '06:30–09:30 | طبیعت‌گردی / پیاده‌روی / کوهنوردی / دویدن',
+        '10:30–12:30 | SUB - تدوین و آماده‌سازی',
+        '16:00–17:30 | طراحی سایت یا ویبینار',
+        '18:00–21:00 | دورهمی'
+      ]
+    };
+
+    // Load schedule from localStorage or use default
+    let weeklySchedule = JSON.parse(localStorage.getItem('weeklySchedule')) || defaultSchedule;
+
+    // Render schedule table
+    function renderSchedule() {
+      const scheduleBody = document.getElementById('schedule-body');
+      scheduleBody.innerHTML = '';
+      
+      for (const day in weeklySchedule) {
+        const row = document.createElement('tr');
+        const dayCell = document.createElement('td');
+        dayCell.textContent = day;
+        
+        const scheduleCell = document.createElement('td');
+        weeklySchedule[day].forEach(item => {
+          const div = document.createElement('div');
+          div.textContent = item;
+          scheduleCell.appendChild(div);
+        });
+        
+        row.appendChild(dayCell);
+        row.appendChild(scheduleCell);
+        scheduleBody.appendChild(row);
+      }
+    }
+
+    // Render schedule editor
+    function renderScheduleEditor() {
+      const editorContent = document.getElementById('schedule-editor-content');
+      editorContent.innerHTML = '';
+      
+      for (const day in weeklySchedule) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'day-schedule';
+        
+        const dayTitle = document.createElement('h3');
+        dayTitle.className = 'day-title';
+        dayTitle.textContent = day;
+        dayDiv.appendChild(dayTitle);
+        
+        const itemsContainer = document.createElement('div');
+        itemsContainer.className = 'schedule-items';
+        
+        weeklySchedule[day].forEach((item, index) => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'schedule-item';
+          
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = item;
+          input.dataset.day = day;
+          input.dataset.index = index;
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'remove-item-btn';
+          removeBtn.innerHTML = '<i class="fas fa-minus"></i>';
+          removeBtn.addEventListener('click', () => {
+            weeklySchedule[day].splice(index, 1);
+            renderScheduleEditor();
+          });
+          
+          itemDiv.appendChild(input);
+          itemDiv.appendChild(removeBtn);
+          itemsContainer.appendChild(itemDiv);
+        });
+        
+        const addItemBtn = document.createElement('button');
+        addItemBtn.className = 'add-item-btn';
+        addItemBtn.innerHTML = '<i class="fas fa-plus"></i>';
+        addItemBtn.addEventListener('click', () => {
+          weeklySchedule[day].push('');
+          renderScheduleEditor();
+        });
+        
+        dayDiv.appendChild(itemsContainer);
+        dayDiv.appendChild(addItemBtn);
+        editorContent.appendChild(dayDiv);
+      }
+    }
+
+    // Save schedule
+    function saveSchedule() {
+      const inputs = document.querySelectorAll('#schedule-editor-content input');
+      inputs.forEach(input => {
+        const day = input.dataset.day;
+        const index = parseInt(input.dataset.index);
+        weeklySchedule[day][index] = input.value;
+      });
+      
+      localStorage.setItem('weeklySchedule', JSON.stringify(weeklySchedule));
+      renderSchedule();
+      
+      // Hide editor
+      document.getElementById('schedule-editor').classList.remove('show');
+      document.getElementById('edit-schedule-btn').textContent = 'ویرایش برنامه';
+      
+      // Show notification
+      notification.textContent = 'برنامه هفتگی ذخیره شد!';
+      notification.style.background = 'var(--success-color)';
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Toggle schedule editor
+    document.getElementById('edit-schedule-btn').addEventListener('click', () => {
+      const editor = document.getElementById('schedule-editor');
+      const btn = document.getElementById('edit-schedule-btn');
+      
+      if (editor.classList.contains('show')) {
+        editor.classList.remove('show');
+        btn.textContent = 'ویرایش برنامه';
+      } else {
+        renderScheduleEditor();
+        editor.classList.add('show');
+        btn.textContent = 'انصراف';
+      }
+    });
+
+    // Save schedule button
+    document.getElementById('save-schedule-btn').addEventListener('click', saveSchedule);
+
     // Show today's schedule
     function showTodaySchedule() {
       const days = ['یک‌شنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
@@ -1263,62 +1506,21 @@
       
       document.getElementById('today-title').textContent = `✅ برنامه روز ${todayName}`;
       
-      const schedule = {
-        'شنبه': [
-          '17:30 تا 18:30 → ورزش (پاییتون یا کالستنیکس)',
-          '18:30 تا 19:30 → شام و استراحت',
-          '19:30 تا 20:30 → ضبط ویدیو سابلیمینال',
-          '20:30 تا 23:00 → کلاس یوگا'
-        ],
-        'یک‌شنبه': [
-          '17:30 تا 18:30 → برنامه‌نویسی پایتون',
-          '18:30 تا 19:00 → استراحت و شام',
-          '19:00 تا 20:30 → طراحی سایت هوپی‌دوبی',
-          '20:30 تا 21:30 → ویرایش یا بارگذاری ویدیو یوتیوب / شورت',
-          '21:30 تا 22:30 → آزاد یا استراحت'
-        ],
-        'دوشنبه': [
-          '17:30 تا 18:30 → ورزش کالستنیکس',
-          '18:30 تا 19:30 → استراحت و شام',
-          '19:30 تا 21:30 → ضبط دوره رایگان آموزشگاه',
-          '21:30 تا 22:30 → آماده‌سازی سایت آموزشگاه'
-        ],
-        'سه‌شنبه': [
-          '17:30 تا 18:30 → پیاده‌روی سبک',
-          '18:30 تا 19:30 → تولید سابلیمینال',
-          '20:30 تا 23:00 → کلاس یوگا'
-        ],
-        'چهارشنبه': [
-          '17:30 تا 18:30 → پایتون (تمرین یا پروژه کوچک)',
-          '18:30 تا 19:30 → شام و استراحت',
-          '19:30 تا 21:30 → طراحی سایت هوپی‌دوبی',
-          '21:30 تا 22:30 → ضبط یا ادیت ویدیو شورت یوتیوب'
-        ],
-        'پنج‌شنبه': [
-          '9:00 تا 11:00 → فعالیت آموزشی برای آموزشگاه',
-          '11:00 تا 12:00 → استراحت',
-          '13:00 تا 15:00 → ضبط ویدیو سابلیمینال یا یوتیوب',
-          '17:00 به بعد → دورهمی (دوستانه یا کاری)'
-        ],
-        'جمعه': [
-          '9:00 تا 11:00 → ضبط ویدیو آموزشی آموزشگاه',
-          '11:00 تا 13:00 → طراحی سایت یا ویرایش ویدیوها',
-          'عصر → آزاد یا دورهمی'
-        ]
-      };
-      
       const todayChecklist = document.getElementById('today-checklist');
       todayChecklist.innerHTML = '';
       
-      schedule[todayName].forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'checklist-item';
-        div.innerHTML = `<input type="checkbox"> ${item}`;
-        todayChecklist.appendChild(div);
-      });
+      if (weeklySchedule[todayName]) {
+        weeklySchedule[todayName].forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'checklist-item';
+          div.innerHTML = `<input type="checkbox"> ${item}`;
+          todayChecklist.appendChild(div);
+        });
+      }
     }
 
-    // Initialize today's schedule
+    // Initialize schedule and today's schedule
+    renderSchedule();
     showTodaySchedule();
 
     // Todo List Functionality
