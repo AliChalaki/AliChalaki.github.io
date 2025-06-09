@@ -520,6 +520,82 @@
             margin-top: 10px;
         }
 
+        /* Download Password Popup */
+        .download-password-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(25, 25, 50, 0.98);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.6);
+            z-index: 2000;
+            text-align: center;
+            max-width: 90%;
+            width: 320px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+        }
+
+        .download-password-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .download-password-popup h2 {
+            color: #4fc3f7;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .download-password-popup input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .download-password-popup input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .download-password-popup .popup-btn {
+            background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .download-password-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .download-password-popup .popup-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-password-popup .cancel-btn {
+            background: linear-gradient(45deg, #ff5252, #ff7675);
+            margin-top: 10px;
+        }
+
         /* Landscape orientation adjustments */
         @media (orientation: landscape) {
             .password-box {
@@ -664,12 +740,12 @@
                 <p>Access the Poetry Night collection</p>
             </div>
             
-            <div class="box" onclick="downloadOPMS()">
+            <div class="box" onclick="showDownloadPopup('opms')">
                 <h3>Organizational property management system</h3>
                 <p>Download the OPMS file</p>
             </div>
             
-            <div class="box" onclick="downloadCMS()">
+            <div class="box" onclick="showDownloadPopup('cms')">
                 <h3>Class attendance management system</h3>
                 <p>Download the CMS file</p>
             </div>
@@ -688,22 +764,31 @@
         <button class="popup-btn" onclick="closePopup()">OK</button>
     </div>
     
-    <!-- Weekly Schedule Password Popup - طراحی زیباتر -->
+    <!-- Weekly Schedule Password Popup -->
     <div class="weekly-password-popup" id="weeklyPasswordPopup">
         <h2>Enter Weekly Schedule Password</h2>
         <input type="password" id="weeklyPasswordInput" placeholder="Enter password">
         <button class="popup-btn" onclick="checkWeeklyPassword()">Access</button>
         <button class="popup-btn cancel-btn" onclick="closeWeeklyPopup()">Cancel</button>
     </div>
+    
+    <!-- Download Password Popup -->
+    <div class="download-password-popup" id="downloadPasswordPopup">
+        <h2>Enter Download Password</h2>
+        <input type="password" id="downloadPasswordInput" placeholder="Enter password (1376)">
+        <button class="popup-btn" onclick="checkDownloadPassword()">Download</button>
+        <button class="popup-btn cancel-btn" onclick="closeDownloadPopup()">Cancel</button>
+    </div>
 
     <script>
         // Global variables
-        let timeLeft = 40;
+        let timeLeft = 40 * 60; // 40 minutes in seconds
         let timerInterval;
         let starElements = [];
         let baseStarSpeed = 300;
         let baseMoonPulse = "moonGlow 5s infinite, moonFloat 15s infinite ease-in-out";
         let inMilkyWay = false;
+        let currentDownloadType = ''; // 'opms' or 'cms'
 
         // Create stars
         function createStars() {
@@ -852,7 +937,7 @@
                 mainContent.style.display = 'block';
                 startTimer();
             } else {
-                alert('Incorrect password!');
+                showAlertPopup('Incorrect password!', 'Please try again.');
                 passwordInput.value = '';
             }
         }
@@ -864,8 +949,25 @@
             if (weeklyPasswordInput.value === '1320') {
                 window.location.href = 'WeeklySchedule.html';
             } else {
-                alert('Incorrect password for Weekly Schedule!');
+                showAlertPopup('Incorrect Password', 'Wrong password for Weekly Schedule!');
                 weeklyPasswordInput.value = '';
+            }
+        }
+        
+        // Check download password
+        function checkDownloadPassword() {
+            const downloadPasswordInput = document.getElementById('downloadPasswordInput');
+            
+            if (downloadPasswordInput.value === '1376') {
+                if (currentDownloadType === 'opms') {
+                    downloadOPMS();
+                } else if (currentDownloadType === 'cms') {
+                    downloadCMS();
+                }
+                closeDownloadPopup();
+            } else {
+                showAlertPopup('Incorrect Password', 'Wrong download password!');
+                downloadPasswordInput.value = '';
             }
         }
 
@@ -878,6 +980,38 @@
         function closeWeeklyPopup() {
             document.getElementById('weeklyPasswordPopup').classList.remove('active');
             document.getElementById('weeklyPasswordInput').value = '';
+        }
+        
+        // Show download password popup
+        function showDownloadPopup(type) {
+            currentDownloadType = type;
+            document.getElementById('downloadPasswordPopup').classList.add('active');
+        }
+        
+        // Close download password popup
+        function closeDownloadPopup() {
+            document.getElementById('downloadPasswordPopup').classList.remove('active');
+            document.getElementById('downloadPasswordInput').value = '';
+            currentDownloadType = '';
+        }
+        
+        // Show alert popup
+        function showAlertPopup(title, message) {
+            const popup = document.createElement('div');
+            popup.className = 'popup active';
+            popup.innerHTML = `
+                <h2>${title}</h2>
+                <p>${message}</p>
+                <button class="popup-btn" onclick="this.parentElement.remove()">OK</button>
+            `;
+            document.body.appendChild(popup);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.remove();
+                }
+            }, 3000);
         }
 
         // Start countdown timer
@@ -909,7 +1043,7 @@
                     clearInterval(timerInterval);
                     showPopup();
                     timerElement.textContent = '40:00';
-                    timeLeft = 40;
+                    timeLeft = 40 * 60;
                     
                     // Reset moon animation
                     moonElement.style.animation = baseMoonPulse;
@@ -1041,6 +1175,13 @@
             document.getElementById('weeklyPasswordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     checkWeeklyPassword();
+                }
+            });
+            
+            // Allow pressing Enter to submit download password
+            document.getElementById('downloadPasswordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkDownloadPassword();
                 }
             });
             
