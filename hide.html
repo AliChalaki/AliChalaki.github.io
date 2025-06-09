@@ -716,7 +716,7 @@
     </div>
 
     <!-- Timer -->
-    <div class="timer" id="timer">40:00</div>
+    <div class="timer" id="timer">00:30</div>
 
     <!-- Moon -->
     <div class="moon" id="moon"></div>
@@ -775,14 +775,14 @@
     <!-- Download Password Popup -->
     <div class="download-password-popup" id="downloadPasswordPopup">
         <h2>Enter Download Password</h2>
-        <input type="password" id="downloadPasswordInput" placeholder="Enter password (1376)">
+        <input type="password" id="downloadPasswordInput" placeholder="Enter password">
         <button class="popup-btn" onclick="checkDownloadPassword()">Download</button>
         <button class="popup-btn cancel-btn" onclick="closeDownloadPopup()">Cancel</button>
     </div>
 
     <script>
         // Global variables
-        let timeLeft = 40 * 60; // 40 minutes in seconds
+        let timeLeft = 30; // 40 minutes in seconds
         let timerInterval;
         let starElements = [];
         let baseStarSpeed = 300;
@@ -1042,8 +1042,8 @@
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     showPopup();
-                    timerElement.textContent = '40:00';
-                    timeLeft = 40 * 60;
+                    timerElement.textContent = '00:30';
+                    timeLeft = 30;
                     
                     // Reset moon animation
                     moonElement.style.animation = baseMoonPulse;
