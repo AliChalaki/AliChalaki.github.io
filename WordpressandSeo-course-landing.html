@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آموزش وردپرس و سئو | علی چالاکی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --header-bg: #1e3a8a;
+            --link-color: #2563eb;
+        }
+        
+        .dark-mode {
+            --primary-color: #60a5fa;
+            --secondary-color: #3b82f6;
+            --light-color: #0f172a;
+            --dark-color: #020617;
+            --text-color: #e2e8f0;
+            --text-light: #94a3b8;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --header-bg: #0f172a;
+            --link-color: #93c5fd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .dark-mode body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="none"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.8"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.8"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.8"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.8"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.8"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.8"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.8"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.8"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.8"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.8"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.8"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.8"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.8"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.8"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.8"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.8"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.8"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.8"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.8"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.8"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.8"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.8"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.8"/><path d="M100,100 L120,90 L140,110 L160,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M300,200 L320,190 L340,210 L360,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M500,300 L520,290 L540,310 L560,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M700,400 L720,390 L740,410 L760,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M900,500 L920,490 L940,510 L960,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1100,600 L1120,590 L1140,610 L1160,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,700 L220,690 L240,710 L260,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,100 L420,90 L440,110 L460,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,200 L620,190 L640,210 L660,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M800,300 L820,290 L840,310 L860,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1000,400 L1020,390 L1040,410 L1060,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,500 L220,490 L240,510 L260,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,600 L420,590 L440,610 L460,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,700 L620,690 L640,710 L660,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/></svg>');
+            background-attachment: fixed;
+            background-size: cover;
+            z-index: -1;
+            animation: stars-animation 100s linear infinite;
+            opacity: 0.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            background: linear-gradient(to bottom, #000428, #004e92);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+            background-size: cover;
+            border-bottom: 3px solid var(--accent-color);
+            overflow: hidden;
+        }
+        
+        .dark-mode header {
+            background: linear-gradient(to bottom, #020617, #1e293b);
+        }
+        
+        .header-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.9"/></svg>');
+            animation: stars-animation 100s linear infinite;
+            opacity: 0.3;
+        }
+        
+        .dark-mode .header-stars {
+            opacity: 0.8;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="2" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.8" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="2.5" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="2" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2.8" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="2.2" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="3" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="2.5" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="2.8" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="2.2" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="3.2" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="2.7" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2.5" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="2" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.8" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="2.3" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="2.5" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="3.2" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="2.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="3" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="2.5" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="3.5" fill="white" opacity="0.9"/><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
+        }
+        
+        .moon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #f8fafc;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(248, 250, 252, 0.5);
+            z-index: 1;
+        }
+        
+        .moon::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 3;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-card, .courses-card, .resources-card {
+            flex: 1;
+            min-width: 300px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before, .courses-card::before, .resources-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><circle cx="10" cy="10" r="0.5" fill="white" opacity="0.3"/><circle cx="30" cy="25" r="0.4" fill="white" opacity="0.2"/><circle cx="70" cy="15" r="0.6" fill="white" opacity="0.3"/><circle cx="90" cy="30" r="0.5" fill="white" opacity="0.2"/><circle cx="20" cy="70" r="0.7" fill="white" opacity="0.3"/><circle cx="50" cy="80" r="0.5" fill="white" opacity="0.2"/><circle cx="80" cy="90" r="0.6" fill="white" opacity="0.3"/></svg>');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .dark-mode .profile-card::before, 
+        .dark-mode .courses-card::before, 
+        .dark-mode .resources-card::before {
+            opacity: 0.3;
+        }
+        
+        .profile-card:hover, .courses-card:hover, .resources-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        
+        .card-title i {
+            color: var(--accent-color);
+        }
+        
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .profile-item i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            min-width: 25px;
+        }
+        
+        .contact-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--light-color);
+            color: var(--text-color);
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid var(--secondary-color);
+            margin-top: 5px;
+        }
+        
+        .contact-link:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-color);
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .social-link:hover::before {
+            opacity: 1;
+        }
+        
+        .social-link:nth-child(1) { animation-delay: 0s; }
+        .social-link:nth-child(2) { animation-delay: 0.2s; }
+        .social-link:nth-child(3) { animation-delay: 0.4s; }
+        .social-link:nth-child(4) { animation-delay: 0.6s; }
+        .social-link:nth-child(5) { animation-delay: 0.8s; }
+        
+        .social-link:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-link.instagram { color: #E1306C; }
+        .social-link.personal-instagram { 
+            color: #000000;
+            background-color: #f1f1f1;
+        }
+        .social-link.telegram { color: #0088cc; }
+        .social-link.linkedin { color: #0077b5; }
+        .social-link.github { color: #333; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .course-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--light-color);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .course-item:hover::before {
+            opacity: 1;
+        }
+        
+        .course-item:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .course-item:hover .course-link {
+            color: white;
+        }
+        
+        .course-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .course-link i {
+            margin-left: 10px;
+        }
+        
+        .resource-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--text-light);
+        }
+        
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+        
+        .resource-link {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .resource-link:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+        
+        footer {
+            background: linear-gradient(to bottom, #000428, #004e92);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark-mode footer {
+            background: linear-gradient(to bottom, #020617, #1e293b);
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.9"/></svg>');
+            animation: stars-animation 100s linear infinite;
+            opacity: 0.3;
+        }
+        
+        .dark-mode .stars {
+            opacity: 0.8;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="2" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.8" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="2.5" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="2" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2.8" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="2.2" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="3" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="2.5" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="2.8" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="2.2" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="3.2" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="2.7" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2.5" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="2" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.8" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="2.3" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="2.5" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="3.2" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="2.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="3" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="2.5" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="3.5" fill="white" opacity="0.9"/><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
+        }
+        
+        @keyframes stars-animation {
+            from { background-position: 0 0; }
+            to { background-position: 1200px 800px; }
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-content p {
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                left: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .moon {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-stars"></div>
+        <div class="moon"></div>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="container header-content">
+            <h1>آموزش وردپرس و سئو</h1>
+            <p>از صفر تا شروع قدرتمند!</p>
+            <p>با تدریس علی چالاکی | مدرس دروس علوم کامپیوتر</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <section class="profile-card">
+                <h2 class="card-title"><i class="fas fa-user-tie"></i> درباره مدرس</h2>
+                <div class="profile-info">
+                    <div class="profile-item">
+                        <i class="fas fa-signature"></i>
+                        <span>علی چالاکی</span>
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-phone"></i>
+                        <span>موبایل: <a href="tel:09362620560" class="contact-link">09362620560</a></span>
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-globe"></i>
+                        <span>وبسایت: <a href="https://alichalaki.github.io/" target="_blank" class="contact-link">alichalaki.github.io</a></span>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 20px; color: var(--primary-color);">شبکه‌های اجتماعی:</h3>
+                <div class="social-links">
+                    <a href="https://instagram.com/ali.chalaki20" target="_blank" class="social-link personal-instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://instagram.com/TechByChalaki" target="_blank" class="social-link instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/TechByChalaki" target="_blank" class="social-link telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/Ali-Chalaki" target="_blank" class="social-link linkedin">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/AliChalaki" target="_blank" class="social-link github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </section>
+            
+            <section class="courses-card">
+                <h2 class="card-title"><i class="fas fa-graduation-cap"></i> دوره‌های آموزشی</h2>
+                <div class="course-list">
+                    <div class="course-item" onclick="window.location.href='WordpressAndSEo.pdf';" download>
+                        <a href="Wordpress&SEO.pdf" class="course-link" download>
+                            <span><i class="fab fa-wordpress"></i> وردپرس و سئو</span>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                    <div class="course-item" onclick="window.location.href='AdvancedWordpress.pdf';" download>
+                        <a href="AdvancedWordpress.pdf" class="course-link" download>
+                            <span><i class="fab fa-wordpress"></i> وردپرس پیشرفته</span>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                    <div class="course-item" onclick="window.location.href='AdvancedSEO.pdf';" download>
+                        <a href="AdvancedSEO.pdf" class="course-link" download>
+                            <span><i class="fas fa-search"></i> سئو پیشرفته</span>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                    <div class="course-item" onclick="window.location.href='HTML_CSS_JS.pdf';" download>
+                        <a href="HTML_CSS_JS.pdf" class="course-link" download>
+                            <span><i class="fab fa-html5"></i> آموزش HTML, CSS, JS</span>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                    <div class="course-item" onclick="window.location.href='GraphicDesign.pdf';" download>
+                        <a href="GraphicDesign.pdf" class="course-link" download>
+                            <span><i class="fas fa-paint-brush"></i> گرافیک</span>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="resources-card">
+                <h2 class="card-title"><i class="fas fa-link"></i> لینک‌های ضروری</h2>
+                <div class="resource-item">
+                    <a href="https://wordpress.org/download/" target="_blank" class="resource-link">
+                        <i class="fas fa-download"></i> دانلود وردپرس
+                    </a>
+                </div>
+                <div class="resource-item">
+                    <a href="https://google.com" target="_blank" class="resource-link">
+                        <i class="fab fa-google"></i> گوگل
+                    </a>
+                </div>
+                <div class="resource-item">
+                    <a href="https://google.com" target="_blank" class="resource-link">
+                        <i class="fab fa-google"></i> گوگل
+                    </a>
+                </div>
+                <div class="resource-item">
+                    <a href="https://google.com" target="_blank" class="resource-link">
+                        <i class="fab fa-google"></i> گوگل
+                    </a>
+                </div>
+                <div class="resource-item">
+                    <a href="https://google.com" target="_blank" class="resource-link">
+                        <i class="fab fa-google"></i> گوگل
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="stars"></div>
+        <div class="footer-content">
+            <p>تمامی حقوق این وبسایت محفوظ می‌باشد. © 2023</p>
+            <p>طراحی و توسعه توسط علی چالاکی</p>
+        </div>
+    </footer>
+    
+    <script>
+        // تغییر تم تاریک/روشن
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                themeToggle.style.color = '#f59e0b';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                themeToggle.style.color = 'white';
+            }
+        });
+    </script>
+</body>
+</html>
