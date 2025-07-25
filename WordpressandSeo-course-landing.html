@@ -50,19 +50,10 @@
             overflow-x: hidden;
         }
         
-        .dark-mode body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .dark-mode body {
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="none"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.8"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.8"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.8"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.8"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.8"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.8"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.8"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.8"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.8"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.8"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.8"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.8"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.8"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.8"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.8"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.8"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.8"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.8"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.8"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.8"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.8"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.8"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.8"/><path d="M100,100 L120,90 L140,110 L160,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M300,200 L320,190 L340,210 L360,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M500,300 L520,290 L540,310 L560,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M700,400 L720,390 L740,410 L760,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M900,500 L920,490 L940,510 L960,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1100,600 L1120,590 L1140,610 L1160,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,700 L220,690 L240,710 L260,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,100 L420,90 L440,110 L460,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,200 L620,190 L640,210 L660,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M800,300 L820,290 L840,310 L860,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1000,400 L1020,390 L1040,410 L1060,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,500 L220,490 L240,510 L260,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,600 L420,590 L440,610 L460,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,700 L620,690 L640,710 L660,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/></svg>');
             background-attachment: fixed;
             background-size: cover;
-            z-index: -1;
-            animation: stars-animation 100s linear infinite;
-            opacity: 0.6;
         }
         
         .container {
@@ -542,32 +533,32 @@
             <section class="courses-card">
                 <h2 class="card-title"><i class="fas fa-graduation-cap"></i> دوره‌های آموزشی</h2>
                 <div class="course-list">
-                    <div class="course-item" onclick="window.location.href='WordpressAndSEo.pdf';" download>
-                        <a href="Wordpress&SEO.pdf" class="course-link" download>
+                    <div class="course-item">
+                        <a href="Wordpress&SEo.pdf" class="course-link" download="WordpressAndSEo.pdf">
                             <span><i class="fab fa-wordpress"></i> وردپرس و سئو</span>
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
-                    <div class="course-item" onclick="window.location.href='AdvancedWordpress.pdf';" download>
-                        <a href="AdvancedWordpress.pdf" class="course-link" download>
+                    <div class="course-item">
+                        <a href="AdvancedWordpress.pdf" class="course-link" download="AdvancedWordpress.pdf">
                             <span><i class="fab fa-wordpress"></i> وردپرس پیشرفته</span>
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
-                    <div class="course-item" onclick="window.location.href='AdvancedSEO.pdf';" download>
-                        <a href="AdvancedSEO.pdf" class="course-link" download>
+                    <div class="course-item">
+                        <a href="AdvancedSEO.pdf" class="course-link" download="AdvancedSEO.pdf">
                             <span><i class="fas fa-search"></i> سئو پیشرفته</span>
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
-                    <div class="course-item" onclick="window.location.href='HTML_CSS_JS.pdf';" download>
-                        <a href="HTML_CSS_JS.pdf" class="course-link" download>
+                    <div class="course-item">
+                        <a href="HTML_CSS_JS.pdf" class="course-link" download="HTML_CSS_JS.pdf">
                             <span><i class="fab fa-html5"></i> آموزش HTML, CSS, JS</span>
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
-                    <div class="course-item" onclick="window.location.href='GraphicDesign.pdf';" download>
-                        <a href="GraphicDesign.pdf" class="course-link" download>
+                    <div class="course-item">
+                        <a href="GraphicDesign.pdf" class="course-link" download="GraphicDesign.pdf">
                             <span><i class="fas fa-paint-brush"></i> گرافیک</span>
                             <i class="fas fa-download"></i>
                         </a>
