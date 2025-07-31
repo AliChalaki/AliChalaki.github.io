@@ -20,7 +20,7 @@
             --link-color: #2563eb;
         }
         
-        .dark-mode {
+        body.dark-mode {
             --primary-color: #60a5fa;
             --secondary-color: #3b82f6;
             --light-color: #0f172a;
@@ -49,11 +49,52 @@
             position: relative;
             overflow-x: hidden;
         }
-        
-        .dark-mode body {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="none"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.8"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.8"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.8"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.8"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.8"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.8"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.8"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.8"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.8"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.8"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.8"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.8"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.8"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.8"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.8"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.8"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.8"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.8"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.8"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.8"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.8"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.8"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.8"/><path d="M100,100 L120,90 L140,110 L160,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M300,200 L320,190 L340,210 L360,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M500,300 L520,290 L540,310 L560,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M700,400 L720,390 L740,410 L760,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M900,500 L920,490 L940,510 L960,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1100,600 L1120,590 L1140,610 L1160,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,700 L220,690 L240,710 L260,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,100 L420,90 L440,110 L460,95" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,200 L620,190 L640,210 L660,195" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M800,300 L820,290 L840,310 L860,295" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M1000,400 L1020,390 L1040,410 L1060,395" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M200,500 L220,490 L240,510 L260,495" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M400,600 L420,590 L440,610 L460,595" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/><path d="M600,700 L620,690 L640,710 L660,695" stroke="white" stroke-width="1.5" fill="none" opacity="0.8"/></svg>');
-            background-attachment: fixed;
-            background-size: cover;
+
+        /* افکت ستاره‌های پس‌زمینه */
+        .stars-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        body.dark-mode .stars-background {
+            opacity: 1;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            border-radius: 50%;
+            animation: shooting var(--shooting-duration) linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shooting {
+            0% { transform: translateX(0) translateY(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(var(--shooting-x)) translateY(var(--shooting-y)); opacity: 0; }
         }
         
         .container {
@@ -75,7 +116,7 @@
             overflow: hidden;
         }
         
-        .dark-mode header {
+        body.dark-mode header {
             background: linear-gradient(to bottom, #020617, #1e293b);
         }
         
@@ -85,14 +126,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.9"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><g fill="white" opacity="0.8"><circle cx="50" cy="50" r="1.5"/><circle cx="150" cy="80" r="1.2"/><circle cx="250" cy="40" r="1.8"/><circle cx="350" cy="100" r="1.5"/><circle cx="450" cy="60" r="2"/><circle cx="550" cy="90" r="1.5"/><circle cx="650" cy="30" r="2.2"/><circle cx="750" cy="120" r="1.7"/><circle cx="850" cy="200" r="1.9"/><circle cx="950" cy="250" r="1.5"/><circle cx="1050" cy="180" r="2.1"/><circle cx="1150" cy="240" r="1.8"/><circle cx="100" cy="300" r="2"/><circle cx="200" cy="350" r="1.6"/><circle cx="300" cy="400" r="2.2"/><circle cx="400" cy="450" r="1.8"/><circle cx="500" cy="500" r="2.3"/><circle cx="600" cy="550" r="1.9"/><circle cx="700" cy="600" r="2.1"/><circle cx="800" cy="650" r="1.7"/><circle cx="900" cy="700" r="2.2"/><circle cx="1000" cy="750" r="1.8"/><circle cx="1100" cy="800" r="2.4"/></g></svg>');
             animation: stars-animation 100s linear infinite;
             opacity: 0.3;
         }
         
-        .dark-mode .header-stars {
+        body.dark-mode .header-stars {
             opacity: 0.8;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="2" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.8" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="2.5" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="2" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2.8" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="2.2" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="3" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="2.5" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="2.8" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="2.2" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="3.2" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="2.7" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2.5" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="2" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.8" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="2.3" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="2.5" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="3.2" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="2.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="3" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="2.5" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="3.5" fill="white" opacity="0.9"/><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><g fill="white" opacity="0.9"><circle cx="50" cy="50" r="2"/><circle cx="150" cy="80" r="1.8"/><circle cx="250" cy="40" r="2.5"/><circle cx="350" cy="100" r="2"/><circle cx="450" cy="60" r="2.8"/><circle cx="550" cy="90" r="2.2"/><circle cx="650" cy="30" r="3"/><circle cx="750" cy="120" r="2.5"/><circle cx="850" cy="200" r="2.8"/><circle cx="950" cy="250" r="2.2"/><circle cx="1050" cy="180" r="3.2"/><circle cx="1150" cy="240" r="2.7"/><circle cx="100" cy="300" r="2.5"/><circle cx="200" cy="350" r="2"/><circle cx="300" cy="400" r="2.8"/><circle cx="400" cy="450" r="2.3"/><circle cx="500" cy="500" r="3"/><circle cx="600" cy="550" r="2.5"/><circle cx="700" cy="600" r="3.2"/><circle cx="800" cy="650" r="2.7"/><circle cx="900" cy="700" r="3"/><circle cx="1000" cy="750" r="2.5"/><circle cx="1100" cy="800" r="3.5"/></g><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
         }
         
         .moon {
@@ -105,6 +146,11 @@
             border-radius: 50%;
             box-shadow: 0 0 30px rgba(248, 250, 252, 0.5);
             z-index: 1;
+            transition: all 0.5s ease;
+        }
+        
+        body.dark-mode .moon {
+            box-shadow: 0 0 50px rgba(248, 250, 252, 0.8);
         }
         
         .moon::before {
@@ -182,6 +228,12 @@
             overflow: hidden;
         }
         
+        body.dark-mode .profile-card,
+        body.dark-mode .courses-card,
+        body.dark-mode .resources-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
         .profile-card::before, .courses-card::before, .resources-card::before {
             content: '';
             position: absolute;
@@ -194,15 +246,21 @@
             pointer-events: none;
         }
         
-        .dark-mode .profile-card::before, 
-        .dark-mode .courses-card::before, 
-        .dark-mode .resources-card::before {
+        body.dark-mode .profile-card::before, 
+        body.dark-mode .courses-card::before, 
+        body.dark-mode .resources-card::before {
             opacity: 0.3;
         }
         
         .profile-card:hover, .courses-card:hover, .resources-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        body.dark-mode .profile-card:hover,
+        body.dark-mode .courses-card:hover,
+        body.dark-mode .resources-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
         .card-title {
@@ -396,13 +454,282 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-weight: 500;
+        }
+        
+        /* استایل‌های جدید برای لینک‌های منابع */
+        .resource-link i {
+            font-size: 1.1rem;
+            min-width: 20px;
+            text-align: center;
+            color: var(--secondary-color);
+            transition: all 0.3s ease;
         }
         
         .resource-link:hover {
             color: var(--accent-color);
             text-decoration: underline;
+        }
+        
+        .resource-link:hover i {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        /* استایل‌های جدید برای پاپ‌آپ */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-mode .popup-content {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent-color);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            border: none;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+        
+        .popup-close:hover {
+            transform: rotate(90deg);
+            background: #dc2626;
+        }
+        
+        .popup-title {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+            position: relative;
+        }
+        
+        .popup-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+        
+        .popup-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .popup-link-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--light-color);
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-mode .popup-link-item {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .popup-link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup-link-item a {
+            color: var(--link-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        
+        .popup-link-item a i {
+            width: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .popup-link-item a:hover {
+            color: var(--accent-color);
+        }
+        
+        .popup-section-title {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            font-size: 1.3rem;
+            padding-right: 10px;
+            border-right: 4px solid var(--accent-color);
+        }
+        
+        .config-box {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-mode .config-box {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .config-text {
+            font-family: monospace;
+            word-break: break-all;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        body.dark-mode .config-text {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .copy-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background: #10b981;
+        }
+        
+        .buy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .buy-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+        
+        .discount-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .discount-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .discount-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            max-width: fit-content;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body.dark-mode .discount-code {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .discount-code:hover {
+            background: #fde68a;
+            transform: translateY(-2px);
+        }
+        
+        .discount-code i {
+            transition: all 0.3s;
+        }
+        
+        .discount-code.copied {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .discount-code.copied i {
+            transform: scale(1.2);
         }
         
         footer {
@@ -415,7 +742,7 @@
             overflow: hidden;
         }
         
-        .dark-mode footer {
+        body.dark-mode footer {
             background: linear-gradient(to bottom, #020617, #1e293b);
         }
         
@@ -425,14 +752,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="1.8" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="1.5" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="1.5" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="2.2" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="1.7" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="1.9" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="1.5" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="2.1" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="1.8" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="1.6" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.2" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="1.8" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="2.3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="1.9" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="2.1" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="1.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="2.2" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="1.8" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="2.4" fill="white" opacity="0.9"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><g fill="white" opacity="0.9"><circle cx="50" cy="50" r="1.5"/><circle cx="150" cy="80" r="1.2"/><circle cx="250" cy="40" r="1.8"/><circle cx="350" cy="100" r="1.5"/><circle cx="450" cy="60" r="2"/><circle cx="550" cy="90" r="1.5"/><circle cx="650" cy="30" r="2.2"/><circle cx="750" cy="120" r="1.7"/><circle cx="850" cy="200" r="1.9"/><circle cx="950" cy="250" r="1.5"/><circle cx="1050" cy="180" r="2.1"/><circle cx="1150" cy="240" r="1.8"/><circle cx="100" cy="300" r="2"/><circle cx="200" cy="350" r="1.6"/><circle cx="300" cy="400" r="2.2"/><circle cx="400" cy="450" r="1.8"/><circle cx="500" cy="500" r="2.3"/><circle cx="600" cy="550" r="1.9"/><circle cx="700" cy="600" r="2.1"/><circle cx="800" cy="650" r="1.7"/><circle cx="900" cy="700" r="2.2"/><circle cx="1000" cy="750" r="1.8"/><circle cx="1100" cy="800" r="2.4"/></g></svg>');
             animation: stars-animation 100s linear infinite;
             opacity: 0.3;
         }
         
-        .dark-mode .stars {
+        body.dark-mode .stars {
             opacity: 0.8;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><circle cx="50" cy="50" r="2" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.8" fill="white" opacity="0.9"/><circle cx="250" cy="40" r="2.5" fill="white" opacity="0.9"/><circle cx="350" cy="100" r="2" fill="white" opacity="0.9"/><circle cx="450" cy="60" r="2.8" fill="white" opacity="0.9"/><circle cx="550" cy="90" r="2.2" fill="white" opacity="0.9"/><circle cx="650" cy="30" r="3" fill="white" opacity="0.9"/><circle cx="750" cy="120" r="2.5" fill="white" opacity="0.9"/><circle cx="850" cy="200" r="2.8" fill="white" opacity="0.9"/><circle cx="950" cy="250" r="2.2" fill="white" opacity="0.9"/><circle cx="1050" cy="180" r="3.2" fill="white" opacity="0.9"/><circle cx="1150" cy="240" r="2.7" fill="white" opacity="0.9"/><circle cx="100" cy="300" r="2.5" fill="white" opacity="0.9"/><circle cx="200" cy="350" r="2" fill="white" opacity="0.9"/><circle cx="300" cy="400" r="2.8" fill="white" opacity="0.9"/><circle cx="400" cy="450" r="2.3" fill="white" opacity="0.9"/><circle cx="500" cy="500" r="3" fill="white" opacity="0.9"/><circle cx="600" cy="550" r="2.5" fill="white" opacity="0.9"/><circle cx="700" cy="600" r="3.2" fill="white" opacity="0.9"/><circle cx="800" cy="650" r="2.7" fill="white" opacity="0.9"/><circle cx="900" cy="700" r="3" fill="white" opacity="0.9"/><circle cx="1000" cy="750" r="2.5" fill="white" opacity="0.9"/><circle cx="1100" cy="800" r="3.5" fill="white" opacity="0.9"/><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><g fill="white" opacity="0.9"><circle cx="50" cy="50" r="2"/><circle cx="150" cy="80" r="1.8"/><circle cx="250" cy="40" r="2.5"/><circle cx="350" cy="100" r="2"/><circle cx="450" cy="60" r="2.8"/><circle cx="550" cy="90" r="2.2"/><circle cx="650" cy="30" r="3"/><circle cx="750" cy="120" r="2.5"/><circle cx="850" cy="200" r="2.8"/><circle cx="950" cy="250" r="2.2"/><circle cx="1050" cy="180" r="3.2"/><circle cx="1150" cy="240" r="2.7"/><circle cx="100" cy="300" r="2.5"/><circle cx="200" cy="350" r="2"/><circle cx="300" cy="400" r="2.8"/><circle cx="400" cy="450" r="2.3"/><circle cx="500" cy="500" r="3"/><circle cx="600" cy="550" r="2.5"/><circle cx="700" cy="600" r="3.2"/><circle cx="800" cy="650" r="2.7"/><circle cx="900" cy="700" r="3"/><circle cx="1000" cy="750" r="2.5"/><circle cx="1100" cy="800" r="3.5"/></g><path d="M600,150 A50,50 0 0,1 650,200" stroke="white" stroke-width="3" fill="none" opacity="0.9"/></svg>');
         }
         
         @keyframes stars-animation {
@@ -474,10 +801,40 @@
                 top: 15px;
                 right: 15px;
             }
+            
+            .popup-content {
+                width: 95%;
+                padding: 25px 15px;
+            }
+            
+            .popup-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            .popup-link-item {
+                padding: 12px;
+            }
+            
+            .popup-link-item a {
+                font-size: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .copy-btn, .buy-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- افکت ستاره‌های پس‌زمینه -->
+    <div class="stars-background" id="starsBackground"></div>
+    
     <header>
         <div class="header-stars"></div>
         <div class="moon"></div>
@@ -533,34 +890,40 @@
             <section class="courses-card">
                 <h2 class="card-title"><i class="fas fa-graduation-cap"></i> دوره‌های آموزشی</h2>
                 <div class="course-list">
-                    <div class="course-item">
-                        <a href="Wordpress&SEO.pdf" class="course-link" download="Wordpress&SEO.pdf">
+                    <div class="course-item" onclick="showPopup('لینک‌های آموزشی', 'education-links-popup')">
+                        <a href="#" class="course-link">
+                            <span><i class="fas fa-link"></i> لینک‌های آموزشی</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="course-item" onclick="showPopup('وردپرس و سئو', 'wordpress-seo-popup')">
+                        <a href="#" class="course-link">
                             <span><i class="fab fa-wordpress"></i> وردپرس و سئو</span>
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
-                    <div class="course-item">
-                        <a href="AdvancedWordpress.pdf" class="course-link" download="AdvancedWordpress.pdf">
+                    <div class="course-item" onclick="showPopup('وردپرس پیشرفته', 'advanced-wordpress-popup')">
+                        <a href="#" class="course-link">
                             <span><i class="fab fa-wordpress"></i> وردپرس پیشرفته</span>
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
-                    <div class="course-item">
-                        <a href="AdvancedSEO.pdf" class="course-link" download="AdvancedSEO.pdf">
+                    <div class="course-item" onclick="showPopup('سئو پیشرفته', 'advanced-seo-popup')">
+                        <a href="#" class="course-link">
                             <span><i class="fas fa-search"></i> سئو پیشرفته</span>
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
-                    <div class="course-item">
-                        <a href="HTML_CSS_JS.pdf" class="course-link" download="HTML_CSS_JS.pdf">
+                    <div class="course-item" onclick="showPopup('آموزش HTML, CSS, JS', 'html-css-js-popup')">
+                        <a href="#" class="course-link">
                             <span><i class="fab fa-html5"></i> آموزش HTML, CSS, JS</span>
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
-                    <div class="course-item">
-                        <a href="GraphicDesign.pdf" class="course-link" download="GraphicDesign.pdf">
+                    <div class="course-item" onclick="showPopup('گرافیک', 'graphic-popup')">
+                        <a href="#" class="course-link">
                             <span><i class="fas fa-paint-brush"></i> گرافیک</span>
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
                 </div>
@@ -568,32 +931,74 @@
             
             <section class="resources-card">
                 <h2 class="card-title"><i class="fas fa-link"></i> لینک‌های ضروری</h2>
-                <div class="resource-item">
-                    <a href="https://wordpress.org/download/" target="_blank" class="resource-link">
-                        <i class="fas fa-download"></i> دانلود وردپرس
-                    </a>
-                </div>
-                <div class="resource-item">
-                    <a href="https://google.com" target="_blank" class="resource-link">
-                        <i class="fab fa-google"></i> گوگل
-                    </a>
-                </div>
-                <div class="resource-item">
-                    <a href="https://google.com" target="_blank" class="resource-link">
-                        <i class="fab fa-google"></i> گوگل
-                    </a>
-                </div>
-                <div class="resource-item">
-                    <a href="https://google.com" target="_blank" class="resource-link">
-                        <i class="fab fa-google"></i> گوگل
-                    </a>
-                </div>
-                <div class="resource-item">
-                    <a href="https://google.com" target="_blank" class="resource-link">
-                        <i class="fab fa-google"></i> گوگل
-                    </a>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <div class="resource-item" onclick="showPopup('ابزارهای تغییر IP', 'ip-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-network-wired"></i>
+                            <span>ابزارهای تغییر IP</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('راه اندازی سایت', 'website-setup-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-globe"></i>
+                            <span>راه اندازی سایت</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('مجوزها', 'licenses-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-id-card"></i>
+                            <span>مجوزها</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('سئو سایت', 'seo-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>سئو سایت</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('هوش مصنوعی', 'ai-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-robot"></i>
+                            <span>هوش مصنوعی</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('طراحی', 'design-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-palette"></i>
+                            <span>طراحی</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('کاربردی', 'useful-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-tools"></i>
+                            <span>کاربردی</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('امنیت سایت', 'security-tools-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>امنیت سایت</span>
+                        </a>
+                    </div>
+                    <div class="resource-item" onclick="showPopup('Job Hunting', 'job-hunting-popup')">
+                        <a href="#" class="resource-link">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Job Hunting</span>
+                        </a>
+                    </div>
                 </div>
             </section>
+        </div>
+    </div>
+    
+    <!-- پاپ‌آپ‌ها -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="hidePopup()"><i class="fas fa-times"></i></button>
+            <h3 class="popup-title" id="popupTitle">عنوان پاپ‌آپ</h3>
+            <div class="popup-links" id="popupLinks">
+                <!-- محتوای پاپ‌آپ اینجا قرار می‌گیرد -->
+            </div>
         </div>
     </div>
     
@@ -616,9 +1021,600 @@
             if (body.classList.contains('dark-mode')) {
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
                 themeToggle.style.color = '#f59e0b';
+                createStars();
             } else {
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
                 themeToggle.style.color = 'white';
+                clearStars();
+            }
+        });
+
+        // ایجاد ستاره‌های طبیعی
+        function createStars() {
+            const starsBackground = document.getElementById('starsBackground');
+            starsBackground.innerHTML = '';
+            
+            // ایجاد ستاره‌های ثابت
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // اندازه تصادفی بین 1 تا 3 پیکسل
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // مدت زمان چشمک زدن تصادفی
+                star.style.setProperty('--duration', `${Math.random() * 5 + 3}s`);
+                
+                // تأخیر تصادفی برای انیمیشن
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsBackground.appendChild(star);
+            }
+            
+            // ایجاد شهاب‌سنگ‌ها
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('shooting-star');
+                
+                // موقعیت شروع تصادفی
+                const startX = Math.random() * 20;
+                const startY = Math.random() * 20;
+                shootingStar.style.left = `${startX}%`;
+                shootingStar.style.top = `${startY}%`;
+                
+                // مسیر حرکت تصادفی
+                const angle = Math.random() * Math.PI / 4 + Math.PI / 6;
+                const distance = 50 + Math.random() * 50;
+                const endX = distance * Math.cos(angle);
+                const endY = distance * Math.sin(angle);
+                
+                shootingStar.style.setProperty('--shooting-x', `${endX}px`);
+                shootingStar.style.setProperty('--shooting-y', `${endY}px`);
+                shootingStar.style.setProperty('--shooting-duration', `${Math.random() * 3 + 2}s`);
+                
+                // تأخیر تصادفی برای شروع انیمیشن
+                shootingStar.style.animationDelay = `${Math.random() * 10}s`;
+                
+                starsBackground.appendChild(shootingStar);
+            }
+        }
+        
+        function clearStars() {
+            const starsBackground = document.getElementById('starsBackground');
+            starsBackground.innerHTML = '';
+        }
+        
+        // مدیریت پاپ‌آپ‌ها
+        function showPopup(title, popupType) {
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popupTitle = document.getElementById('popupTitle');
+            const popupLinks = document.getElementById('popupLinks');
+            
+            popupTitle.textContent = title;
+            popupLinks.innerHTML = '';
+            
+            // محتوای پاپ‌آپ بر اساس نوع
+            let content = '';
+            
+            switch(popupType) {
+                case 'education-links-popup':
+                    content = '<h4 class="popup-section-title">لینک‌های آموزشی</h4>';
+                    for (let i = 1; i <= 20; i++) {
+                        content += `
+                            <div class="popup-link-item">
+                                <a href="#" target="_blank">
+                                    <i class="fas fa-link"></i> لینک آموزشی ${i}
+                                </a>
+                            </div>
+                        `;
+                    }
+                    break;
+                    
+                case 'wordpress-seo-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="Wordpress&SEO.pdf" download="Wordpress&SEO.pdf">
+                                <i class="fas fa-download"></i> دانلود آموزش وردپرس و سئو
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'advanced-wordpress-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="AdvancedWordpress.pdf" download="AdvancedWordpress.pdf">
+                                <i class="fas fa-download"></i> دانلود آموزش وردپرس پیشرفته
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'advanced-seo-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="AdvancedSEO.pdf" download="AdvancedSEO.pdf">
+                                <i class="fas fa-download"></i> دانلود آموزش سئو پیشرفته
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'html-css-js-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="HTML_CSS_JS.pdf" download="HTML_CSS_JS.pdf">
+                                <i class="fas fa-download"></i> دانلود آموزش HTML, CSS, JS
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'graphic-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="GraphicDesign.pdf" download="GraphicDesign.pdf">
+                                <i class="fas fa-download"></i> دانلود آموزش گرافیک
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ip-tools-popup':
+                    content = `
+                        <h4 class="popup-section-title">تغییر IP موبایل</h4>
+                        <div class="popup-link-item">
+                            <a href="https://en.v2rayng.org/" target="_blank">
+                                <i class="fas fa-mobile-alt"></i> V2RayNG
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="http://cafebazaar.ir/app/?id=co.bonyan.shecan&ref=share" target="_blank">
+                                <i class="fas fa-mobile-alt"></i> شکن
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">تغییر IP دسکتاپ</h4>
+                        <div class="popup-link-item">
+                            <a href="https://shecan.ir/" target="_blank">
+                                <i class="fas fa-desktop"></i> شکن
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://en.v2rayng.org/" target="_blank">
+                                <i class="fas fa-desktop"></i> V2RayNG
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">کانفیگ V2RAY</h4>
+                        <div class="config-box">
+                            <p class="config-text">vless://89ba9206-305a-4dbf-bd62-9144c1b0e0c4@www.speedtest.net:2095?path=%2Fhajmi%3Fed%3D2050&security=&encryption=none&host=dbe661d5a761ff6c.s-5HU09JDF-97SHS.WWWrubika.irto.xn--ls8haaaaaaaaaaaaaaaaaa.la.which.xn--ls8haaaaaaaaaaaaaaaaaa.xn-ls8faaaaaaaaaa.speedtest.net.google.com.eu.ir.nl.aparat.com.komak.IR.Nb-De.85858599.xYz.&type=ws#%F0%9F%9B%A1%EF%B8%8F%20%40FreakConfig</p>
+                            <div class="action-buttons">
+                                <button class="copy-btn" onclick="copyConfigToClipboard(this, 'vless://89ba9206-305a-4dbf-bd62-9144c1b0e0c4@www.speedtest.net:2095?path=%2Fhajmi%3Fed%3D2050&security=&encryption=none&host=dbe661d5a761ff6c.s-5HU09JDF-97SHS.WWWrubika.irto.xn--ls8haaaaaaaaaaaaaaaaaa.la.which.xn--ls8haaaaaaaaaaaaaaaaaa.xn-ls8faaaaaaaaaa.speedtest.net.google.com.eu.ir.nl.aparat.com.komak.IR.Nb-De.85858599.xYz.&type=ws#%F0%9F%9B%A1%EF%B8%8F%20%40FreakConfig')">
+                                    <i class="far fa-copy"></i> کپی
+                                </button>
+                                <button class="buy-btn" onclick="window.open('https://t.me/', '_blank')">
+                                    <i class="fas fa-shopping-cart"></i> خرید
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'website-setup-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="https://wordpress.org/download/" target="_blank">
+                                <i class="fas fa-download"></i> دانلود وردپرس
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://wordpress.org/" target="_blank">
+                                <i class="fab fa-wordpress"></i> وردپرس دات کام
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.nic.ir/" target="_blank">
+                                <i class="fas fa-globe"></i> خرید دامنه
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.netafraz.com/" target="_blank">
+                                <i class="fas fa-server"></i> خرید هاست (دامنه هم می‌شود خرید)
+                            </a>
+                            <div class="discount-container">
+                                <span class="discount-label">کد تخفیف:</span>
+                                <div class="discount-code" onclick="copyDiscountCode('UC058MRE', this)">
+                                    <span>UC058MRE</span>
+                                    <i class="far fa-copy"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.whois.com/" target="_blank">
+                                <i class="fas fa-info-circle"></i> Whois - اطلاعات دامنه
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.sslshopper.com/ssl-checker.html" target="_blank">
+                                <i class="fas fa-lock"></i> بررسی SSL
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'licenses-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="https://enamad.ir/" target="_blank">
+                                <i class="fas fa-certificate"></i> اینماد
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.zarinpal.com/" target="_blank">
+                                <i class="fas fa-money-bill-wave"></i> زرین‌پال
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://samandehi.ir/" target="_blank">
+                                <i class="fas fa-shield-alt"></i> ساماندهی
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://tax.gov.ir/" target="_blank">
+                                <i class="fas fa-file-invoice-dollar"></i> مالیات
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'seo-tools-popup':
+                    content = `
+                        <h4 class="popup-section-title">ابزارهای گوگل</h4>
+                        <div class="popup-link-item">
+                            <a href="https://search.google.com/" target="_blank">
+                                <i class="fab fa-google"></i> Google Search Console
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://trends.google.com/trends/" target="_blank">
+                                <i class="fas fa-chart-line"></i> Google Trends
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">بررسی سئو</h4>
+                        <div class="popup-link-item">
+                            <a href="https://websiteseochecker.com/" target="_blank">
+                                <i class="fas fa-search"></i> Website SEO Checker
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://gtmetrix.com/" target="_blank">
+                                <i class="fas fa-tachometer-alt"></i> GTmetrix
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.seoreviewtools.com/" target="_blank">
+                                <i class="fas fa-search-plus"></i> SEO Review Tools
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">ابزارهای کلیدواژه</h4>
+                        <div class="popup-link-item">
+                            <a href="https://keywordchi.com/" target="_blank">
+                                <i class="fas fa-key"></i> Keyword Chi
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://keywordtool.io/" target="_blank">
+                                <i class="fas fa-keyboard"></i> Keyword Tool
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">ابزارهای ایرانی</h4>
+                        <div class="popup-link-item">
+                            <a href="https://www.jetseo.ir/" target="_blank">
+                                <i class="fas fa-rocket"></i> Jet SEO
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://mizfa.tools/" target="_blank">
+                                <i class="fas fa-tools"></i> Mizfa Tools
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://seo8.ir/" target="_blank">
+                                <i class="fas fa-search-dollar"></i> SEO8
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://novintrend.ir/" target="_blank">
+                                <i class="fas fa-chart-pie"></i> Novin Trend
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.triboon.net/" target="_blank">
+                                <i class="fas fa-poll"></i> Triboon
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://tesmino.com/" target="_blank">
+                                <i class="fas fa-bullseye"></i> Tesmino
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.yektanet.com/" target="_blank">
+                                <i class="fas fa-ad"></i> Yektanet
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ai-tools-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="https://chat.openai.com/" target="_blank">
+                                <i class="fas fa-comment"></i> ChatGPT
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://deepseek.com/" target="_blank">
+                                <i class="fas fa-brain"></i> DeepSeek
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://gemini.google.com/" target="_blank">
+                                <i class="fas fa-robot"></i> Gemini
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://avalai.ir/" target="_blank">
+                                <i class="fas fa-robot"></i> AvalAI
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'design-tools-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="https://www.canva.com/" target="_blank">
+                                <i class="fas fa-palette"></i> Canva
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.photopea.com/" target="_blank">
+                                <i class="fas fa-image"></i> Photopea
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://colorhunt.co/" target="_blank">
+                                <i class="fas fa-fill-drip"></i> Color Hunt
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://compresspng.com/" target="_blank">
+                                <i class="fas fa-compress-alt"></i> Compress PNG
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'useful-tools-popup':
+                    content = `
+                        <h4 class="popup-section-title">Temporary Email</h4>
+                        <div class="popup-link-item">
+                            <a href="https://10minutemail.com/" target="_blank">
+                                <i class="fas fa-envelope"></i> 10 Minute Mail
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://tmail.io/" target="_blank">
+                                <i class="fas fa-envelope"></i> TMail
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">سایر ابزارها</h4>
+                        <div class="popup-link-item">
+                            <a href="https://github.com/" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://linkedin.com/" target="_blank">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://gravityforms.com/" target="_blank">
+                                <i class="fas fa-wpforms"></i> Gravity Forms
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'security-tools-popup':
+                    content = `
+                        <div class="popup-link-item">
+                            <a href="https://www.google.com/recaptcha/admin/create" target="_blank">
+                                <i class="fas fa-robot"></i> reCAPTCHA
+                            </a>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'job-hunting-popup':
+                    content = `
+                        <h4 class="popup-section-title">سایت‌های فریلنسری بین‌المللی</h4>
+                        <div class="popup-link-item">
+                            <a href="https://www.freelancer.com/" target="_blank">
+                                <i class="fas fa-laptop-code"></i> Freelancer
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.upwork.com/" target="_blank">
+                                <i class="fas fa-briefcase"></i> Upwork
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.fiverr.com/" target="_blank">
+                                <i class="fas fa-gem"></i> Fiverr
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.peopleperhour.com/" target="_blank">
+                                <i class="fas fa-clock"></i> PeoplePerHour
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.toptal.com/" target="_blank">
+                                <i class="fas fa-crown"></i> Toptal (ویژه فریلنسرهای سطح بالا)
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">سایت‌های فریلنسری فارسی</h4>
+                        <div class="popup-link-item">
+                            <a href="https://ponisha.ir/" target="_blank">
+                                <i class="fas fa-code"></i> پونیشا
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://parscoders.com/" target="_blank">
+                                <i class="fas fa-laptop"></i> پارس کدرز
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://kaarojob.com/" target="_blank">
+                                <i class="fas fa-tasks"></i> کاروجاب
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://sabzjobs.ir/" target="_blank">
+                                <i class="fas fa-leaf"></i> سبزجابز
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://workfreelancer.ir/" target="_blank">
+                                <i class="fas fa-user-tie"></i> ورک فریلنسر
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">سایت‌های کاریابی بین‌المللی</h4>
+                        <div class="popup-link-item">
+                            <a href="https://www.indeed.com/" target="_blank">
+                                <i class="fas fa-search"></i> Indeed
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.linkedin.com/jobs" target="_blank">
+                                <i class="fab fa-linkedin"></i> LinkedIn Jobs
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.glassdoor.com/" target="_blank">
+                                <i class="fas fa-door-open"></i> Glassdoor
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.monster.com/" target="_blank">
+                                <i class="fas fa-paw"></i> Monster
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://remoteok.com/" target="_blank">
+                                <i class="fas fa-home"></i> RemoteOK
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://weworkremotely.com/" target="_blank">
+                                <i class="fas fa-laptop-house"></i> We Work Remotely
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.toptal.com/" target="_blank">
+                                <i class="fas fa-crown"></i> Toptal
+                            </a>
+                        </div>
+                        
+                        <h4 class="popup-section-title">سایت‌های کاریابی فارسی</h4>
+                        <div class="popup-link-item">
+                            <a href="https://jobinja.ir/" target="_blank">
+                                <i class="fas fa-briefcase"></i> جابینجا
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.irantalent.com/" target="_blank">
+                                <i class="fas fa-user-graduate"></i> ایران تلنت
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://jobvision.ir/" target="_blank">
+                                <i class="fas fa-eye"></i> جاب ویژن
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.estekhdam.ir/" target="_blank">
+                                <i class="fas fa-handshake"></i> استخدام
+                            </a>
+                        </div>
+                        <div class="popup-link-item">
+                            <a href="https://www.e-estekhdam.com/" target="_blank">
+                                <i class="fas fa-mobile-alt"></i> ای استخدام
+                            </a>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            popupLinks.innerHTML = content;
+            popupOverlay.style.display = 'flex';
+        }
+        
+        function hidePopup() {
+            const popupOverlay = document.getElementById('popupOverlay');
+            popupOverlay.style.display = 'none';
+        }
+        
+        function copyConfigToClipboard(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // تغییر متن دکمه به "کپی شد"
+                button.innerHTML = '<i class="fas fa-check"></i> کپی شد';
+                button.classList.add('copied');
+                
+                // بازگشت به حالت اولیه بعد از 2 ثانیه
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> کپی';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('خطا در کپی کردن متن: ', err);
+            });
+        }
+        
+        function copyDiscountCode(code, element) {
+            navigator.clipboard.writeText(code).then(() => {
+                element.classList.add('copied');
+                element.innerHTML = '<span>کپی شد!</span> <i class="fas fa-check"></i>';
+                
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                    element.innerHTML = `<span>${code}</span> <i class="far fa-copy"></i>`;
+                }, 2000);
+            }).catch(err => {
+                console.error('خطا در کپی کردن کد تخفیف: ', err);
+            });
+        }
+        
+        // بستن پاپ‌آپ با کلیک خارج از آن
+        document.getElementById('popupOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hidePopup();
             }
         });
     </script>
