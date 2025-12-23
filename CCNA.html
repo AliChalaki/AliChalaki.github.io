@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,8 @@
             --accent-color: #00ffcc; /* Cyan */
             --accent-secondary: #0099ff; /* Blue */
             --alert-color: #ff3366; /* Red for Security */
+            --vlan10-color: #ff3366; /* HR Red */
+            --vlan20-color: #0099ff; /* IT Blue */
             --cmd-bg: rgba(30, 30, 30, 0.98);
             --cmd-text: #00ff00;
         }
@@ -31,6 +33,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            direction: rtl; /* راست به چپ برای فارسی */
         }
 
         /* --- BACKGROUND ANIMATION LAYER --- */
@@ -61,12 +64,14 @@
             color: var(--accent-color);
             text-shadow: 0 0 15px var(--accent-color);
             margin-bottom: 10px;
+            font-family: sans-serif; /* فونت انگلیسی برای تیتر اصلی */
         }
 
         header p {
             color: #aaa;
             letter-spacing: 3px;
             font-size: 1.2rem;
+            font-family: sans-serif;
         }
 
         /* --- MAIN CONTENT --- */
@@ -95,11 +100,12 @@
         }
 
         .column-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--accent-secondary);
             padding-bottom: 15px;
             color: #fff;
+            text-align: right;
         }
 
         /* --- RUNBOOK ITEMS --- */
@@ -108,7 +114,8 @@
             padding: 20px;
             margin-bottom: 15px;
             border-radius: 8px;
-            border-left: 5px solid var(--accent-color);
+            border-right: 5px solid var(--accent-color); /* تغییر به سمت راست برای RTL */
+            border-left: none;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -118,7 +125,7 @@
 
         /* Special Style for Security Items */
         .rb-item.security-item {
-            border-left: 5px solid var(--alert-color);
+            border-right: 5px solid var(--alert-color);
         }
         .rb-item.security-item:hover {
             background: rgba(255, 51, 102, 0.1);
@@ -134,12 +141,12 @@
 
         .rb-item:hover {
             background: rgba(0, 255, 204, 0.08);
-            transform: translateX(10px);
-            box-shadow: -5px 5px 15px rgba(0,0,0,0.3);
+            transform: translateX(-10px); /* حرکت به چپ در RTL */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
         }
 
-        .rb-name { font-weight: bold; font-size: 1.2rem; color: #fff; }
-        .rb-desc { font-size: 0.85rem; color: #999; margin-top: 5px; }
+        .rb-name { font-weight: bold; font-size: 1.1rem; color: #fff; text-align: right;}
+        .rb-desc { font-size: 0.85rem; color: #999; margin-top: 5px; text-align: right;}
 
         .btn-mini-run {
             background: transparent;
@@ -150,6 +157,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            font-family: sans-serif;
         }
         
         .rb-item:hover .btn-mini-run {
@@ -157,7 +165,7 @@
             color: #000;
         }
 
-        /* --- LEARN SECTION --- */
+        /* --- LEARN SECTION (General) --- */
         .learn-topic {
             background: rgba(0, 153, 255, 0.05);
             margin-bottom: 20px;
@@ -167,24 +175,220 @@
             text-align: center;
             transition: 0.3s;
         }
-
         .learn-topic:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
             border-color: var(--accent-secondary);
             box-shadow: 0 0 20px rgba(0, 153, 255, 0.2);
         }
 
-        .learn-btn-main {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 30px;
-            background: var(--accent-secondary);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        /* =========================================
+           VLAN INFOGRAPHIC STYLES
+        ========================================= */
+        .vlan-visualizer {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
         }
+
+        .switch-container {
+            background: #222;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: inset 0 0 10px #000;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .switch-label {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            color: #aaa;
+            border-radius: 4px;
+        }
+
+        .port {
+            width: 30px;
+            height: 25px;
+            background: #444;
+            border: 2px solid #555;
+            border-radius: 3px;
+            transition: 0.4s all ease-in-out;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .devices-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .pc-box {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            transition: 0.4s;
+            position: relative;
+        }
+        
+        .pc-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Cable lines */
+        .pc-box::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: #444;
+            transition: 0.4s;
+            z-index: -1;
+        }
+
+        /* --- VLAN ACTIVE STATE (Single Switch) --- */
+        .vlan-active .port.v10 { background: var(--vlan10-color); border-color: var(--vlan10-color); box-shadow: 0 0 10px var(--vlan10-color); }
+        .vlan-active .port.v20 { background: var(--vlan20-color); border-color: var(--vlan20-color); box-shadow: 0 0 10px var(--vlan20-color); }
+        .vlan-active .pc-box.v10 { color: var(--vlan10-color); }
+        .vlan-active .pc-box.v20 { color: var(--vlan20-color); }
+        .vlan-active .pc-box.v10::before { background: var(--vlan10-color); }
+        .vlan-active .pc-box.v20::before { background: var(--vlan20-color); }
+
+        /* Broadcast Domains Visualization */
+        .broadcast-domain {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            opacity: 0;
+            transition: 0.4s;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 5px;
+        }
+        .bd-default { left: 0; width: 100%; background: rgba(255, 255, 255, 0.05); opacity: 1; }
+        .vlan-active .bd-default { opacity: 0; }
+        .bd-v10 { right: 0; width: 50%; background: rgba(255, 51, 102, 0.15); }
+        .bd-v20 { left: 0; width: 50%; background: rgba(0, 153, 255, 0.15); }
+        .vlan-active .bd-v10, .vlan-active .bd-v20 { opacity: 1; }
+
+        .vlan-controls {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .toggle-vlan-btn {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-color));
+            border: none;
+            padding: 10px 25px;
+            color: #000;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+            transition: 0.3s;
+        }
+        .toggle-vlan-btn:hover { transform: scale(1.05); }
+        .vlan-status-text { margin-bottom: 10px; font-weight: bold; color: var(--accent-color); min-height: 1.2em;}
+
+        /* =========================================
+           NEW: TRUNKING INFOGRAPHIC STYLES
+        ========================================= */
+        .trunk-link-container {
+            width: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .trunk-cable {
+            width: 100%;
+            height: 10px;
+            background: #555; /* Default access link color */
+            border-radius: 5px;
+            transition: 0.5s;
+            box-shadow: inset 0 0 5px #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* State when trunk is active */
+        .trunk-active .trunk-cable {
+            /* Animated gradient simulating multiple VLANs */
+            background: linear-gradient(90deg, 
+                var(--vlan10-color) 0%, var(--vlan10-color) 20%, 
+                #333 20%, #333 30%,
+                var(--vlan20-color) 30%, var(--vlan20-color) 50%,
+                #333 50%, #333 60%,
+                var(--vlan10-color) 60%, var(--vlan10-color) 80%,
+                 var(--vlan20-color) 80%, var(--vlan20-color) 100%
+            );
+            background-size: 200% auto;
+            animation: trunkFlow 3s linear infinite reverse; /* Reverse for RTL flow appearance */
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        @keyframes trunkFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Tagged Packets Visuals */
+        .packet {
+            position: absolute;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 2px #000;
+            opacity: 0; /* Hidden by default */
+            white-space: nowrap;
+            z-index: 2;
+        }
+        .p-v10 { background: var(--vlan10-color); top: -25px; box-shadow: 0 0 5px var(--vlan10-color); }
+        .p-v20 { background: var(--vlan20-color); bottom: -25px; box-shadow: 0 0 5px var(--vlan20-color); }
+
+        /* Packet Animation when trunk active */
+        .trunk-active .packet {
+            /* Move from right to left in RTL */
+            animation: packetMoveRTL 3s linear infinite; 
+        }
+        .trunk-active .p-v20 {
+            animation-delay: 1.5s; /* Offset the second packet */
+        }
+
+        @keyframes packetMoveRTL {
+            0% { right: 0; opacity: 0; transform: scale(0.8); }
+            10% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { right: 85%; opacity: 0; transform: scale(0.8); }
+        }
+
+        /* Default state styles for Trunk visualization ports/PCs */
+        #trunkViz .port.v10 { border-color: var(--vlan10-color); }
+        #trunkViz .pc-box.v10 { color: var(--vlan10-color); }
+        #trunkViz .pc-box.v10::before { background: var(--vlan10-color); }
+        
+        #trunkViz .port.v20 { border-color: var(--vlan20-color); }
+        #trunkViz .pc-box.v20 { color: var(--vlan20-color); }
+        #trunkViz .pc-box.v20::before { background: var(--vlan20-color); }
+
+
+        /* =========================================
+           END INFOGRAPHIC STYLES
+        ========================================= */
 
         /* --- FOOTER --- */
         footer {
@@ -198,6 +402,7 @@
             border-top: 3px solid #222;
             margin-top: 50px;
             z-index: 10; 
+            direction: ltr; /* فوتر چپ چین بماند */
         }
 
         #heart-canvas {
@@ -277,6 +482,7 @@
             backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
+            direction: ltr; /* ترمینال همیشه چپ چین */
         }
 
         .modal-content {
@@ -322,6 +528,7 @@
             cursor: pointer;
             transition: 0.2s;
             font-weight: bold;
+            font-family: sans-serif;
         }
         .skip-btn:hover {
             background: #ffcc00;
@@ -359,6 +566,7 @@
             border-radius: 4px;
             min-width: 70px;
             transition: 0.2s;
+            font-family: sans-serif;
         }
         .copy-btn-line:hover {
             background: var(--accent-color);
@@ -380,6 +588,7 @@
             .dashboard-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 2.5rem; }
             .container { margin: 20px auto; }
+            .trunk-link-container { width: 10%; } /* کانکشن باریک تر در موبایل */
         }
     </style>
 </head>
@@ -394,6 +603,105 @@
 
     <div class="container">
         <div class="dashboard-grid">
+            
+            <div class="column-box">
+                <div class="column-title">Learning Hub <span style="font-size:0.6em; color:#666;">// Visuals</span></div>
+
+                <div class="learn-topic" style="padding: 0; background: transparent; border: none; box-shadow: none;">
+                    <h3 style="color:#fff; margin-bottom:15px; text-align:center;">مفهوم VLAN (شبکه محلی مجازی)</h3>
+                    
+                    <div class="vlan-visualizer" id="vlanViz">
+                        <div class="vlan-controls">
+                            <div class="vlan-status-text" id="vlanStatusText">وضعیت: بدون VLAN (یک Broadcast Domain)</div>
+                            <button class="toggle-vlan-btn" onclick="toggleVlanViz()">تغییر وضعیت VLAN</button>
+                        </div>
+
+                        <div class="switch-container">
+                            <span class="switch-label">Physical Switch</span>
+                            <div class="broadcast-domain bd-default"></div>
+                            <div class="broadcast-domain bd-v10"></div>
+                            <div class="broadcast-domain bd-v20"></div>
+
+                            <div class="port v10"></div><div class="port v10"></div><div class="port v10"></div><div class="port v10"></div>
+                            <div class="port v20"></div><div class="port v20"></div><div class="port v20"></div><div class="port v20"></div>
+                        </div>
+                        
+                        <div class="devices-container">
+                            <div class="pc-box v10"><span class="pc-icon">💻</span>HR 1</div>
+                            <div class="pc-box v10"><span class="pc-icon">💻</span>HR 2</div>
+                            <div class="pc-box v10"><span class="pc-icon">💻</span>HR 3</div>
+                            <div class="pc-box v10"><span class="pc-icon">💻</span>HR 4</div>
+                            <div class="pc-box v20"><span class="pc-icon">💻</span>IT 1</div>
+                            <div class="pc-box v20"><span class="pc-icon">💻</span>IT 2</div>
+                            <div class="pc-box v20"><span class="pc-icon">💻</span>IT 3</div>
+                            <div class="pc-box v20"><span class="pc-icon">💻</span>IT 4</div>
+                        </div>
+                        <p style="color:#aaa; font-size:0.85rem; margin-top:15px; text-align:justify;">
+                            <strong style="color:var(--accent-color)">توضیح:</strong> 
+                            <span id="vlanExplanation">در حالت عادی، تمام پورت‌های سوییچ در یک دامنه پخش (Broadcast Domain) هستند. یعنی اگر HR 1 یک پیام همگانی بفرستد، حتی IT 4 هم آن را دریافت می‌کند که باعث ترافیک غیرضروری و کاهش امنیت می‌شود.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="learn-topic" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-top: 30px;">
+                    <h3 style="color:#fff; margin-bottom:15px; text-align:center;">مفهوم Trunking (802.1Q)</h3>
+                    
+                    <div class="vlan-visualizer" id="trunkViz">
+                        <div class="vlan-controls">
+                            <div class="vlan-status-text" id="trunkStatusText">وضعیت: لینک اکسس (فقط VLAN 10 عبور می‌کند)</div>
+                            <button class="toggle-vlan-btn" onclick="toggleTrunkViz()">تغییر وضعیت ترانک</button>
+                        </div>
+
+                        <div class="switch-container" style="justify-content: space-between; padding: 25px 15px;">
+                            
+                            <div style="position: relative; width: 35%;">
+                                <span class="switch-label">Switch A</span>
+                                <div style="display:flex; justify-content:space-around; margin-top: 15px; margin-bottom: 15px;">
+                                    <div class="port v10"></div><div class="port v20"></div>
+                                </div>
+                                <div style="display:flex; justify-content:space-around;">
+                                    <div class="pc-box v10"><span class="pc-icon">💻</span>HR A</div>
+                                    <div class="pc-box v20"><span class="pc-icon">💻</span>IT A</div>
+                                </div>
+                            </div>
+
+                            <div class="trunk-link-container">
+                                 <div class="trunk-cable" id="trunkCable"></div>
+                                 <div class="packet p-v10">TAG:10</div>
+                                 <div class="packet p-v20">TAG:20</div>
+                            </div>
+
+                            <div style="position: relative; width: 35%;">
+                                <span class="switch-label">Switch B</span>
+                                 <div style="display:flex; justify-content:space-around; margin-top: 15px; margin-bottom: 15px;">
+                                    <div class="port v10"></div><div class="port v20"></div>
+                                </div>
+                                <div style="display:flex; justify-content:space-around;">
+                                    <div class="pc-box v10"><span class="pc-icon">💻</span>HR B</div>
+                                    <div class="pc-box v20"><span class="pc-icon">💻</span>IT B</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <p style="color:#aaa; font-size:0.85rem; margin-top:15px; text-align:justify;">
+                            <strong style="color:var(--accent-color)">توضیح:</strong> 
+                            <span id="trunkExplanation">در این حالت، لینک بین سوییچ‌ها یک لینک اکسس معمولی است که فقط روی VLAN 10 تنظیم شده. بنابراین، کامپیوترهای IT (آبی) نمی‌توانند با هم ارتباط برقرار کنند چون ترافیک آن‌ها روی این لینک مجاز نیست.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="learn-topic" style="margin-top: 30px;">
+                    <h3 style="color:#fff; margin-bottom:10px;">Spanning Tree (STP)</h3>
+                    <p style="color:#aaa; font-size:0.9rem;">درک انتخاب Root Bridge و وضعیت پورت‌ها.</p>
+                    <a href="#" class="learn-btn-main" style="pointer-events: none; opacity: 0.6;">به زودی</a>
+                </div>
+
+                <div class="learn-topic">
+                    <h3 style="color:#fff; margin-bottom:10px;">ACL & Security</h3>
+                    <p style="color:#aaa; font-size:0.9rem;">شبیه‌ساز Access Control List های استاندارد و توسعه‌یافته.</p>
+                    <a href="#" class="learn-btn-main" style="pointer-events: none; opacity: 0.6;">به زودی</a>
+                </div>
+            </div>
             
             <div class="column-box">
                 <div class="column-title">Runbooks <span style="font-size:0.6em; color:#666;">// CMD Ready</span></div>
@@ -480,28 +788,6 @@
 
             </div>
 
-            <div class="column-box">
-                <div class="column-title">Learning Hub <span style="font-size:0.6em; color:#666;">// Visuals</span></div>
-
-                <div class="learn-topic">
-                    <h3 style="color:#fff; margin-bottom:10px;">Subnetting & VLSM</h3>
-                    <p style="color:#aaa; font-size:0.9rem;">Master binary math and variable length subnet masking with interactive charts.</p>
-                    <a href="#" class="learn-btn-main">Start Module</a>
-                </div>
-
-                <div class="learn-topic">
-                    <h3 style="color:#fff; margin-bottom:10px;">Spanning Tree (STP)</h3>
-                    <p style="color:#aaa; font-size:0.9rem;">Understand Root Bridge election and port states visualizer.</p>
-                    <a href="#" class="learn-btn-main">Start Module</a>
-                </div>
-
-                <div class="learn-topic">
-                    <h3 style="color:#fff; margin-bottom:10px;">ACL & Security</h3>
-                    <p style="color:#aaa; font-size:0.9rem;">Standard vs Extended Access Control Lists simulator.</p>
-                    <a href="#" class="learn-btn-main">Start Module</a>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -530,6 +816,48 @@
     </div>
 
     <script>
+        // ==========================================
+        // NEW: TRUNKING VISUALIZER LOGIC
+        // ==========================================
+        function toggleTrunkViz() {
+            const vizContainer = document.getElementById('trunkViz');
+            const statusText = document.getElementById('trunkStatusText');
+            const explanation = document.getElementById('trunkExplanation');
+            
+            vizContainer.classList.toggle('trunk-active');
+
+            if (vizContainer.classList.contains('trunk-active')) {
+                statusText.innerHTML = "وضعیت: لینک ترانک 802.1Q (حمل تمام VLANها با تگ)";
+                statusText.style.color = "var(--accent-secondary)";
+                explanation.innerHTML = "با فعال‌سازی ترانک (Dot1Q)، لینک بین سوییچ‌ها بسته‌ها را 'تگ' می‌زند (Tagging). حالا هم ترافیک قرمز (VLAN 10) و هم ترافیک آبی (VLAN 20) می‌توانند از یک کابل مشترک عبور کنند و در سمت دیگر به درستی تفکیک شوند.";
+            } else {
+                statusText.innerHTML = "وضعیت: لینک اکسس (فقط VLAN 10 عبور می‌کند)";
+                statusText.style.color = "var(--accent-color)";
+                explanation.innerHTML = "در این حالت، لینک بین سوییچ‌ها یک لینک اکسس معمولی است که فقط روی VLAN 10 تنظیم شده. بنابراین، کامپیوترهای IT (آبی) نمی‌توانند با هم ارتباط برقرار کنند چون ترافیک آن‌ها روی این لینک مجاز نیست.";
+            }
+        }
+
+        // ==========================================
+        // EXISTING: VLAN VISUALIZER LOGIC
+        // ==========================================
+        function toggleVlanViz() {
+            const vizContainer = document.getElementById('vlanViz');
+            const statusText = document.getElementById('vlanStatusText');
+            const explanation = document.getElementById('vlanExplanation');
+            
+            vizContainer.classList.toggle('vlan-active');
+
+            if (vizContainer.classList.contains('vlan-active')) {
+                statusText.innerHTML = "وضعیت: VLANها فعال (دو Broadcast Domain جداگانه)";
+                statusText.style.color = "var(--accent-secondary)";
+                explanation.innerHTML = "با فعال‌سازی VLAN، سوییچ فیزیکی به دو سوییچ منطقی تقسیم می‌شود. پورت‌های قرمز (VLAN 10 HR) و آبی (VLAN 20 IT) کاملاً ایزوله هستند. پیام همگانی HR 1 فقط به سایر دستگاه‌های HR می‌رسد.";
+            } else {
+                statusText.innerHTML = "وضعیت: بدون VLAN (یک Broadcast Domain)";
+                statusText.style.color = "var(--accent-color)";
+                explanation.innerHTML = "در حالت عادی، تمام پورت‌های سوییچ در یک دامنه پخش (Broadcast Domain) هستند. یعنی اگر HR 1 یک پیام همگانی بفرستد، حتی IT 4 هم آن را دریافت می‌کند که باعث ترافیک غیرضروری و کاهش امنیت می‌شود.";
+            }
+        }
+
         // ==========================================
         // 1. REPTILE ANIMATION
         // ==========================================
@@ -844,27 +1172,18 @@
                 { prompt: "SW-CORE-01(config-line)#", cmd: "exit", desc: "" },
                 { prompt: "SW-CORE-01(config)#", cmd: "crypto key generate rsa", desc: "Gen Keys" }
             ],
-            // --- NEW SEPARATE ITEM: User Access & Privileges (Updated to 15, 0, 5, 7) ---
+            // --- User Access & Privileges ---
             'user_privileges': [
-                // Level 15 (Max)
                 { prompt: "Switch(config)#", cmd: "username Admin privilege 15 secret AdminPass", desc: "Full Admin (Lvl 15)" },
-
-                // Level 0 (Min)
                 { prompt: "Switch(config)#", cmd: "username Guest privilege 0 secret GuestPass", desc: "Min Access (Lvl 0)" },
-
-                // Level 5 (Custom)
                 { prompt: "Switch(config)#", cmd: "username Staff privilege 5 secret StaffPass", desc: "Custom User (Lvl 5)" },
                 { prompt: "Switch(config)#", cmd: "privilege exec level 5 ping", desc: "Allow Ping for Lvl 5" },
-
-                // Level 7 (Custom)
                 { prompt: "Switch(config)#", cmd: "username Senior privilege 7 secret SeniorPass", desc: "Custom User (Lvl 7)" },
                 { prompt: "Switch(config)#", cmd: "privilege exec level 7 show ip interface brief", desc: "Allow Show IP for Lvl 7" },
-
-                // Enabling Login
                 { prompt: "Switch(config)#", cmd: "line vty 0 4", desc: "Select Lines" },
                 { prompt: "Switch(config-line)#", cmd: "login local", desc: "Activate Users" }
             ],
-            // --- NEW: Router Hardening ---
+            // --- Router Hardening ---
             'router_hardening': [
                 { prompt: "R1(config)#", cmd: "service password-encryption", desc: "Hide all passwords" },
                 { prompt: "R1(config)#", cmd: "login block-for 60 attempts 3 within 30", desc: "Stop Brute Force" },
@@ -876,7 +1195,7 @@
                 { prompt: "R1(config)#", cmd: "line vty 0 4", desc: "VTY Config" },
                 { prompt: "R1(config-line)#", cmd: "exec-timeout 5 0", desc: "Auto Logout (5m)" }
             ],
-            // --- NEW: Switch Security (Hardening) ---
+            // --- Switch Security ---
             'switch_security': [
                 // 1. Unused Ports
                 { prompt: "SW1(config)#", cmd: "interface range f0/20 - 24", desc: "Select Unused" },
