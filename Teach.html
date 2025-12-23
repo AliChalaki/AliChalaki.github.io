@@ -61,7 +61,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: transform 0.3s ease;
-            animation: foxMove 3s 3s infinite ease-in-out; /* 3 ثانیه تأخیر */
+            animation: foxMove 3s 3s infinite ease-in-out; 
         }
 
         @keyframes foxMove {
@@ -97,7 +97,6 @@
             animation: float 3s infinite ease-in-out;
         }
 
-        /* انیمیشن‌های جداگانه برای هر آیکون */
         .social-link:nth-child(1) { animation-delay: 0s; }
         .social-link:nth-child(2) { animation-delay: 0.5s; }
         .social-link:nth-child(3) { animation-delay: 1s; }
@@ -130,10 +129,43 @@
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.3s ease;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .theme-toggle:hover {
             transform: rotate(20deg);
+        }
+
+        /* استایل دکمه بازگشت */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--secondary);
+            transform: translateX(5px);
+            border-color: transparent;
+        }
+
+        .dark-mode .back-btn {
+             color: #ecf0f1;
+             background: rgba(0, 0, 0, 0.3);
         }
 
         .services {
@@ -185,6 +217,15 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--secondary);
+        }
+
+        .abbreviation {
+            font-size: 0.85rem;
+            color: var(--text);
+            opacity: 0.7;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         /* Fireworks Animation */
@@ -258,6 +299,13 @@
                 top: 15px;
                 right: 15px;
             }
+            
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -274,6 +322,10 @@
     </style>
 </head>
 <body>
+    <a href="https://alichalaki.github.io/" class="back-btn">
+        <i class="fas fa-home"></i> Back to Home
+    </a>
+
     <button class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-lightbulb"></i>
     </button>
@@ -346,6 +398,16 @@
             </a>
             <p>WordPress Development</p>
         </div>
+
+        <div class="service-card">
+            <i class="fas fa-network-wired service-icon"></i>
+            <h3>CCNA</h3>
+            <div class="abbreviation">(Cisco Certified Network Associate)</div>
+            <a href="CCNA.html" class="start-btn">
+                Start Learning <i class="fas fa-arrow-right"></i>
+            </a>
+            <p>Network Engineering Fundamentals</p>
+        </div>
     </div>
 
     <div class="fireworks" id="fireworksContainer"></div>
@@ -355,28 +417,32 @@
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const bulb = document.querySelector('.fa-lightbulb');
-            bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
+            
+            if (bulb) {
+                bulb.style.color = document.body.classList.contains('dark-mode') ? '#f1c40f' : 'white';
+            }
         }
 
         // Fireworks Effect
         const foxImage = document.getElementById('foxImage');
         const fireworksContainer = document.getElementById('fireworksContainer');
 
-        foxImage.addEventListener('click', () => {
-            for (let i = 0; i < 50; i++) {
-                const firework = document.createElement('div');
-                firework.classList.add('firework');
-                firework.style.left = `${Math.random() * 100}%`;
-                firework.style.top = `${Math.random() * 100}%`;
-                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                fireworksContainer.appendChild(firework);
+        if(foxImage) {
+            foxImage.addEventListener('click', () => {
+                for (let i = 0; i < 50; i++) {
+                    const firework = document.createElement('div');
+                    firework.classList.add('firework');
+                    firework.style.left = `${Math.random() * 100}%`;
+                    firework.style.top = `${Math.random() * 100}%`;
+                    firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    fireworksContainer.appendChild(firework);
 
-                // Remove firework after animation
-                setTimeout(() => {
-                    firework.remove();
-                }, 1000);
-            }
-        });
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }
+            });
+        }
     </script>
 
     <footer>
