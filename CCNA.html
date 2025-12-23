@@ -417,7 +417,7 @@
                 <div class="rb-item security-item" onclick="openRunbook('user_privileges')">
                     <div>
                         <div class="rb-name">User Access & Privileges</div>
-                        <div class="rb-desc">Admin(15), User(3), Secrets</div>
+                        <div class="rb-desc">Levels: 15, 0, 5, 7</div>
                     </div>
                     <button class="btn-mini-run">RUN</button>
                 </div>
@@ -844,14 +844,25 @@
                 { prompt: "SW-CORE-01(config-line)#", cmd: "exit", desc: "" },
                 { prompt: "SW-CORE-01(config)#", cmd: "crypto key generate rsa", desc: "Gen Keys" }
             ],
-            // --- NEW SEPARATE ITEM: User Access & Privileges ---
+            // --- NEW SEPARATE ITEM: User Access & Privileges (Updated to 15, 0, 5, 7) ---
             'user_privileges': [
-                { prompt: "Switch(config)#", cmd: "username Admin privilege 15 secret AdminPass", desc: "Full Admin" },
-                { prompt: "Switch(config)#", cmd: "username Junior privilege 3 secret JuniorPass", desc: "Limited User" },
-                { prompt: "Switch(config)#", cmd: "privilege exec level 3 show running-config", desc: "Allow CMD" },
-                { prompt: "Switch(config)#", cmd: "enable secret level 3 Class3", desc: "Level 3 PW" },
+                // Level 15 (Max)
+                { prompt: "Switch(config)#", cmd: "username Admin privilege 15 secret AdminPass", desc: "Full Admin (Lvl 15)" },
+
+                // Level 0 (Min)
+                { prompt: "Switch(config)#", cmd: "username Guest privilege 0 secret GuestPass", desc: "Min Access (Lvl 0)" },
+
+                // Level 5 (Custom)
+                { prompt: "Switch(config)#", cmd: "username Staff privilege 5 secret StaffPass", desc: "Custom User (Lvl 5)" },
+                { prompt: "Switch(config)#", cmd: "privilege exec level 5 ping", desc: "Allow Ping for Lvl 5" },
+
+                // Level 7 (Custom)
+                { prompt: "Switch(config)#", cmd: "username Senior privilege 7 secret SeniorPass", desc: "Custom User (Lvl 7)" },
+                { prompt: "Switch(config)#", cmd: "privilege exec level 7 show ip interface brief", desc: "Allow Show IP for Lvl 7" },
+
+                // Enabling Login
                 { prompt: "Switch(config)#", cmd: "line vty 0 4", desc: "Select Lines" },
-                { prompt: "Switch(config-line)#", cmd: "login local", desc: "Force DB Use" }
+                { prompt: "Switch(config-line)#", cmd: "login local", desc: "Activate Users" }
             ],
             // --- NEW: Router Hardening ---
             'router_hardening': [
