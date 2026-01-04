@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali Chalaki - Code Laboratory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400&family=Share+Tech+Mono&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* --- Galaxy Animation Styles (Intro) --- */
+        .webgl {
+            position: fixed;
+            top: 0;
+            left: 0;
+            outline: none;
+            z-index: 9999;
+            transition: opacity 1.5s ease-out;
+        }
+
+        /* --- Laboratory Styles (Main) --- */
+        .lab-container {
+            display: none;
+            opacity: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+            padding: 2rem;
+            transition: opacity 1.5s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .lab-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-top: 2rem;
+        }
+
+        .lab-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: #00f3ff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            margin-bottom: 0.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .lab-subtitle {
+            color: #aaa;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .creator-text {
+            color: #00f3ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            border: 1px solid #00f3ff;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(0, 243, 255, 0.1);
+            animation: glowText 3s infinite alternate;
+        }
+
+        @keyframes glowText {
+            from { box-shadow: 0 0 5px rgba(0, 243, 255, 0.2); }
+            to { box-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            background: transparent;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: #00f3ff;
+            color: #000;
+            box-shadow: 0 0 15px #00f3ff;
+        }
+
+        /* Chambers */
+        .chamber-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .chamber {
+            background: rgba(10, 20, 30, 0.8);
+            border: 2px solid #333;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .chamber:hover {
+            border-color: #00f3ff;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .view-port {
+            height: 300px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid #333;
+            overflow: hidden;
+        }
+
+        .info-panel {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .specimen-name {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .specimen-status {
+            font-size: 0.8rem;
+            color: #00ff00;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #00ff00;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .specimen-desc {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .interact-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .interact-btn:hover {
+            background: #00f3ff;
+            color: #000;
+        }
+
+        /* --- Preview Icons --- */
+        .dragon-preview {
+            font-size: 100px;
+            color: #fff;
+            animation: float 3s infinite ease-in-out;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .reptile-preview {
+            width: 150px;
+            height: 20px;
+            background: #00ff00;
+            border-radius: 20px;
+            box-shadow: 0 0 15px #00ff00;
+            animation: snake 2s infinite linear;
+            position: relative;
+        }
+
+        .spider-preview {
+            font-size: 100px;
+            color: #fff;
+            animation: pulseSpider 2s infinite;
+            text-shadow: 0 0 15px #fff;
+        }
+        
+        @keyframes snake {
+            0% { transform: translateX(-20px) scaleX(1); }
+            50% { transform: translateX(20px) scaleX(0.8); }
+            100% { transform: translateX(-20px) scaleX(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulseSpider {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- FULL SCREEN MODALS --- */
+        .creature-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            overflow: hidden;
+            cursor: crosshair; 
+        }
+
+        /* Dragon Modal */
+        #dragonModal {
+            background: rgb(60, 97, 153);
+            touch-action: none;
+        }
+        #dragonModal svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #c9c9c9;
+            filter: sepia(20%);
+            cursor: pointer;
+        }
+
+        /* Reptile & Spider Modal */
+        #reptileModal, #spiderModal {
+            background: #000;
+        }
+        #spiderCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 10001;
+            font-family: sans-serif;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        #dragonModal .close-modal-btn { color: #000; }
+        #reptileModal .close-modal-btn, #spiderModal .close-modal-btn { color: #fff; text-shadow: 0 0 5px #000;}
+
+        .close-modal-btn:hover {
+            opacity: 1;
+            color: #ff0055 !important;
+        }
+
+        /* --- LOADING OVERLAY (Terminal Effect) --- */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 20000; /* Higher than modal */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 20px;
+        }
+
+        /* Broken Glass / Grid Effect on Overlay */
+        .loading-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 255, 255, 0.03) 0px,
+                rgba(0, 255, 255, 0.03) 2px,
+                transparent 2px,
+                transparent 10px
+            );
+            pointer-events: none;
+        }
+
+        .terminal-text {
+            font-size: 1.5rem;
+            color: #00f3ff;
+            white-space: pre-wrap;
+            border-right: 3px solid #00f3ff;
+            animation: caret 0.8s steps(1) infinite;
+            text-shadow: 0 0 10px #00f3ff;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        @keyframes caret {
+            50% { border-color: transparent; }
+        }
+
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+            animation: screenGlitch 4s infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes screenGlitch {
+            0% { transform: translateX(0); filter: hue-rotate(0deg); }
+            2% { transform: translateX(-5px); filter: hue-rotate(90deg); }
+            4% { transform: translateX(5px); filter: hue-rotate(-90deg); }
+            6% { transform: translateX(0); filter: hue-rotate(0deg); }
+            100% { transform: translateX(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas class="webgl"></canvas>
+
+    <div class="lab-container">
+        <div class="grid-bg"></div>
+        
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Exit Lab</a>
+
+        <header class="lab-header">
+            <h1 class="lab-title">Specimen Laboratory</h1>
+            <p class="lab-subtitle">Experimental Code Creatures & Algorithms</p>
+            <div class="creator-text">
+                <i class="fas fa-dna"></i> Lifeforms Engineered by Ali Chalaki
+            </div>
+        </header>
+
+        <div class="chamber-grid">
+            
+            <div class="chamber">
+                <div class="view-port">
+                    <div class="dragon-preview">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <div class="specimen-status">
+                        <div class="status-dot"></div> ACTIVE
+                    </div>
+                    <h2 class="specimen-name">Mechanical Dragon</h2>
+                    <p class="specimen-desc">A cursor-following entity built with SVG and Inverse Kinematics physics.</p>
+                    <button class="interact-btn" onclick="triggerLoading('dragon')">Initiate Test</button>
+                </div>
+            </div>
+
+            <div class="chamber">
+                <div class="view-port">
+                    <div class="reptile-preview"></div>
+                </div>
+                <div class="info-panel">
+                    <div class="specimen-status">
+                        <div class="status-dot"></div> ACTIVE
+                    </div>
+                    <h2 class="specimen-name">Procedural Reptile</h2>
+                    <p class="specimen-desc">Complex segmented limb system with procedural animation physics.</p>
+                    <button class="interact-btn" onclick="triggerLoading('reptile')">Initiate Test</button>
+                </div>
+            </div>
+
+            <div class="chamber">
+                <div class="view-port">
+                    <div class="spider-preview">
+                        <i class="fas fa-spider"></i>
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <div class="specimen-status">
+                        <div class="status-dot"></div> ACTIVE
+                    </div>
+                    <h2 class="specimen-name">Neural Spiders</h2>
+                    <p class="specimen-desc">Autonomous entities tracking input using noise functions and kinematic chains.</p>
+                    <button class="interact-btn" onclick="triggerLoading('spider')">Initiate Test</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="glitch-layer"></div>
+        <div id="terminalText" class="terminal-text"></div>
+    </div>
+
+    <div id="dragonModal" class="creature-modal">
+        <div class="close-modal-btn" onclick="closeDragon()">&times;</div>
+        <svg id="screen" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <g id="Cabeza" transform="matrix(1, 0, 0, 1, 0, 0)">
+                <path style="fill:#FFFFFF;fill-opacity:1" d="M-28.9,-1.1L-28.55 -1.95Q-28.1 -3.1 -27.25 -2.95L-26.7 -2.95Q-27.7 -1.65 -28.9 -1.1M-18.35,-1.8Q-15.1 -10.3 -9.6 -6.05Q-15.1 -6.2 -18.35 -1.8M-18.35,1.1Q-15.1 5.45 -9.6 5.35Q-15.1 9.55 -18.35 1.1M-26.7,2.2L-27.25 2.25Q-28.1 2.4 -28.55 1.2L-28.9 0.35Q-27.7 0.9 -26.7 2.2" />
+                <path style="fill:#000000;fill-opacity:1" d="M-21.05,-8.25Q-13.6 -15.95 -1.3 -12.1Q-7.85 -8.5 -5.85 -4.35Q-2.3 -4.85 10.5 0.15Q0 4.35 -5.85 3.65Q-7.85 7.75 -1.25 12.45Q-13.6 15.2 -21.05 7.5Q-29.55 4.05 -30.2 -0.35Q-29.55 -4.8 -21.05 -8.25M-26.7,-2.95L-27.25 -2.95Q-28.1 -3.1 -28.55 -1.95L-28.9 -1.1Q-27.7 -1.65 -26.7 -2.95M-9.6,-6.05Q-15.1 -10.3 -18.35 -1.8Q-15.1 -6.2 -9.6 -6.05M-9.6,5.35Q-15.1 5.45 -18.35 1.1Q-15.1 9.55 -9.6 5.35M-28.9,0.35L-28.55 1.2Q-28.1 2.4 -27.25 2.25L-26.7 2.2Q-27.7 0.9 -28.9 0.35" />
+              </g>
+              <g id="Aletas" transform="matrix(1, 0, 0, 1, 0, 0)">
+                <linearGradient id="LinearGradID_1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.0935974, 0, 0, 0.188782, -20.55, 0)" spreadMethod="pad" x1="-819.2" y1="0" x2="819.2" y2="0">
+                  <stop offset="0" style="stop-color:#CCCCCC;stop-opacity:1" />
+                  <stop offset="1" style="stop-color:#000000;stop-opacity:1" />
+                </linearGradient>
+                <path style="fill:url(#LinearGradID_1) " d="M29.75,-36.85Q-17.75 -61.45 -42.05 -40.95L-45.35 -38.35L-53.7 -41.15L-51.15 -44.85Q-34.85 -68.4 21 -57.8Q-32.2 -72.1 -50.25 -50Q-53.85 -45.65 -56.05 -41.95L-64.7 -43.35L-60.6 -50.3Q-45.9 -75.55 5.1 -79.35Q-2.2 -79.8 -9.45 -79.15Q-16.2 -78.55 -22.85 -77.15Q-29.85 -75.65 -36.5 -73Q-43.05 -70.4 -48.8 -66.85Q-54.55 -63.35 -56.8 -60.3L-60.5 -55.4Q-62.95 -52.1 -67 -43.55L-70.55 -43.55L-76.35 -42.95Q-74.6 -49.1 -71.85 -54.85Q-68.9 -61.25 -64.8 -67.1Q-60.8 -73 -55.45 -77.55Q-49.9 -82.35 -43.65 -85.85L-30.6 -92.7Q-24.05 -95.95 -17 -98.25Q-63.75 -86.35 -73.65 -57.1Q-75.75 -50.75 -77.45 -42.75Q-82.9 -41.75 -88 -39.65Q-87.65 -46.65 -86.3 -53.05Q-79.8 -89.8 -36.65 -117.2Q-80.65 -94.5 -87.55 -59.55Q-88.65 -54.15 -88.95 -39.4L-89.8 -38.85L-92.7 -37.6Q-93.75 -44.35 -94.1 -51.15Q-94.4 -58.2 -93.25 -65.1Q-92.15 -72.5 -90.05 -79.65Q-88.05 -86.55 -85 -93Q-82.1 -99.3 -78.45 -105.15Q-74.6 -111.35 -70.25 -117.25Q-65.95 -123.1 -61.1 -128.55Q-70.3 -119.35 -77.9 -108.7Q-86 -97.3 -90.8 -84.05Q-95.8 -70.5 -96 -56.15Q-96.1 -46 -94.05 -36.05L-93.25 -31.55Q-93.5 -35.65 -92.35 -36Q-79.85 -42 -66.6 -40.45Q-52.45 -38.85 -39.2 -33.25Q-28.3 -29.9 -21.25 -24.15Q-17.8 -23.3 -8.6 -15.6Q-12.1 -20.75 -16.75 -24.5Q-24.55 -30.7 -34.25 -34.05L-42.55 -37Q-38.9 -41.25 -31.5 -43.25Q-24.05 -45.3 -16.2 -46.3Q-8.35 -47.35 -1 -46Q5.95 -44.75 12.75 -42.85Q19.85 -40.9 29.75 -36.85M-92.45,-27.35L-94.95 -36.25Q-109.7 -105 -27.95 -154.65Q-98.65 -103.8 -91.75 -39.4L-89.95 -40.2Q-92.2 -105.25 -5.6 -130.9Q-78.8 -99.95 -87.45 -40.9Q-83.15 -42.95 -78.45 -43.95Q-70 -101.3 17.65 -103.8Q-56.9 -93.4 -74.5 -44.55L-67.4 -45.45Q-49.1 -94.95 39.25 -75.65Q-36.75 -84.35 -62.25 -44.25L-57.3 -43.6Q-31.65 -86.5 56.15 -46.05Q-20.3 -73.35 -51.35 -41.7L-45.95 -39.75Q-17.85 -71.35 51.85 -24.8Q-8.7 -56.4 -39.75 -37.05Q-28.15 -34.05 -14.25 -24.45Q-8.6 -19.85 -5.8 -16.95Q5.95 -2.4 20 0Q5.95 2.4 -5.8 16.95Q-8.6 19.85 -14.25 24.45Q-28.15 34.05 -39.75 37.05Q-8.7 56.4 51.85 24.8Q-17.85 71.35 -45.95 39.75L-51.35 41.7Q-20.3 73.35 56.15 46.1Q-31.65 86.5 -57.3 43.65L-62.25 44.3Q-36.75 84.35 39.25 75.7Q-49.1 94.95 -67.4 45.5L-74.5 44.6Q-56.9 93.4 17.65 103.85Q-70 101.3 -78.45 43.95Q-83.15 42.95 -87.45 40.9Q-78.8 99.95 -5.6 130.9Q-92.2 105.25 -89.95 40.25L-91.75 39.4Q-98.65 103.8 -27.95 154.65Q-109.7 105 -94.95 36.3L-92.45 27.35Q-93.05 33.9 -92.05 34.75Q-91.1 35.55 -88.95 36.7L-87.95 37Q-83.7 38.25 -79.05 38.8L-77.25 38.95Q-72.55 39.3 -67.5 38.85L-65.45 38.65Q-44.4 36.05 -17.8 19.6Q-9.9 12.8 -15.15 4.4Q-18.15 3.15 -19 0Q-18.15 -3.15 -15.15 -4.4Q-9.9 -12.8 -17.8 -19.6L-17.8 -19.55Q-44.4 -36.05 -65.45 -38.6L-67.5 -38.8Q-72.55 -39.3 -77.25 -38.95L-79.05 -38.75Q-83.7 -38.25 -87.95 -36.95L-88.95 -36.65Q-91.1 -35.55 -92.05 -34.7Q-93.05 -33.9 -92.45 -27.35M-8.6,15.6Q-17.8 23.3 -21.25 24.2Q-28.3 29.9 -39.2 33.3Q-52.45 38.85 -66.6 40.5Q-79.85 42 -92.35 36Q-93.5 35.65 -93.25 31.55L-94.05 36.1Q-96.1 46.05 -96 56.15Q-95.8 70.5 -90.8 84.1Q-86 97.3 -77.9 108.75Q-70.3 119.35 -61.1 128.6Q-65.95 123.1 -70.25 117.25Q-74.6 111.35 -78.45 105.15Q-82.1 99.3 -85 93Q-88.05 86.55 -90.05 79.7Q-92.15 72.5 -93.25 65.1Q-94.4 58.2 -94.1 51.2Q-93.75 44.35 -92.7 37.6L-89.8 38.9L-88.95 39.45Q-88.65 54.15 -87.55 59.55Q-80.65 94.5 -36.65 117.25Q-79.8 89.8 -86.3 53.1Q-87.65 46.65 -88 39.65Q-82.9 41.75 -77.45 42.75Q-75.75 50.75 -73.65 57.15Q-63.75 86.35 -17 98.3Q-24.05 95.95 -30.6 92.75L-43.65 85.9Q-49.9 82.35 -55.45 77.6Q-60.8 73 -64.8 67.15Q-68.9 61.25 -71.85 54.85Q-74.6 49.1 -76.35 42.95L-70.55 43.6L-67 43.6Q-62.95 52.1 -60.5 55.4L-56.8 60.35Q-54.55 63.35 -48.8 66.9Q-43.05 70.4 -36.5 73Q-29.85 75.65 -22.85 77.15Q-16.2 78.55 -9.45 79.15Q-2.2 79.8 5.1 79.35Q-45.9 75.55 -60.6 50.3L-64.7 43.4L-56.05 41.95Q-53.85 45.65 -50.25 50Q-32.2 72.1 21 57.85Q-34.85 68.4 -51.15 44.85L-53.7 41.2L-45.35 38.35L-42.05 40.95Q-17.75 61.45 29.75 36.85Q19.85 40.9 12.75 42.9Q5.95 44.75 -1 46Q-8.35 47.35 -16.2 46.35Q-24.05 45.3 -31.5 43.3Q-38.9 41.25 -42.55 37.05L-34.25 34.05Q-24.55 30.7 -16.75 24.5Q-12.1 20.75 -8.6 15.6" />
+              </g>
+              <g id="Espina" transform="matrix(1, 0, 0, 1, 0, 0)">
+                <linearGradient id="LinearGradID_2" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.0229492, 0, 0, -0.0152893, 0, 0.05)" spreadMethod="pad" x1="-819.2" y1="0" x2="819.2" y2="0">
+                  <stop offset="0" style="stop-color:#CCCCCC;stop-opacity:1" />
+                  <stop offset="1" style="stop-color:#333333;stop-opacity:1" />
+                </linearGradient>
+                <path style="fill:url(#LinearGradID_2) " d="M-18.8,0Q-17.85 -5.7 -12.3 -9.6Q-11.2 -5.35 -6.5 -8.25L-6.45 -8.2L-6.2 -8.3Q1.25 -16.25 6.65 -12.4Q0.05 -12.55 0 -5.95Q2.7 -2.4 7.75 -4.1Q18 -1.45 18.8 0L-18.8 0" />
+                <linearGradient id="LinearGradID_3" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.0229492, 0, 0, 0.0152893, 0, -0.05)" spreadMethod="pad" x1="-819.2" y1="0" x2="819.2" y2="0">
+                  <stop offset="0" style="stop-color:#CCCCCC;stop-opacity:1" />
+                  <stop offset="1" style="stop-color:#333333;stop-opacity:1" />
+                </linearGradient>
+                <path style="fill:url(#LinearGradID_3) " d="M18.8,0Q18 1.45 7.75 4.1Q2.7 2.4 0 5.95Q0.05 12.55 6.65 12.4Q1.25 16.25 -6.2 8.35Q-6.35 8.25 -6.45 8.25L-6.5 8.25Q-11.2 5.35 -12.3 9.6Q-17.85 5.7 -18.8 0L18.8 0" />
+              </g>
+            </defs>
+            <g id="screen" />
+        </svg>
+    </div>
+
+    <div id="reptileModal" class="creature-modal">
+        <div class="close-modal-btn" onclick="closeReptile()">&times;</div>
+        <div id="reptileCanvasContainer"></div>
+    </div>
+
+    <div id="spiderModal" class="creature-modal">
+        <div class="close-modal-btn" onclick="closeSpider()">&times;</div>
+        <canvas id="spiderCanvas"></canvas>
+    </div>
+
+    <script type="module">
+        import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
+        import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js";
+
+        // --- Galaxy Code (Intro) ---
+        const canvas = document.querySelector('canvas.webgl')
+        const scene = new THREE.Scene()
+
+        const parameters = {}
+        parameters.count = 100000;
+        parameters.size = 0.01;
+        parameters.radius = 2.15; 
+        parameters.branches = 3; 
+        parameters.spin = 3;
+        parameters.randomness = 5;
+        parameters.randomnessPower = 4;
+        parameters.insideColor = '#ff6030';
+        parameters.outsideColor = '#0949f0';
+
+        let material = null; 
+        let geometry = null; 
+        let points = null; 
+
+        const generateGalaxy = () => {
+            if(points !== null){
+                geometry.dispose();
+                material.dispose();
+                scene.remove(points);
+            }
+            material = new THREE.PointsMaterial({
+                size: parameters.size,
+                sizeAttenuation: true,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+                vertexColors: true
+            })
+
+            geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(parameters.count * 3);
+            const colors = new Float32Array(parameters.count * 3);
+            const colorInside = new THREE.Color(parameters.insideColor);
+            const colorOutside = new THREE.Color(parameters.outsideColor);
+
+            for(let i=0; i<parameters.count; i++){
+                const i3 = i*3;
+                const radius = Math.pow(Math.random()*parameters.randomness, Math.random()*parameters.radius);
+                const spinAngle = radius*parameters.spin;
+                const branchAngle = ((i%parameters.branches)/parameters.branches)*Math.PI*2;
+                
+                const negPos = [1,-1];
+                const randomX = Math.pow(Math.random(), parameters.randomnessPower)*negPos[Math.floor(Math.random() * negPos.length)];
+                const randomY = Math.pow(Math.random(), parameters.randomnessPower)*negPos[Math.floor(Math.random() * negPos.length)];
+                const randomZ = Math.pow(Math.random(), parameters.randomnessPower)*negPos[Math.floor(Math.random() * negPos.length)];
+
+                positions[i3] = Math.cos(branchAngle + spinAngle)*(radius) + randomX;
+                positions[i3+1] = randomY;
+                positions[i3+2] = Math.sin(branchAngle + spinAngle)*(radius) + randomZ;
+
+                const mixedColor = colorInside.clone();
+                mixedColor.lerp(colorOutside, Math.random()*radius/parameters.radius);
+
+                colors[i3] = mixedColor.r;
+                colors[i3+1] = mixedColor.g;
+                colors[i3+2] = mixedColor.b;
+            }
+            geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+            geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+
+            points = new THREE.Points(geometry, material);
+            scene.add(points);
+        }
+        generateGalaxy();
+
+        const sizes = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+
+        window.addEventListener('resize', () =>
+        {
+            sizes.width = window.innerWidth
+            sizes.height = window.innerHeight
+            camera.aspect = sizes.width / sizes.height
+            camera.updateProjectionMatrix()
+            renderer.setSize(sizes.width, sizes.height)
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        })
+
+        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+        camera.position.x = 3
+        camera.position.y = 3
+        camera.position.z = 3
+        scene.add(camera)
+
+        const controls = new OrbitControls(camera, canvas)
+        controls.enableDamping = true
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas
+        })
+        renderer.setSize(sizes.width, sizes.height)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+        const clock = new THREE.Clock()
+
+        const tick = () =>
+        {
+            const elapsedTime = clock.getElapsedTime()
+            controls.update()
+            camera.position.x = Math.cos(elapsedTime*0.05) * 4;
+            camera.position.z = Math.sin(elapsedTime*0.05) * 4;
+            camera.lookAt(0,0,0);
+            renderer.render(scene, camera)
+            window.requestAnimationFrame(tick)
+        }
+
+        tick()
+
+        // --- Transition Logic (2.5 Seconds) ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const webglCanvas = document.querySelector('.webgl');
+                const labContainer = document.querySelector('.lab-container');
+                webglCanvas.style.opacity = '0';
+                setTimeout(() => {
+                    webglCanvas.style.display = 'none';
+                    labContainer.style.display = 'block';
+                    setTimeout(() => {
+                        labContainer.style.opacity = '1';
+                    }, 50);
+                }, 1500);
+            }, 2500);
+        });
+
+        // ==========================================
+        //  TYPEWRITER / LOADING LOGIC
+        // ==========================================
+        const texts = {
+            'dragon': "INITIALIZING BIO-MECHANICAL CORE...\nCALIBRATING KINEMATIC CHAIN...\nLOADING SVG ASSETS...\nSUBJECT: MECHANICAL DRAGON\nSTATUS: READY.",
+            'reptile': "GENERATING PROCEDURAL LIMBS...\nSIMULATING PHYSICS ENGINE...\nCALCULATING JOINT CONSTRAINTS...\nSUBJECT: PROCEDURAL REPTILE\nSTATUS: ONLINE.",
+            'spider': "CONNECTING NEURAL NETWORKS...\nESTABLISHING SWARM PROTOCOLS...\nSYNCHRONIZING KINEMATIC LEGS...\nSUBJECT: NEURAL SPIDERS\nSTATUS: ACTIVE."
+        };
+
+        window.triggerLoading = function(type) {
+            const overlay = document.getElementById('loadingOverlay');
+            const terminal = document.getElementById('terminalText');
+            overlay.style.display = 'flex';
+            terminal.innerText = "";
+            
+            let txt = texts[type];
+            let i = 0;
+            const speed = 30; // Typing speed
+
+            function typeWriter() {
+                if (i < txt.length) {
+                    terminal.innerText += txt.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    // Finished typing, wait a bit then show creature
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        if(type === 'dragon') openDragon();
+                        if(type === 'reptile') openReptile();
+                        if(type === 'spider') openSpider();
+                    }, 800);
+                }
+            }
+            typeWriter();
+        };
+
+
+        // ==========================================
+        //  GLOBAL POINTER TRACKING (Shared)
+        // ==========================================
+        window.dragonActive = false;
+        window.reptileActive = false;
+        window.spiderActive = false;
+
+        const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        window.addEventListener(
+            "pointermove",
+            (e) => {
+                pointer.x = e.clientX;
+                pointer.y = e.clientY;
+                
+                // Dragon specifics
+                if(window.dragonActive) dragonRad = 0;
+                
+                // Reptile specifics
+                if(window.reptileActive) {
+                    Input.mouse.x = e.clientX;
+                    Input.mouse.y = e.clientY;
+                }
+
+                // Spider specifics
+                if(window.spiderActive && window.spidersArr) {
+                    window.spidersArr.forEach(spider => {
+                        spider.follow(e.clientX, e.clientY)
+                    })
+                }
+            },
+            false
+        );
+
+        window.addEventListener("resize", () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+        }, false);
+
+
+        // ==========================================
+        //  DRAGON LOGIC 
+        // ==========================================
+        const screen = document.getElementById("screen");
+        const xmlns = "http://www.w3.org/2000/svg";
+        const xlinkns = "http://www.w3.org/1999/xlink";
+        
+        const N = 40;
+        const elems = [];
+        for (let i = 0; i < N; i++) elems[i] = { use: null, x: width / 2, y: 0 };
+        const radm = Math.min(pointer.x, pointer.y) - 20;
+        let frm = Math.random();
+        let dragonRad = 0;
+
+        const prepend = (use, i) => {
+            const elem = document.createElementNS(xmlns, "use");
+            elems[i].use = elem;
+            elem.setAttributeNS(xlinkns, "xlink:href", "#" + use);
+            screen.prepend(elem);
+        };
+
+        for (let i = 1; i < N; i++) {
+            if (i === 1) prepend("Cabeza", i);
+            else if (i === 8 || i === 14) prepend("Aletas", i);
+            else prepend("Espina", i);
+        }
+
+        const runDragon = () => {
+            if (!window.dragonActive) return;
+            requestAnimationFrame(runDragon);
+
+            let e = elems[0];
+            const ax = (Math.cos(3 * frm) * dragonRad * width) / height;
+            const ay = (Math.sin(4 * frm) * dragonRad * height) / width;
+            
+            e.x += (ax + pointer.x - e.x) / 10;
+            e.y += (ay + pointer.y - e.y) / 10;
+            
+            for (let i = 1; i < N; i++) {
+                let e = elems[i];
+                let ep = elems[i - 1];
+                const a = Math.atan2(e.y - ep.y, e.x - ep.x);
+                e.x += (ep.x - e.x + (Math.cos(a) * (100 - i)) / 5) / 4;
+                e.y += (ep.y - e.y + (Math.sin(a) * (100 - i)) / 5) / 4;
+                // Returned to 50 as requested (original size)
+                const s = (162 + 4 * (1 - i)) / 50;
+                e.use.setAttributeNS(
+                    null,
+                    "transform",
+                    `translate(${(ep.x + e.x) / 2},${(ep.y + e.y) / 2}) rotate(${(180 / Math.PI) * a
+                    }) translate(${0},${0}) scale(${s},${s})`
+                );
+            }
+            if (dragonRad < radm) dragonRad++;
+            frm += 0.003;
+        };
+
+        window.openDragon = function() {
+            document.getElementById('dragonModal').style.display = 'block';
+            window.dragonActive = true;
+            runDragon();
+        };
+
+        window.closeDragon = function() {
+            document.getElementById('dragonModal').style.display = 'none';
+            window.dragonActive = false;
+        };
+
+        // ==========================================
+        //  REPTILE LOGIC
+        // ==========================================
+        let reptileInterval = null;
+        let reptileCanvas = null;
+        let reptileCtx = null;
+
+        var Input = {
+            keys: [],
+            mouse: { left: false, right: false, middle: false, x: 0, y: 0 }
+        };
+        for (var i = 0; i < 230; i++) { Input.keys.push(false); }
+        document.addEventListener("keydown", function(event) { Input.keys[event.keyCode] = true; });
+        document.addEventListener("keyup", function(event) { Input.keys[event.keyCode] = false; });
+        document.addEventListener("mousedown", function(event) {
+            if ((event.button = 0)) Input.mouse.left = true;
+            if ((event.button = 1)) Input.mouse.middle = true;
+            if ((event.button = 2)) Input.mouse.right = true;
+        });
+        document.addEventListener("mouseup", function(event) {
+            if ((event.button = 0)) Input.mouse.left = false;
+            if ((event.button = 1)) Input.mouse.middle = false;
+            if ((event.button = 2)) Input.mouse.right = false;
+        });
+
+        var segmentCount = 0;
+        class Segment {
+            constructor(parent, size, angle, range, stiffness) {
+                segmentCount++;
+                this.isSegment = true;
+                this.parent = parent; 
+                if (typeof parent.children == "object") { parent.children.push(this); }
+                this.children = []; 
+                this.size = size; 
+                this.relAngle = angle; 
+                this.defAngle = angle; 
+                this.absAngle = parent.absAngle + angle; 
+                this.range = range; 
+                this.stiffness = stiffness; 
+                this.updateRelative(false, true);
+            }
+            updateRelative(iter, flex) {
+                this.relAngle = this.relAngle - 2 * Math.PI * Math.floor((this.relAngle - this.defAngle) / 2 / Math.PI + 1 / 2);
+                if (flex) {
+                    this.relAngle = Math.min(this.defAngle + this.range / 2, Math.max(this.defAngle - this.range / 2, (this.relAngle - this.defAngle) / this.stiffness + this.defAngle));
+                }
+                this.absAngle = this.parent.absAngle + this.relAngle;
+                this.x = this.parent.x + Math.cos(this.absAngle) * this.size; 
+                this.y = this.parent.y + Math.sin(this.absAngle) * this.size; 
+                if (iter) {
+                    for (var i = 0; i < this.children.length; i++) { this.children[i].updateRelative(iter, flex); }
+                }
+            }
+            draw(iter) {
+                reptileCtx.beginPath();
+                reptileCtx.moveTo(this.parent.x, this.parent.y);
+                reptileCtx.lineTo(this.x, this.y);
+                reptileCtx.stroke();
+                if (iter) {
+                    for (var i = 0; i < this.children.length; i++) { this.children[i].draw(true); }
+                }
+            }
+            follow(iter) {
+                var x = this.parent.x;
+                var y = this.parent.y;
+                var dist = ((this.x - x) ** 2 + (this.y - y) ** 2) ** 0.5;
+                this.x = x + this.size * (this.x - x) / dist;
+                this.y = y + this.size * (this.y - y) / dist;
+                this.absAngle = Math.atan2(this.y - y, this.x - x);
+                this.relAngle = this.absAngle - this.parent.absAngle;
+                this.updateRelative(false, true);
+                if (iter) {
+                    for (var i = 0; i < this.children.length; i++) { this.children[i].follow(true); }
+                }
+            }
+        }
+
+        class LimbSystem {
+            constructor(end, length, speed, creature) {
+                this.end = end;
+                this.length = Math.max(1, length);
+                this.creature = creature;
+                this.speed = speed;
+                creature.systems.push(this);
+                this.nodes = [];
+                var node = end;
+                for (var i = 0; i < length; i++) {
+                    this.nodes.unshift(node);
+                    node = node.parent;
+                    if (!node.isSegment) { this.length = i + 1; break; }
+                }
+                this.hip = this.nodes[0].parent;
+            }
+            moveTo(x, y) {
+                this.nodes[0].updateRelative(true, true);
+                var dist = ((x - this.end.x) ** 2 + (y - this.end.y) ** 2) ** 0.5;
+                var len = Math.max(0, dist - this.speed);
+                for (var i = this.nodes.length - 1; i >= 0; i--) {
+                    var node = this.nodes[i];
+                    var ang = Math.atan2(node.y - y, node.x - x);
+                    node.x = x + len * Math.cos(ang);
+                    node.y = y + len * Math.sin(ang);
+                    x = node.x;
+                    y = node.y;
+                    len = node.size;
+                }
+                for (var i = 0; i < this.nodes.length; i++) {
+                    var node = this.nodes[i];
+                    node.absAngle = Math.atan2(node.y - node.parent.y, node.x - node.parent.x);
+                    node.relAngle = node.absAngle - node.parent.absAngle;
+                    for (var ii = 0; ii < node.children.length; ii++) {
+                        var childNode = node.children[ii];
+                        if (!this.nodes.includes(childNode)) { childNode.updateRelative(true, false); }
+                    }
+                }
+            }
+            update() { this.moveTo(Input.mouse.x, Input.mouse.y); }
+        }
+
+        class LegSystem extends LimbSystem {
+            constructor(end, length, speed, creature) {
+                super(end, length, speed, creature);
+                this.goalX = end.x;
+                this.goalY = end.y;
+                this.step = 0; 
+                this.forwardness = 0;
+                this.reach = 0.9 * ((this.end.x - this.hip.x) ** 2 + (this.end.y - this.hip.y) ** 2) ** 0.5;
+                var relAngle = this.creature.absAngle - Math.atan2(this.end.y - this.hip.y, this.end.x - this.hip.x);
+                relAngle -= 2 * Math.PI * Math.floor(relAngle / 2 / Math.PI + 1 / 2);
+                this.swing = -relAngle + (2 * (relAngle < 0) - 1) * Math.PI / 2;
+                this.swingOffset = this.creature.absAngle - this.hip.absAngle;
+            }
+            update(x, y) {
+                this.moveTo(this.goalX, this.goalY);
+                if (this.step == 0) {
+                    var dist = ((this.end.x - this.goalX) ** 2 + (this.end.y - this.goalY) ** 2) ** 0.5;
+                    if (dist > 1) {
+                        this.step = 1;
+                        this.goalX = this.hip.x + this.reach * Math.cos(this.swing + this.hip.absAngle + this.swingOffset) + (2 * Math.random() - 1) * this.reach / 2;
+                        this.goalY = this.hip.y + this.reach * Math.sin(this.swing + this.hip.absAngle + this.swingOffset) + (2 * Math.random() - 1) * this.reach / 2;
+                    }
+                } else if (this.step == 1) {
+                    var theta = Math.atan2(this.end.y - this.hip.y, this.end.x - this.hip.x) - this.hip.absAngle;
+                    var dist = ((this.end.x - this.hip.x) ** 2 + (this.end.y - this.hip.y) ** 2) ** 0.5;
+                    var forwardness2 = dist * Math.cos(theta);
+                    var dF = this.forwardness - forwardness2;
+                    this.forwardness = forwardness2;
+                    if (dF * dF < 1) {
+                        this.step = 0;
+                        this.goalX = this.hip.x + (this.end.x - this.hip.x);
+                        this.goalY = this.hip.y + (this.end.y - this.hip.y);
+                    }
+                }
+            }
+        }
+
+        class Creature {
+            constructor(x, y, angle, fAccel, fFric, fRes, fThresh, rAccel, rFric, rRes, rThresh) {
+                this.x = x; this.y = y; this.absAngle = angle; this.fSpeed = 0; this.fAccel = fAccel; this.fFric = fFric; this.fRes = fRes; this.fThresh = fThresh; this.rSpeed = 0; this.rAccel = rAccel; this.rFric = rFric; this.rRes = rRes; this.rThresh = rThresh; this.children = []; this.systems = [];
+            }
+            follow(x, y) {
+                var dist = ((this.x - x) ** 2 + (this.y - y) ** 2) ** 0.5;
+                var angle = Math.atan2(y - this.y, x - this.x);
+                var accel = this.fAccel;
+                if (this.systems.length > 0) {
+                    var sum = 0;
+                    for (var i = 0; i < this.systems.length; i++) { sum += this.systems[i].step == 0; }
+                    accel *= sum / this.systems.length;
+                }
+                this.fSpeed += accel * (dist > this.fThresh);
+                this.fSpeed *= 1 - this.fRes;
+                this.speed = Math.max(0, this.fSpeed - this.fFric);
+                var dif = this.absAngle - angle;
+                dif -= 2 * Math.PI * Math.floor(dif / (2 * Math.PI) + 1 / 2);
+                if (Math.abs(dif) > this.rThresh && dist > this.fThresh) { this.rSpeed -= this.rAccel * (2 * (dif > 0) - 1); }
+                this.rSpeed *= 1 - this.rRes;
+                if (Math.abs(this.rSpeed) > this.rFric) { this.rSpeed -= this.rFric * (2 * (this.rSpeed > 0) - 1); } else { this.rSpeed = 0; }
+                this.absAngle += this.rSpeed;
+                this.absAngle -= 2 * Math.PI * Math.floor(this.absAngle / (2 * Math.PI) + 1 / 2);
+                this.x += this.speed * Math.cos(this.absAngle);
+                this.y += this.speed * Math.sin(this.absAngle);
+                this.absAngle += Math.PI;
+                for (var i = 0; i < this.children.length; i++) { this.children[i].follow(true, true); }
+                for (var i = 0; i < this.systems.length; i++) { this.systems[i].update(x, y); }
+                this.absAngle -= Math.PI;
+                this.draw(true);
+            }
+            draw(iter) {
+                var r = 4;
+                reptileCtx.beginPath();
+                reptileCtx.arc(this.x, this.y, r, Math.PI / 4 + this.absAngle, 7 * Math.PI / 4 + this.absAngle);
+                reptileCtx.moveTo(this.x + r * Math.cos(7 * Math.PI / 4 + this.absAngle), this.y + r * Math.sin(7 * Math.PI / 4 + this.absAngle));
+                reptileCtx.lineTo(this.x + r * Math.cos(this.absAngle) * 2 ** 0.5, this.y + r * Math.sin(this.absAngle) * 2 ** 0.5);
+                reptileCtx.lineTo(this.x + r * Math.cos(Math.PI / 4 + this.absAngle), this.y + r * Math.sin(Math.PI / 4 + this.absAngle));
+                reptileCtx.stroke();
+                if (iter) { for (var i = 0; i < this.children.length; i++) { this.children[i].draw(true); } }
+            }
+        }
+
+        var critter;
+        function setupLizard(size, legs, tail) {
+            var s = size;
+            critter = new Creature(window.innerWidth / 2, window.innerHeight / 2, 0, s * 10, s * 2, 0.5, 16, 0.5, 0.085, 0.5, 0.3);
+            var spinal = critter;
+            for (var i = 0; i < 6; i++) {
+                spinal = new Segment(spinal, s * 4, 0, 3.1415 * 2 / 3, 1.1);
+                for (var ii = -1; ii <= 1; ii += 2) {
+                    var node = new Segment(spinal, s * 3, ii, 0.1, 2);
+                    for (var iii = 0; iii < 3; iii++) { node = new Segment(node, s * 0.1, -ii * 0.1, 0.1, 2); }
+                }
+            }
+            for (var i = 0; i < legs; i++) {
+                if (i > 0) {
+                    for (var ii = 0; ii < 6; ii++) {
+                        spinal = new Segment(spinal, s * 4, 0, 1.571, 1.5);
+                        for (var iii = -1; iii <= 1; iii += 2) {
+                            var node = new Segment(spinal, s * 3, iii * 1.571, 0.1, 1.5);
+                            for (var iv = 0; iv < 3; iv++) { node = new Segment(node, s * 3, -iii * 0.3, 0.1, 2); }
+                        }
+                    }
+                }
+                for (var ii = -1; ii <= 1; ii += 2) {
+                    var node = new Segment(spinal, s * 12, ii * 0.785, 0, 8); 
+                    node = new Segment(node, s * 16, -ii * 0.785, 6.28, 1); 
+                    node = new Segment(node, s * 16, ii * 1.571, 3.1415, 2); 
+                    for (var iii = 0; iii < 4; iii++) { new Segment(node, s * 4, (iii / 3 - 0.5) * 1.571, 0.1, 4); }
+                    new LegSystem(node, 3, s * 12, critter, 4);
+                }
+            }
+            for (var i = 0; i < tail; i++) {
+                spinal = new Segment(spinal, s * 4, 0, 3.1415 * 2 / 3, 1.1);
+                for (var ii = -1; ii <= 1; ii += 2) {
+                    var node = new Segment(spinal, s * 3, ii, 0.1, 2);
+                    for (var iii = 0; iii < 3; iii++) { node = new Segment(node, s * 3 * (tail - i) / tail, -ii * 0.1, 0.1, 2); }
+                }
+            }
+            reptileInterval = setInterval(function() {
+                reptileCtx.clearRect(0, 0, reptileCanvas.width, reptileCanvas.height);
+                critter.follow(Input.mouse.x, Input.mouse.y);
+            }, 33);
+        }
+
+        window.openReptile = function() {
+            document.getElementById('reptileModal').style.display = 'block';
+            window.reptileActive = true;
+            var container = document.getElementById('reptileCanvasContainer');
+            container.innerHTML = ''; 
+            reptileCanvas = document.createElement("canvas");
+            container.appendChild(reptileCanvas);
+            reptileCanvas.width = window.innerWidth;
+            reptileCanvas.height = window.innerHeight;
+            reptileCanvas.style.position = "absolute";
+            reptileCanvas.style.left = "0px";
+            reptileCanvas.style.top = "0px";
+            reptileCanvas.style.backgroundColor = "black";
+            reptileCtx = reptileCanvas.getContext("2d");
+            reptileCtx.strokeStyle = "white";
+            var legNum = Math.floor(1 + Math.random() * 12);
+            setupLizard(8 / Math.sqrt(legNum), legNum, Math.floor(4 + Math.random() * legNum * 8));
+        };
+
+        window.closeReptile = function() {
+            document.getElementById('reptileModal').style.display = 'none';
+            window.reptileActive = false;
+            clearInterval(reptileInterval);
+            var container = document.getElementById('reptileCanvasContainer');
+            container.innerHTML = ''; 
+        };
+
+        // ==========================================
+        //  SPIDER LOGIC
+        // ==========================================
+        let spiderCanvas, spiderCtx;
+        const { sin, cos, PI, hypot, min, max } = Math;
+
+        function rnd(x = 1, dx = 0) { return Math.random() * x + dx; }
+        function drawCircle(x, y, r) {
+            spiderCtx.beginPath();
+            spiderCtx.ellipse(x, y, r, r, 0, 0, PI * 2);
+            spiderCtx.fill();
+        }
+        function drawLine(x0, y0, x1, y1) {
+            spiderCtx.beginPath();
+            spiderCtx.moveTo(x0, y0);
+            many(100, (i) => {
+                i = (i + 1) / 100;
+                let x = lerp(x0, x1, i);
+                let y = lerp(y0, y1, i);
+                let k = noise(x/5+x0, y/5+y0) * 2;
+                spiderCtx.lineTo(x + k, y + k);
+            });
+            spiderCtx.stroke();
+        }
+        function many(n, f) { return [...Array(n)].map((_, i) => f(i)); }
+        function lerp(a, b, t) { return a + (b - a) * t; }
+        function noise(x, y, t = 101) {
+            let w0 = sin(0.3 * x + 1.4 * t + 2.0 + 2.5 * sin(0.4 * y + -1.3 * t + 1.0));
+            let w1 = sin(0.2 * y + 1.5 * t + 2.8 + 2.3 * sin(0.5 * x + -1.2 * t + 0.5));
+            return w0 + w1;
+        }
+        function pt(x,y){ return {x,y} }
+
+        function spawnSpider() {
+            const pts = many(333, () => {
+                return { x: rnd(window.innerWidth), y: rnd(window.innerHeight), len: 0, r: 0 };
+            });
+            const pts2 = many(9, (i) => {
+                return { x: cos((i / 9) * PI * 2), y: sin((i / 9) * PI * 2) };
+            });
+            let seed = rnd(100);
+            let tx = rnd(window.innerWidth); 
+            let ty = rnd(window.innerHeight);
+            let x = rnd(window.innerWidth);
+            let y = rnd(window.innerHeight);
+            let kx = rnd(0.5, 0.5);
+            let ky = rnd(0.5, 0.5);
+            let walkRadius = pt(rnd(50,50), rnd(50,50));
+            let r = window.innerWidth / rnd(100, 150);
+            
+            function paintPt(pt){
+                pts2.forEach((pt2) => {
+                    if (!pt.len ) return;
+                    drawLine(
+                        lerp(x + pt2.x * r, pt.x, pt.len * pt.len),
+                        lerp(y + pt2.y * r, pt.y, pt.len * pt.len),
+                        x + pt2.x * r,
+                        y + pt2.y * r
+                    );
+                });
+                drawCircle(pt.x, pt.y, pt.r);
+            }
+        
+            return {
+                follow(targetX, targetY) {
+                    tx = targetX;
+                    ty = targetY;
+                },
+                tick(t) {
+                    const selfMoveX = cos(t*kx+seed)*walkRadius.x;        
+                    const selfMoveY = sin(t*ky+seed)*walkRadius.y;       
+                    let fx = tx + selfMoveX;          
+                    let fy = ty + selfMoveY; 
+                            
+                    x += min(window.innerWidth/100, (fx - x)/10);
+                    y += min(window.innerWidth/100, (fy - y)/10);
+                            
+                    let i = 0;
+                    pts.forEach((pt) => {
+                        const dx = pt.x - x, dy = pt.y - y;
+                        const len = hypot(dx, dy);
+                        let r = min(2, window.innerWidth / len / 5);
+                        pt.t = 0;
+                        const increasing = len < window.innerWidth / 10 && (i++) < 8;
+                        let dir = increasing ? 0.1 : -0.1;
+                        if (increasing) { r *= 1.5; }
+                        pt.r = r;
+                        pt.len = max(0, min(pt.len + dir, 1));
+                        paintPt(pt);
+                    });
+                } 
+            }
+        }
+
+        window.openSpider = function() {
+            document.getElementById('spiderModal').style.display = 'block';
+            window.spiderActive = true;
+            spiderCanvas = document.getElementById("spiderCanvas");
+            spiderCtx = spiderCanvas.getContext("2d");
+            spiderCanvas.width = window.innerWidth;
+            spiderCanvas.height = window.innerHeight;
+            
+            window.spidersArr = many(2, spawnSpider);
+            
+            requestAnimationFrame(function anim(t) {
+                if(!window.spiderActive) return;
+                if (spiderCanvas.width !== window.innerWidth) spiderCanvas.width = window.innerWidth;
+                if (spiderCanvas.height !== window.innerHeight) spiderCanvas.height = window.innerHeight;
+                
+                spiderCtx.fillStyle = "#000";
+                // We use helper drawCircle here for bg clear trick
+                spiderCtx.beginPath();
+                spiderCtx.ellipse(0, 0, window.innerWidth * 10, window.innerWidth * 10, 0, 0, PI * 2);
+                spiderCtx.fill();
+
+                spiderCtx.fillStyle = spiderCtx.strokeStyle = "#fff";
+                t/=1000;
+                window.spidersArr.forEach(spider => spider.tick(t));
+                requestAnimationFrame(anim);
+            });
+        };
+
+        window.closeSpider = function() {
+            document.getElementById('spiderModal').style.display = 'none';
+            window.spiderActive = false;
+        };
+
+    </script>
+</body>
+</html>
