@@ -56,10 +56,10 @@
             gap: 15px;
         }
 
-        /* تغییر سایز روباه به 50 پیکسل */
+        /* تغییر سایز روباه به 75 پیکسل (بزرگتر از رزومه) */
         .fox-image {
-            width: 50px;
-            height: 50px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             border: 3px solid white;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -77,7 +77,7 @@
             75% { transform: translateY(-5px) rotate(3deg); }
         }
 
-        /* استایل پایه برای همه آیکون‌ها (سایز 40 پیکسل) */
+        /* استایل پایه برای آیکون‌های معمولی (سایز 40 پیکسل) */
         .social-link {
             color: white;
             font-size: 1.2rem;
@@ -105,31 +105,28 @@
             object-fit: cover;
         }
 
-        /* استایل ویژه برای رزومه و موبایل (سایز 50 پیکسل - کمی بزرگتر از بقیه) */
-        .resume-link-special,
-        .mobile-link-special {
-            width: 50px; 
-            height: 50px;
-            font-size: 1.3rem;
+        /* استایل ویژه برای رزومه (سایز 60 پیکسل) */
+        .resume-link-special {
+            width: 60px; 
+            height: 60px;
+            font-size: 1.5rem;
+            animation-delay: 2.5s;
             background: var(--secondary);
             border: 3px solid white;
         }
         
-        .resume-link-special { animation-delay: 2.5s; }
-        .mobile-link-special { animation-delay: 2.8s; }
-
-        .resume-link-special:hover,
-        .mobile-link-special:hover {
+        .resume-link-special:hover {
              transform: scale(1.1) translateY(-5px);
              background: var(--button-hover);
         }
 
         /* تاخیر انیمیشن برای سایر آیکون‌ها */
-        .social-link:not(.resume-link-special):not(.mobile-link-special):nth-child(4) { animation-delay: 0.5s; }
-        .social-link:not(.resume-link-special):not(.mobile-link-special):nth-child(5) { animation-delay: 1s; }
-        .social-link:not(.resume-link-special):not(.mobile-link-special):nth-child(6) { animation-delay: 1.5s; }
-        .social-link:not(.resume-link-special):not(.mobile-link-special):nth-child(7) { animation-delay: 2s; }
-        .social-link:not(.resume-link-special):not(.mobile-link-special):nth-child(8) { animation-delay: 2.5s; }
+        .social-link:not(.resume-link-special):nth-child(3) { animation-delay: 0.5s; }
+        .social-link:not(.resume-link-special):nth-child(4) { animation-delay: 1s; }
+        .social-link:not(.resume-link-special):nth-child(5) { animation-delay: 1.5s; }
+        .social-link:not(.resume-link-special):nth-child(6) { animation-delay: 2s; }
+        .social-link:not(.resume-link-special):nth-child(7) { animation-delay: 2.5s; }
+        .social-link:not(.resume-link-special):nth-child(8) { animation-delay: 3s; }
 
 
         @keyframes float {
@@ -468,9 +465,9 @@
             .project-card { width: 100%; margin: 0 0 1.5rem; padding: 1.5rem; box-sizing: border-box; }
             .social-container { left: 10px; bottom: -30px; gap: 8px; }
             /* تنظیم سایزها در موبایل */
-            .fox-image { width: 50px; height: 50px; }
+            .fox-image { width: 60px; height: 60px; }
             .social-link { width: 35px; height: 35px; font-size: 1rem; padding: 6px; }
-            .resume-link-special, .mobile-link-special { width: 45px; height: 45px; font-size: 1.2rem;}
+            .resume-link-special { width: 50px; height: 50px; font-size: 1.2rem;}
             
             .theme-toggle { font-size: 1.5rem; top: 15px; right: 15px; }
             .modal-content { width: 90%; margin: 10% auto; padding: 20px; }
@@ -649,10 +646,6 @@
                 <i class="fas fa-file-lines"></i>
             </div>
 
-            <div class="social-link mobile-link-special" onclick="openModal('phoneModal')" style="cursor: pointer;">
-                <i class="fas fa-phone"></i>
-            </div>
-
             <a href="https://t.me/TechByChalaki" class="social-link" target="_blank">
                 <i class="fab fa-telegram-plane"></i>
             </a>
@@ -666,7 +659,11 @@
                 <i class="fab fa-github"></i>
             </a>
             
-            <a href="AIOTECH.html" class="social-link" target="_blank" title="AIOTECH">
+            <div class="social-link" onclick="openModal('phoneModal')" style="cursor: pointer;">
+                <i class="fas fa-phone"></i>
+            </div>
+
+            <a href="AIOTECH.html" class="social-link" target="_blank" title="AIOTECH" style="padding: 0;">
                 <img src="AIOTECH.jpg" alt="AIOTECH" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
             </a>
         </div>
