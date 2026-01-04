@@ -13,7 +13,7 @@
             --text: #2c3e50;
             --nav-bg: rgba(255, 255, 255, 0.95);
             --button-hover: #2980b9;
-            --bulb-color: #f39c12; /* New bulb color variable */
+            --bulb-color: #f39c12;
         }
 
         .dark-mode {
@@ -23,7 +23,7 @@
             --text: #ecf0f1;
             --nav-bg: rgba(44, 62, 80, 0.95);
             --button-hover: #16a085;
-            --bulb-color: #ffffff; /* White color for dark mode */
+            --bulb-color: #ffffff;
         }
 
         body {
@@ -53,7 +53,7 @@
             z-index: 100;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .fox-image {
@@ -65,21 +65,14 @@
             cursor: pointer;
             transition: transform 0.3s ease;
             animation: foxMove 3s 3s infinite ease-in-out;
+            background: #fff;
         }
 
         @keyframes foxMove {
-            0%, 100% {
-                transform: translateY(0) rotate(0);
-            }
-            25% {
-                transform: translateY(-10px) rotate(5deg);
-            }
-            50% {
-                transform: translateY(10px) rotate(-5deg);
-            }
-            75% {
-                transform: translateY(-5px) rotate(3deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(10px) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(3deg); }
         }
 
         .social-link {
@@ -98,21 +91,40 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             border: 2px solid white;
             animation: float 3s infinite ease-in-out;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .social-link:nth-child(1) { animation-delay: 0s; }
+        .resume-link-special {
+            width: 60px; 
+            height: 60px;
+            font-size: 1.5rem;
+            animation-delay: 2.5s;
+            background: var(--secondary);
+            border: 3px solid white;
+        }
+        .resume-link-special:hover {
+             transform: scale(1.1) translateY(-5px);
+             background: var(--button-hover);
+        }
+
         .social-link:nth-child(2) { animation-delay: 0.5s; }
         .social-link:nth-child(3) { animation-delay: 1s; }
         .social-link:nth-child(4) { animation-delay: 1.5s; }
         .social-link:nth-child(5) { animation-delay: 2s; }
+        .social-link:nth-child(6) { animation-delay: 2.5s; }
+        .social-link:nth-child(7) { animation-delay: 3s; }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .social-link:hover {
@@ -127,7 +139,7 @@
             right: 20px;
             background: none;
             border: none;
-            color: var(--bulb-color); /* Using the new bulb color variable */
+            color: var(--bulb-color);
             font-size: 1.8rem;
             cursor: pointer;
             z-index: 1000;
@@ -177,6 +189,7 @@
             transition: all 0.3s ease;
             border: 2px solid transparent;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
 
         .view-btn:hover {
@@ -201,7 +214,8 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
@@ -214,6 +228,26 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
             animation: modalFadeIn 0.3s;
+        }
+
+        .image-modal-content {
+            background-color: transparent;
+            box-shadow: none;
+            text-align: center;
+            max-width: 90%;
+            padding: 0;
+            margin: 2% auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .certificate-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 5px solid white;
         }
 
         @keyframes modalFadeIn {
@@ -230,9 +264,19 @@
             font-weight: bold;
             cursor: pointer;
             transition: color 0.3s;
+            z-index: 10;
+        }
+        
+        .image-close {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            text-shadow: 0 0 10px black;
         }
 
-        .close:hover {
+        .close:hover, .image-close:hover {
             color: var(--secondary);
         }
 
@@ -241,6 +285,15 @@
             margin-bottom: 20px;
             text-align: center;
             font-size: 2rem;
+        }
+
+        .modal-subtitle {
+            color: var(--secondary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 10px;
         }
 
         .project-item {
@@ -284,6 +337,146 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
+        /* Certificate List Styling */
+        .cert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .cert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .cert-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .cert-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .cert-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: 10px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cert-btn:hover {
+            background: var(--button-hover);
+            transform: scale(1.05);
+        }
+
+        /* Styles for NEF Projects Section */
+        .nef-item {
+            background-color: rgba(0,0,0,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .eng-text, .fa-text {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .nef-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .translate-btn {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .translate-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Phone Modal Buttons */
+        .phone-modal-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .phone-modal-btns button, .phone-modal-btns a {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        @media (max-width: 600px) {
+            .cert-item, .nef-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .cert-btn, .translate-btn {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .header { padding: 4rem 1rem 5rem; }
+            .projects { display: block; padding: 3rem 1rem 2rem; }
+            .project-card { width: 100%; margin: 0 0 1.5rem; padding: 1.5rem; box-sizing: border-box; }
+            .social-container { left: 10px; bottom: -30px; gap: 8px; }
+            .fox-image { width: 80px; height: 80px; }
+            .social-link { width: 35px; height: 35px; font-size: 1rem; padding: 6px; }
+            .resume-link-special { width: 50px; height: 50px; font-size: 1.2rem;}
+            .theme-toggle { font-size: 1.5rem; top: 15px; right: 15px; }
+            .modal-content { width: 90%; margin: 10% auto; padding: 20px; }
+            .footer-galaxy { height: 200px; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .projects { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
         .fireworks {
             position: fixed;
             top: 0;
@@ -304,17 +497,10 @@
         }
 
         @keyframes firework {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
         }
 
-        /* افکت کهکشان و ستاره‌ها */
         .space-background {
             position: fixed;
             top: 0;
@@ -335,12 +521,8 @@
         }
 
         @keyframes rotateGalaxy {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .star {
@@ -367,28 +549,12 @@
         }
 
         @keyframes shoot {
-            0% {
-                opacity: 0;
-                left: 0;
-                top: 0;
-                width: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            70% {
-                opacity: 0.8;
-                width: 100px;
-            }
-            100% {
-                opacity: 0;
-                left: calc(100% + 100px);
-                top: 100px;
-                width: 0;
-            }
+            0% { opacity: 0; left: 0; top: 0; width: 0; }
+            10% { opacity: 0.8; }
+            70% { opacity: 0.8; width: 100px; }
+            100% { opacity: 0; left: calc(100% + 100px); top: 100px; width: 0; }
         }
 
-        /* ستاره‌های جدید */
         .stars-container {
             position: fixed;
             top: 0;
@@ -412,27 +578,16 @@
         }
 
         @keyframes starShoot {
-            0% {
-                transform: translate(0, 0) scale(0.3);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            70% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translate(0, 0) scale(0.3); opacity: 0; }
+            10% { opacity: 0.5; }
+            70% { opacity: 0.5; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
         }
 
-        /* کهکشان در فوتر */
         .footer-galaxy {
             position: relative;
             width: 100%;
-            height: 300px; /* Increased height */
+            height: 300px;
             overflow: hidden;
             background: linear-gradient(to bottom, transparent, var(--primary));
         }
@@ -442,12 +597,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px; /* Larger galaxy */
+            width: 500px;
             height: 500px;
-            background: radial-gradient(circle, 
-                rgba(255,255,255,0.3) 0%, 
-                rgba(255,255,255,0.1) 40%, 
-                transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, transparent 70%);
             animation: rotateGalaxy 120s infinite linear;
             box-shadow: 0 0 100px rgba(255, 255, 255, 0.1);
         }
@@ -465,72 +617,6 @@
             opacity: 0.7;
             animation: twinkle 5s infinite ease-in-out;
         }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 4rem 1rem 5rem;
-            }
-
-            .projects {
-                display: block;
-                padding: 3rem 1rem 2rem;
-            }
-
-            .project-card {
-                width: 100%;
-                margin: 0 0 1.5rem;
-                padding: 1.5rem;
-                box-sizing: border-box;
-            }
-
-            .social-container {
-                left: 10px;
-                bottom: -30px;
-                gap: 8px;
-            }
-
-            .fox-image {
-                width: 80px;
-                height: 80px;
-            }
-
-            .social-link {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-                padding: 6px;
-            }
-
-            .theme-toggle {
-                font-size: 1.5rem;
-                top: 15px;
-                right: 15px;
-            }
-
-            .modal-content {
-                width: 90%;
-                margin: 10% auto;
-                padding: 20px;
-            }
-
-            .footer-galaxy {
-                height: 200px;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .projects {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        footer {
-            background: var(--primary);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
     </style>
 </head>
 <body>
@@ -538,7 +624,6 @@
         <i class="fas fa-lightbulb"></i>
     </button>
 
-    <!-- پس‌زمینه کهکشان -->
     <div class="space-background" id="spaceBackground"></div>
     <div class="stars-container" id="starsContainer"></div>
 
@@ -547,6 +632,15 @@
         <p style="font-size: 1.5rem; margin-bottom: 2rem;">Data Scientist & Game Developer</p>
         <div class="social-container">
             <img src="Fox.png" alt="Fox" class="fox-image" id="foxImage">
+            
+            <div class="social-link resume-link-special" onclick="openModal('resumeModal')" title="Professional Certificates & Projects" style="cursor: pointer;">
+                <i class="fas fa-file-lines"></i>
+            </div>
+
+            <a href="AIOTECH.html" class="social-link" target="_blank" title="AIOTECH">
+                <img src="AIOTECH.png" alt="AIOTECH" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            </a>
+
             <a href="https://t.me/TechByChalaki" class="social-link" target="_blank">
                 <i class="fab fa-telegram-plane"></i>
             </a>
@@ -559,9 +653,10 @@
             <a href="https://github.com/AliChalaki" class="social-link" target="_blank">
                 <i class="fab fa-github"></i>
             </a>
-            <a href="tel:+989102655884" class="social-link">
+            
+            <div class="social-link" onclick="openModal('phoneModal')" style="cursor: pointer;">
                 <i class="fas fa-phone"></i>
-            </a>
+            </div>
         </div>
     </header>
 
@@ -610,13 +705,35 @@
                 View Courses <i class="fas fa-arrow-right"></i>
             </div>
         </div>
+
+        <div class="project-card" onclick="window.location.href='lab.html'">
+            <i class="fas fa-flask project-icon"></i>
+            <h3>Code Laboratory</h3>
+            <p>Strange living code creatures and experiments</p>
+            <div class="view-btn">
+                Enter Lab <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
     </div>
 
-    <!-- AI Projects Modal -->
     <div id="aiModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('aiModal')">&times;</span>
             <h2 class="modal-title">AI Projects</h2>
+            
+            <div class="project-item">
+                <div class="project-name">Development of Micro-transmitters</div>
+                <div class="project-description">
+                    Development of micro-transmitters for medical applications and tissue monitoring. This project was conducted with the collaboration and support of KASA Knowledge-Based Industries Complex, National Elites Foundation, Vice Presidency for Science and Technology, Biotechnology Development Council, and Rezvan Sharif Institute.
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-name">Intelligent Branch Staff Management System</div>
+                <div class="project-description">
+                    Design of an Intelligent Branch Staff Performance Management System using Image Processing, AI, and Gamification. Aimed at increasing productivity in high-stress banking environments, this project was supported by KASA Knowledge-Based Industries Complex, National Elites Foundation, Vice Presidency for Science and Technology, and Rezvan Sharif Institute.
+                </div>
+            </div>
             
             <div class="project-item">
                 <div class="project-name">Yunus Cancer Detection</div>
@@ -651,7 +768,6 @@
         </div>
     </div>
 
-    <!-- Python Projects Modal -->
     <div id="pythonModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('pythonModal')">&times;</span>
@@ -694,7 +810,6 @@
         </div>
     </div>
 
-    <!-- Web Projects Modal -->
     <div id="webModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('webModal')">&times;</span>
@@ -755,7 +870,6 @@
                 <div class="project-description">
                     A system for managing class attendance and student records.
                 </div>
-                         https://alichalaki.github.io/Class-Management-System/
                 <a href="https://alichalaki.github.io/Class-Management-System/" class="website-link" target="_blank">
                     Visit Website <i class="fas fa-external-link-alt"></i>
                 </a>
@@ -763,7 +877,6 @@
         </div>
     </div>
 
-    <!-- Game Development Modal -->
     <div id="gameModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('gameModal')">&times;</span>
@@ -830,9 +943,155 @@
         </div>
     </div>
 
+    <div id="resumeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('resumeModal')">&times;</span>
+            <h2 class="modal-title">Professional Resume</h2>
+            
+            <h3 class="modal-subtitle">National Elites Foundation Projects</h3>
+            <div class="nef-project-list">
+                
+                <div class="nef-item">
+                    <p class="eng-text">Development of micro-transmitters for medical applications and tissue monitoring. This project was conducted with the collaboration and support of KASA Knowledge-Based Industries Complex, National Elites Foundation, Vice Presidency for Science and Technology, Biotechnology Development Council, and Rezvan Sharif Institute.</p>
+                    <p class="fa-text" style="display: none; direction: rtl; text-align: right; font-family: Tahoma, sans-serif;">پروژه توسعه ریزفرستنده‌ها برای کاربری‌های پزشکی و نظارت بر وضعیت بافت‌های بدن که با همکاری و حمایت مجتمع صنایع دانش‌بنیان کسا، بنیاد ملی نخبگان، معاونت علمی، فناوری و اقتصاد دانش‌بنیان ریاست جمهوری، ستاد توسعه زیست‌فناوری و مؤسسه هدایت تخصصی رضوان شریف برگزار گردید، حضور و مشارکت فعال داشته است.</p>
+                    <div class="nef-buttons">
+                        <button class="translate-btn" onclick="toggleTranslation(this)">
+                            <i class="fas fa-language"></i> Translate to Persian
+                        </button>
+                        <button class="cert-btn" onclick="viewCertificate('images/rahisho_micro.jpg')">
+                            <i class="fas fa-eye"></i> View Certificate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="nef-item">
+                    <p class="eng-text">Design of an Intelligent Branch Staff Performance Management System using Image Processing, AI, and Gamification. Aimed at increasing productivity in high-stress banking environments, this project was supported by KASA Knowledge-Based Industries Complex, National Elites Foundation, Vice Presidency for Science and Technology, and Rezvan Sharif Institute.</p>
+                    <p class="fa-text" style="display: none; direction: rtl; text-align: right; font-family: Tahoma, sans-serif;">پروژه طراحی سیستم هوشمند مدیریت عملکرد کارکنان شعب با استفاده از پردازش تصویر، هوش مصنوعی و gamification برای افزایش بهره‌وری و کاهش خستگی در محیط‌های پراسترس بانکی که با همکاری و حمایت مجتمع صنایع دانش‌بنیان کسا، بنیاد ملی نخبگان، معاونت علمی، فناوری و اقتصاد دانش‌بنیان ریاست جمهوری، ستاد توسعه زیست‌فناوری و مؤسسه هدایت تخصصی رضوان شریف برگزار گردید، حضور و مشارکت فعال داشته است.</p>
+                    <div class="nef-buttons">
+                        <button class="translate-btn" onclick="toggleTranslation(this)">
+                            <i class="fas fa-language"></i> Translate to Persian
+                        </button>
+                        <button class="cert-btn" onclick="viewCertificate('images/rahisho_bank.jpg')">
+                            <i class="fas fa-eye"></i> View Certificate
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <h3 class="modal-subtitle" style="margin-top: 40px;">Certificates</h3>
+            <div class="cert-list">
+                
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>CCNA (Network Associate)</h4>
+                        <p>Cando Institute</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/ccna.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>Data Science & Machine Learning</h4>
+                        <p>Sharif University of Technology</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/datascience.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>Python Programming Mastery</h4>
+                        <p>Tehran Institute of Technology (MFT)</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/python.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>Web Design, WordPress & SEO</h4>
+                        <p>Tehran Institute of Technology (MFT)</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/webseo.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>CS50x: Computer Science</h4>
+                        <p>Harvard University</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/cs50x.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>CS50P: Programming with Python</h4>
+                        <p>Harvard University</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/cs50p.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>CS50AI: Artificial Intelligence</h4>
+                        <p>Harvard University</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/cs50ai.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+                <div class="cert-item">
+                    <div class="cert-details">
+                        <h4>Pharmacy Technician</h4>
+                        <p>Jihad University (Jahad Daneshgahi)</p>
+                    </div>
+                    <button class="cert-btn" onclick="viewCertificate('images/pharmacy.jpg')">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="imageViewerModal" class="modal">
+        <span class="image-close" onclick="closeModal('imageViewerModal')">&times;</span>
+        <div class="image-modal-content">
+            <img id="certificateImage" class="certificate-image" src="" alt="Certificate">
+        </div>
+    </div>
+
+    <div id="phoneModal" class="modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <span class="close" onclick="closeModal('phoneModal')">&times;</span>
+            <h2 class="modal-title">Contact Me</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">+98 910 265 5884</p>
+            <div class="phone-modal-btns">
+                <button class="view-btn" onclick="copyToClipboard('+989102655884')">
+                    <i class="fas fa-copy"></i> Copy Number
+                </button>
+                <a href="tel:+989102655884" class="view-btn">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="fireworks" id="fireworksContainer"></div>
 
-    <!-- فوتر با کهکشان -->
     <div class="footer-galaxy" id="footerGalaxy">
         <div class="galaxy"></div>
         <div class="stars" id="footerStars"></div>
@@ -893,6 +1152,41 @@
             document.body.style.overflow = 'auto'; // Re-enable scrolling
         }
 
+        // New function to view certificate image in modal
+        function viewCertificate(imagePath) {
+            const modal = document.getElementById('imageViewerModal');
+            const img = document.getElementById('certificateImage');
+            img.src = imagePath;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Function to toggle translation
+        function toggleTranslation(btn) {
+            const parent = btn.closest('.nef-item');
+            const eng = parent.querySelector('.eng-text');
+            const fa = parent.querySelector('.fa-text');
+            if (eng.style.display !== 'none') {
+                eng.style.display = 'none';
+                fa.style.display = 'block';
+                btn.innerHTML = '<i class="fas fa-language"></i> Translate to English';
+            } else {
+                eng.style.display = 'block';
+                fa.style.display = 'none';
+                btn.innerHTML = '<i class="fas fa-language"></i> Translate to Persian';
+            }
+        }
+        
+        // Function to copy phone number
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('شماره کپی شد!');
+                closeModal('phoneModal');
+            }, function(err) {
+                console.error('Async: Could not copy text: ', err);
+            });
+        }
+
         // Close modal when clicking outside content
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
@@ -909,46 +1203,31 @@
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
 
-            // ایجاد کهکشان‌های پس‌زمینه
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 2; i++) {
                 const galaxy = document.createElement('div');
                 galaxy.className = 'galaxy';
-                
-                // اندازه و موقعیت تصادفی
                 const size = Math.random() * 500 + 300;
                 galaxy.style.width = `${size}px`;
                 galaxy.style.height = `${size}px`;
                 galaxy.style.left = `${Math.random() * 100}%`;
                 galaxy.style.top = `${Math.random() * 100}%`;
-                
-                // سرعت چرخش متفاوت
                 galaxy.style.animationDuration = `${Math.random() * 100 + 100}s`;
-                
                 spaceBg.appendChild(galaxy);
             }
 
-            // ایجاد ستاره‌های ثابت
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 100; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                
-                // اندازه تصادفی
                 const size = Math.random() * 3 + 1;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
-                
-                // موقعیت تصادفی
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
-                
-                // زمان‌بندی متغیر برای جلوه چشمک زدن
                 star.style.animationDelay = `${Math.random() * 5}s`;
-                
                 spaceBg.appendChild(star);
             }
 
-            // ایجاد ستاره‌های فوتر
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 50; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.width = `${Math.random() * 3 + 1}px`;
@@ -959,57 +1238,26 @@
                 footerStars.appendChild(star);
             }
 
-            // ایجاد شهاب‌ها
             function createShootingStar() {
                 const shootingStar = document.createElement('div');
                 shootingStar.className = 'shooting-star';
-                
-                // موقعیت شروع تصادفی از سمت چپ
                 shootingStar.style.left = `${-100}px`;
                 shootingStar.style.top = `${Math.random() * 100}%`;
-                
-                // زمان‌بندی متغیر
                 shootingStar.style.animationDelay = `${Math.random() * 2}s`;
                 shootingStar.style.animationDuration = `${Math.random() * 3 + 5}s`;
-                
                 spaceBg.appendChild(shootingStar);
-                
-                // حذف عنصر پس از پایان انیمیشن
-                setTimeout(() => {
-                    shootingStar.remove();
-                }, 8000);
+                setTimeout(() => { shootingStar.remove(); }, 8000);
             }
 
-            // ایجاد شهاب‌های فوتر
-            function createFooterShootingStar() {
-                const shootingStar = document.createElement('div');
-                shootingStar.className = 'shooting-star';
-                shootingStar.style.left = `${-100}px`;
-                shootingStar.style.top = `${Math.random() * 100}%`;
-                shootingStar.style.animationDelay = `${Math.random() * 2}s`;
-                shootingStar.style.animationDuration = `${Math.random() * 3 + 5}s`;
-                footerStars.appendChild(shootingStar);
-                
-                setTimeout(() => {
-                    shootingStar.remove();
-                }, 8000);
-            }
-
-            // ایجاد ستاره‌های پرتابی از مرکز
             function createStar() {
                 const star = document.createElement('div');
                 star.className = 'real-star';
-                
-                // اندازه تصادفی
                 const size = Math.random() * 20 + 10;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
-                
-                // موقعیت شروع در مرکز صفحه
                 star.style.left = `${centerX}px`;
                 star.style.top = `${centerY}px`;
                 
-                // جهت حرکت تصادفی
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 500 + 300;
                 const tx = Math.cos(angle) * distance;
@@ -1018,27 +1266,17 @@
                 star.style.setProperty('--tx', `${tx}px`);
                 star.style.setProperty('--ty', `${ty}px`);
                 
-                // مدت زمان انیمیشن
                 const duration = Math.random() * 3 + 2;
                 star.style.animationDuration = `${duration}s`;
                 
                 starsContainer.appendChild(star);
-                
-                // حذف ستاره پس از پایان انیمیشن
-                setTimeout(() => {
-                    star.remove();
-                }, duration * 1000);
+                setTimeout(() => { star.remove(); }, duration * 1000);
             }
 
-            // ایجاد شهاب‌ها به صورت دوره‌ای
-            setInterval(createShootingStar, 1000);
-            setInterval(createFooterShootingStar, 1500);
+            setInterval(createShootingStar, 2000);
+            setInterval(createStar, 600);
             
-            // ایجاد ستاره‌های پرتابی به صورت دوره‌ای
-            setInterval(createStar, 300);
-            
-            // ایجاد چند ستاره در ابتدا
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 5; i++) {
                 setTimeout(createStar, i * 300);
             }
         });
