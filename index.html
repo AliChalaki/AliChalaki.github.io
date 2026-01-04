@@ -65,7 +65,9 @@
             cursor: pointer;
             transition: transform 0.3s ease;
             animation: foxMove 3s 3s infinite ease-in-out;
-            background: #fff;
+            /* تغییرات برای ایجاد فاصله بین عکس و حاشیه */
+            padding: 5px; 
+            background: transparent; 
         }
 
         @keyframes foxMove {
@@ -637,7 +639,7 @@
                 <i class="fas fa-file-lines"></i>
             </div>
 
-            <a href="AIOTECH.html" class="social-link" target="_blank" title="AIOTECH">
+            <a href="AIOTECH.html" class="social-link" target="_blank" title="AIOTECH" style="padding: 0;">
                 <img src="AIOTECH.jpg" alt="AIOTECH" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
             </a>
 
@@ -1101,14 +1103,12 @@
     </footer>
 
     <script>
-        // Toggle Theme
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const bulb = document.querySelector('.fa-lightbulb');
             bulb.style.color = document.body.classList.contains('dark-mode') ? '#ffffff' : '#f39c12';
         }
 
-        // Fox click counter
         let foxClickCount = 0;
         const foxImage = document.getElementById('foxImage');
         const fireworksContainer = document.getElementById('fireworksContainer');
@@ -1116,7 +1116,6 @@
         foxImage.addEventListener('click', () => {
             foxClickCount++;
             
-            // Show fireworks effect
             for (let i = 0; i < 50; i++) {
                 const firework = document.createElement('div');
                 firework.classList.add('firework');
@@ -1125,34 +1124,29 @@
                 firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
                 fireworksContainer.appendChild(firework);
 
-                // Remove firework after animation
                 setTimeout(() => {
                     firework.remove();
                 }, 1000);
             }
             
-            // Check if clicked exactly 9 times
             if (foxClickCount === 9) {
                 window.location.href = 'hide.html';
             }
-            // If clicked more than 9 times, refresh the page
             else if (foxClickCount > 9) {
                 window.location.reload();
             }
         });
 
-        // Modal Functions
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            document.body.style.overflow = 'auto'; 
         }
 
-        // New function to view certificate image in modal
         function viewCertificate(imagePath) {
             const modal = document.getElementById('imageViewerModal');
             const img = document.getElementById('certificateImage');
@@ -1161,7 +1155,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // Function to toggle translation
         function toggleTranslation(btn) {
             const parent = btn.closest('.nef-item');
             const eng = parent.querySelector('.eng-text');
@@ -1177,7 +1170,6 @@
             }
         }
         
-        // Function to copy phone number
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {
                 alert('شماره کپی شد!');
@@ -1187,7 +1179,6 @@
             });
         }
 
-        // Close modal when clicking outside content
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
@@ -1195,7 +1186,6 @@
             }
         }
 
-        // ایجاد کهکشان و ستاره‌ها
         document.addEventListener('DOMContentLoaded', function() {
             const spaceBg = document.getElementById('spaceBackground');
             const starsContainer = document.getElementById('starsContainer');
@@ -1283,4 +1273,3 @@
     </script>
 </body>
 </html>
-
