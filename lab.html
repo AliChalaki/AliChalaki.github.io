@@ -270,11 +270,13 @@
             cursor: crosshair; 
         }
 
-        /* Dragon Modal */
+        /* Dragon Modal Specifics */
         #dragonModal {
             background: rgb(60, 97, 153);
             touch-action: none;
         }
+        
+        /* FIX: Removing viewBox to ensure 1:1 mapping with mouse coordinates */
         #dragonModal svg {
             position: absolute;
             width: 100%;
@@ -316,7 +318,7 @@
             color: #ff0055 !important;
         }
 
-        /* --- LOADING OVERLAY (Terminal Effect) --- */
+        /* --- LOADING OVERLAY (Clean Terminal Effect - No Broken Glass) --- */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -324,28 +326,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 20000; /* Higher than modal */
+            background: #000; /* Solid Black */
+            z-index: 20000; 
             justify-content: center;
             align-items: center;
             flex-direction: column;
             font-family: 'Share Tech Mono', monospace;
             padding: 20px;
-        }
-
-        /* Broken Glass / Grid Effect on Overlay */
-        .loading-overlay::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(0, 255, 255, 0.03) 0px,
-                rgba(0, 255, 255, 0.03) 2px,
-                transparent 2px,
-                transparent 10px
-            );
-            pointer-events: none;
         }
 
         .terminal-text {
@@ -361,26 +348,6 @@
 
         @keyframes caret {
             50% { border-color: transparent; }
-        }
-
-        .glitch-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            pointer-events: none;
-            animation: screenGlitch 4s infinite;
-            opacity: 0.1;
-        }
-
-        @keyframes screenGlitch {
-            0% { transform: translateX(0); filter: hue-rotate(0deg); }
-            2% { transform: translateX(-5px); filter: hue-rotate(90deg); }
-            4% { transform: translateX(5px); filter: hue-rotate(-90deg); }
-            6% { transform: translateX(0); filter: hue-rotate(0deg); }
-            100% { transform: translateX(0); }
         }
 
     </style>
@@ -454,13 +421,12 @@
     </div>
 
     <div id="loadingOverlay" class="loading-overlay">
-        <div class="glitch-layer"></div>
         <div id="terminalText" class="terminal-text"></div>
     </div>
 
     <div id="dragonModal" class="creature-modal">
         <div class="close-modal-btn" onclick="closeDragon()">&times;</div>
-        <svg id="screen" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+        <svg id="screen">
             <defs>
               <g id="Cabeza" transform="matrix(1, 0, 0, 1, 0, 0)">
                 <path style="fill:#FFFFFF;fill-opacity:1" d="M-28.9,-1.1L-28.55 -1.95Q-28.1 -3.1 -27.25 -2.95L-26.7 -2.95Q-27.7 -1.65 -28.9 -1.1M-18.35,-1.8Q-15.1 -10.3 -9.6 -6.05Q-15.1 -6.2 -18.35 -1.8M-18.35,1.1Q-15.1 5.45 -9.6 5.35Q-15.1 9.55 -18.35 1.1M-26.7,2.2L-27.25 2.25Q-28.1 2.4 -28.55 1.2L-28.9 0.35Q-27.7 0.9 -26.7 2.2" />
@@ -758,8 +724,8 @@
                 const a = Math.atan2(e.y - ep.y, e.x - ep.x);
                 e.x += (ep.x - e.x + (Math.cos(a) * (100 - i)) / 5) / 4;
                 e.y += (ep.y - e.y + (Math.sin(a) * (100 - i)) / 5) / 4;
-                // Returned to 50 as requested (original size)
-                const s = (162 + 4 * (1 - i)) / 50;
+                // Scale factor changed to 80 to reduce size (half of original 40/50 approx)
+                const s = (162 + 4 * (1 - i)) / 80; 
                 e.use.setAttributeNS(
                     null,
                     "transform",
