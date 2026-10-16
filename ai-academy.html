@@ -94,14 +94,12 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
 
-    /* ویدیوی پس زمینه */
+    /* ویدیوی پس زمینه فیکس شده در تمام طول صفحه و بدون گم شدن در موبایل */
     .hero-photo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
       height: 100vh;
-      min-height: 600px;
       z-index: 0;
       overflow: hidden;
       pointer-events: none;
@@ -111,7 +109,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.75;
+      opacity: 0.85;
       display: block;
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
@@ -121,7 +119,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,1) 98%);
+      background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 75%, rgba(0,0,0,0.92) 100%);
       pointer-events: none;
     }
 
@@ -356,6 +354,7 @@
       font-size: var(--badge);
       font-weight: 500;
       border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
     }
 
     .badge-star {
@@ -376,6 +375,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }
 
     .headline-line {
@@ -396,10 +396,11 @@
     .lede {
       max-width: var(--lede-max);
       margin-top: 16px;
-      color: var(--muted);
+      color: #cbd5e1;
       font-size: var(--lede);
       font-weight: 400;
       line-height: 1.7;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
 
     .hero-actions {
@@ -419,6 +420,8 @@
       padding: 0 var(--stats-x) var(--stats-y);
       color: var(--stat);
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      z-index: 2;
     }
 
     .stat {
@@ -449,11 +452,14 @@
     .courses-section {
       position: relative;
       z-index: 2;
-      background: #000000;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       padding: 70px 20px 90px;
       max-width: 1240px;
       margin: 0 auto;
       width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
 
     .section-header {
@@ -496,7 +502,7 @@
     }
 
     .course-card {
-      background: linear-gradient(135deg, rgba(20, 24, 33, 0.85) 0%, rgba(11, 14, 20, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(20, 24, 33, 0.88) 0%, rgba(11, 14, 20, 0.95) 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       padding: 28px;
@@ -514,7 +520,7 @@
 
     .course-card.highlight {
       border-color: rgba(56, 189, 248, 0.5);
-      background: linear-gradient(135deg, rgba(23, 31, 46, 0.9) 0%, rgba(13, 17, 26, 0.98) 100%);
+      background: linear-gradient(135deg, rgba(23, 31, 46, 0.92) 0%, rgba(13, 17, 26, 0.98) 100%);
     }
 
     .course-badge-flag {
@@ -919,8 +925,8 @@
     @media (max-width: 900px) {
       :root {
         --logo: 15px;
-        --h1: 27px; /* سایز متناسب برای عناوین اصلی بدون شکستگی */
-        --lede: 14.5px;
+        --h1: 27px;
+        --lede: 14px;
         --header-x: 16px;
         --header-y: 16px;
         --stats-x: 16px;
@@ -976,7 +982,7 @@
         border-radius: 10px;
       }
       .hero {
-        padding: 24px 16px 36px;
+        padding: 30px 16px 36px;
         min-height: auto;
       }
       .stats {
@@ -1012,7 +1018,7 @@
 
     @media (max-width: 560px) {
       :root {
-        --h1: 23px;
+        --h1: 24px;
         --lede: 13.5px;
       }
       .hero-actions {
@@ -1040,9 +1046,9 @@
 <body style="background:#000;color:#fff">
   <div class="grain"></div>
 
-  <!-- ویدیوی پس زمینه تعاملی و فعال در تمام دیوایس‌ها -->
+  <!-- ویدیوی پس زمینه فعال و فیکس شده -->
   <div class="hero-photo">
-    <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+    <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto">
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
   </div>
@@ -1161,7 +1167,7 @@
     </footer>
 
     <!-- ========================================================
-         سکشن دوره‌ها (خلوت، چشم‌نواز و لینک مستقیم)
+         سکشن دوره‌ها
     ======================================================== -->
     <section class="courses-section" id="courses-list">
       <div class="section-header">
@@ -1339,7 +1345,7 @@
       const navLinks = document.querySelectorAll('#site-nav a');
       const video = document.getElementById('heroVideo');
 
-      // انیمیشن‌های شروع
+      // انیمیشن‌های ورود
       appears.forEach(el => {
         el.addEventListener('animationend', () => {
           el.classList.add('is-in');
@@ -1371,73 +1377,61 @@
         });
       });
 
-      // =========================================================
-      // سیستم تعاملی و ابریشمی انیمیشن ویدیو برای دسکتاپ و موبایل
-      // =========================================================
+      // مدیریت اجرای تضمینی و کاملاً روان ویدیو در تمام دیوایس‌ها
       if (video) {
-        let isSeeking = false;
-        let targetTime = 0;
-        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-        // اطمینان از پخش خودکار اولیه بدون محدودیت مرورگرها
-        const forcePlay = () => {
+        // تلاش برای پخش خودکار بدون محدودیت
+        const tryPlay = () => {
           video.muted = true;
-          video.play().catch(() => {});
-        };
-        forcePlay();
-        window.addEventListener('touchstart', forcePlay, { once: true });
-        window.addEventListener('click', forcePlay, { once: true });
-
-        // لوپ چرخش روان (LERP) برای دسکتاپ و اسکرول تعاملی
-        function renderLoop() {
-          if (video && video.duration && !isSeeking) {
-            const current = video.currentTime;
-            const diff = targetTime - current;
-
-            // فقط در صورتی که نیاز به تغییر جهت است نرم دنبال کن
-            if (Math.abs(diff) > 0.05) {
-              isSeeking = true;
-              video.currentTime = current + diff * 0.08;
-            }
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise.catch(() => {
+              // در صورت محدودیت سیستمی با اولین لمس پخش می‌شود
+              const unlock = () => {
+                video.play();
+                window.removeEventListener('touchstart', unlock);
+                window.removeEventListener('scroll', unlock);
+              };
+              window.addEventListener('touchstart', unlock, { passive: true, once: true });
+              window.addEventListener('scroll', unlock, { passive: true, once: true });
+            });
           }
-          requestAnimationFrame(renderLoop);
+        };
+
+        if (video.readyState >= 2) {
+          tryPlay();
+        } else {
+          video.addEventListener('loadeddata', tryPlay, { once: true });
         }
-        requestAnimationFrame(renderLoop);
 
-        video.addEventListener('seeked', () => {
-          isSeeking = false;
-        });
+        // چرخش با ماوس فقط در کامپیوتر (در موبایل ویدیو روان و پیوسته پخش می‌شود تا لگ نزند)
+        if (!isTouch) {
+          let targetTime = 0;
+          let isSeeking = false;
 
-        if (!isTouchDevice) {
-          // چرخش با ماوس در کامپیوتر
+          function lerpLoop() {
+            if (video.duration && !isSeeking) {
+              const diff = targetTime - video.currentTime;
+              if (Math.abs(diff) > 0.04) {
+                isSeeking = true;
+                video.currentTime = video.currentTime + diff * 0.08;
+              }
+            }
+            requestAnimationFrame(lerpLoop);
+          }
+          requestAnimationFrame(lerpLoop);
+
+          video.addEventListener('seeked', () => { isSeeking = false; });
+
           window.addEventListener('mousemove', (e) => {
-            if (!video || !video.duration) return;
+            if (!video.duration) return;
             const ratio = 1 - (e.clientX / window.innerWidth);
             targetTime = Math.min(Math.max(ratio * video.duration, 0.05), video.duration - 0.05);
           }, { passive: true });
         } else {
-          // در موبایل: کنترل نرم با لمس دست روی صفحه هیرو
-          let touchStartX = 0;
-          const heroEl = document.querySelector('.hero');
-          
-          if (heroEl) {
-            heroEl.addEventListener('touchstart', (e) => {
-              if (e.touches && e.touches[0]) {
-                touchStartX = e.touches[0].clientX;
-              }
-            }, { passive: true });
-
-            heroEl.addEventListener('touchmove', (e) => {
-              if (!video || !video.duration || !e.touches || !e.touches[0]) return;
-              const touchX = e.touches[0].clientX;
-              const ratio = 1 - (touchX / window.innerWidth);
-              targetTime = Math.min(Math.max(ratio * video.duration, 0.05), video.duration - 0.05);
-            }, { passive: true });
-          }
-
-          // اگر کاربر لمس نکرد، ویدیو به آرامی و مثل نبض با سرعت روان پخش خودکار می‌ماند
-          video.loop = true;
-          video.playbackRate = 0.85;
+          // در موبایل سرعت پخش نرم‌تر تنظیم می‌شود
+          video.playbackRate = 0.9;
         }
       }
 
@@ -1506,7 +1500,7 @@
         if (e.target === modal) closeModal();
       });
 
-      // اعلان کپی شدن آیدی (Toast Notification)
+      // اعلان کپی شدن آیدی
       const toast = document.getElementById('toastNotice');
       const toastMessage = document.getElementById('toastMessage');
       let toastTimer = null;
