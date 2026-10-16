@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>آکادمی پایتون تاپ | دوره های جامع هوش مصنوعی و درآمد دلاری — علی چالاکی</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Ccircle cx='7.3' cy='3.2' r='1.45'/%3E%3Crect x='5.5' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Crect x='14.9' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Ccircle cx='16.7' cy='20.8' r='1.45'/%3E%3C/g%3E%3C/svg%3E">
   
@@ -101,7 +101,7 @@
       left: 0;
       right: 0;
       height: 100vh;
-      min-height: 700px;
+      min-height: 600px;
       z-index: 0;
       overflow: hidden;
       pointer-events: none;
@@ -113,6 +113,8 @@
       object-fit: cover;
       opacity: 0.75;
       display: block;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
     }
 
     .hero-photo::after {
@@ -326,7 +328,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px var(--hero-gap);
+      padding: 40px 20px var(--hero-gap);
       min-height: calc(100vh - 80px);
     }
 
@@ -345,7 +347,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       padding: 8px 16px;
       border: 0;
       border-radius: 6px;
@@ -393,7 +395,7 @@
 
     .lede {
       max-width: var(--lede-max);
-      margin-top: 18px;
+      margin-top: 16px;
       color: var(--muted);
       font-size: var(--lede);
       font-weight: 400;
@@ -405,7 +407,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
-      margin-top: 28px;
+      margin-top: 24px;
     }
 
     /* فوتر آمار */
@@ -442,13 +444,13 @@
     }
 
     /* ========================================================
-       سکشن دوره‌ها (خلوت، شیک و بدون سرفصل‌های شلوغ)
+       سکشن دوره‌ها
     ======================================================== */
     .courses-section {
       position: relative;
       z-index: 2;
       background: #000000;
-      padding: 90px 24px 100px;
+      padding: 70px 20px 90px;
       max-width: 1240px;
       margin: 0 auto;
       width: 100%;
@@ -456,7 +458,7 @@
 
     .section-header {
       text-align: center;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
 
     .section-tag {
@@ -468,19 +470,19 @@
       color: #38bdf8;
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .section-title {
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       letter-spacing: -0.02em;
     }
 
     .section-desc {
-      font-size: 16px;
+      font-size: 15px;
       color: #94a3b8;
       max-width: 600px;
       margin: 0 auto;
@@ -490,14 +492,14 @@
     .courses-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 24px;
     }
 
     .course-card {
       background: linear-gradient(135deg, rgba(20, 24, 33, 0.85) 0%, rgba(11, 14, 20, 0.95) 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 32px;
+      border-radius: 20px;
+      padding: 28px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
@@ -517,12 +519,12 @@
 
     .course-badge-flag {
       position: absolute;
-      top: 24px;
-      left: 24px;
-      padding: 6px 14px;
+      top: 20px;
+      left: 20px;
+      padding: 5px 12px;
       background: linear-gradient(90deg, #0284c7, #38bdf8);
       color: #000;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       border-radius: 20px;
     }
@@ -530,25 +532,25 @@
     .course-top-meta {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .course-icon-wrap {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       background: rgba(56, 189, 248, 0.15);
       border: 1px solid rgba(56, 189, 248, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
+      font-size: 24px;
       flex-shrink: 0;
     }
 
     .course-heading-title {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 800;
       color: #ffffff;
       line-height: 1.4;
@@ -558,18 +560,18 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .pitch-main {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: #38bdf8;
       line-height: 1.5;
     }
 
     .pitch-sub {
-      font-size: 15px;
+      font-size: 14px;
       color: #f1f5f9;
       font-weight: 500;
       line-height: 1.6;
@@ -578,16 +580,16 @@
     .pitch-features {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
+      gap: 8px;
+      margin-top: 4px;
     }
 
     .feature-chip {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 12.5px;
       color: #cbd5e1;
       font-weight: 500;
       display: inline-flex;
@@ -600,15 +602,15 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: flex-start;
-      gap: 14px;
-      padding-top: 16px;
+      gap: 12px;
+      padding-top: 14px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .course-actions .btn {
-      height: 46px;
-      padding: 0 24px;
-      font-size: 14px;
+      height: 44px;
+      padding: 0 20px;
+      font-size: 13.5px;
       border-radius: 8px;
     }
 
@@ -632,7 +634,7 @@
     /* پاپ‌آپ شیک اعلان کپی (Toast) */
     .toast-notification {
       position: fixed;
-      bottom: 30px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: rgba(15, 23, 42, 0.95);
@@ -640,14 +642,14 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(56, 189, 248, 0.3);
       backdrop-filter: blur(12px);
       color: #ffffff;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 50px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       z-index: 2000;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       opacity: 0;
       pointer-events: none;
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -670,7 +672,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       opacity: 0;
       visibility: hidden;
       transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -684,10 +686,10 @@
     .support-card {
       background: #181d24;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
+      border-radius: 20px;
       width: 100%;
-      max-width: 440px;
-      padding: 30px 24px;
+      max-width: 420px;
+      padding: 26px 20px;
       position: relative;
       box-shadow: 0 20px 50px rgba(0,0,0,0.85);
       text-align: center;
@@ -701,10 +703,10 @@
 
     .close-modal {
       position: absolute;
-      top: 18px;
-      left: 18px;
-      width: 32px;
-      height: 32px;
+      top: 16px;
+      left: 16px;
+      width: 30px;
+      height: 30px;
       cursor: pointer;
       color: #8b949e;
       display: flex;
@@ -720,30 +722,30 @@
     }
 
     .support-icon-top {
-      width: 62px;
-      height: 62px;
+      width: 56px;
+      height: 56px;
       background: #1e293b;
-      border-radius: 18px;
+      border-radius: 16px;
       border: 1px solid rgba(56, 189, 248, 0.3);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
     }
 
     .support-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .support-desc {
-      font-size: 13.5px;
+      font-size: 13px;
       color: #94a3b8;
       line-height: 1.6;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .tg-box-wrapper {
@@ -751,20 +753,20 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
       padding: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .btn-telegram {
       background: #0288d1;
       color: #fff;
       width: 100%;
-      height: 46px;
+      height: 44px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      font-size: 15px;
+      gap: 8px;
+      font-size: 14px;
       font-weight: 700;
       transition: background 0.2s;
     }
@@ -778,12 +780,12 @@
       background: #161c24;
       border: 1px dashed rgba(255, 255, 255, 0.16);
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 8px 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-size: 13px;
+      gap: 6px;
+      font-size: 12.5px;
       color: #cbd5e1;
       cursor: pointer;
       transition: background 0.2s;
@@ -798,31 +800,31 @@
       background: #1e2633;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
-      padding: 14px 10px 10px;
-      margin-bottom: 14px;
+      padding: 12px 10px 8px;
+      margin-bottom: 12px;
     }
 
     .iranian-title {
-      font-size: 13px;
+      font-size: 12.5px;
       color: #facc15;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .iranian-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn-app {
-      height: 40px;
+      height: 38px;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      font-size: 13.5px;
+      gap: 4px;
+      font-size: 13px;
       font-weight: 700;
       color: #fff;
     }
@@ -835,12 +837,12 @@
       border: 1px solid #059669;
       background: rgba(5, 150, 105, 0.12);
       border-radius: 12px;
-      padding: 12px;
+      padding: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #34d399;
       transition: background 0.2s;
@@ -913,16 +915,17 @@
       100% { opacity: 1; filter: blur(0); }
     }
 
-    /* ریسپانسیو */
+    /* ریسپانسیو کامپکت و بهینه موبایل و تبلت */
     @media (max-width: 900px) {
       :root {
-        --logo: 16px;
-        --h1: 34px;
-        --lede: 15px;
-        --header-x: 20px;
-        --stats-x: 20px;
-        --stats-y: 24px;
-        --hero-gap: 40px;
+        --logo: 15px;
+        --h1: 27px; /* سایز متناسب برای عناوین اصلی بدون شکستگی */
+        --lede: 14.5px;
+        --header-x: 16px;
+        --header-y: 16px;
+        --stats-x: 16px;
+        --stats-y: 20px;
+        --hero-gap: 32px;
       }
       .header {
         grid-template-columns: 1fr auto auto;
@@ -955,7 +958,7 @@
         justify-content: center;
         background: transparent;
         gap: 12px;
-        padding: 96px 22px 32px;
+        padding: 80px 20px 24px;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -968,22 +971,22 @@
       }
       .nav-link {
         width: 100%;
-        height: 52px;
-        font-size: 16px;
+        height: 50px;
+        font-size: 15px;
         border-radius: 10px;
       }
       .hero {
-        padding: 40px 20px 40px;
+        padding: 24px 16px 36px;
         min-height: auto;
       }
       .stats {
         flex-direction: column;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
         text-align: center;
       }
       .course-card {
-        padding: 24px 20px;
+        padding: 20px 16px;
       }
       .course-badge-flag {
         position: static;
@@ -996,11 +999,21 @@
       .course-actions .btn {
         width: 100%;
       }
+      .section-title {
+        font-size: 24px;
+      }
+      .section-desc {
+        font-size: 13.5px;
+      }
+      .course-heading-title {
+        font-size: 18px;
+      }
     }
 
     @media (max-width: 560px) {
       :root {
-        --h1: 28px;
+        --h1: 23px;
+        --lede: 13.5px;
       }
       .hero-actions {
         flex-direction: column;
@@ -1010,7 +1023,16 @@
         width: 100%;
       }
       .section-title {
-        font-size: 26px;
+        font-size: 22px;
+      }
+      .course-heading-title {
+        font-size: 17px;
+      }
+      .pitch-main {
+        font-size: 14.5px;
+      }
+      .pitch-sub {
+        font-size: 13px;
       }
     }
   </style>
@@ -1018,9 +1040,9 @@
 <body style="background:#000;color:#fff">
   <div class="grain"></div>
 
-  <!-- ویدیوی پس زمینه با تم سایبر و هوش مصنوعی -->
+  <!-- ویدیوی پس زمینه تعاملی و فعال در تمام دیوایس‌ها -->
   <div class="hero-photo">
-    <video autoplay loop muted playsinline preload="auto">
+    <video id="heroVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
   </div>
@@ -1042,7 +1064,7 @@
         <span>پایتون تاپ<span class="logo-suffix">.AI</span></span>
       </a>
 
-      <!-- منوی دوره های هوش مصنوعی -->
+      <!-- منوی دوره‌های هوش مصنوعی -->
       <nav id="site-nav" aria-label="منوی دوره‌ها">
         <a href="AI-App&Game.html" class="nav-link appear appear--scale" style="--d: 0.16s;">ساخت اپ و بازی با AI</a>
         <a href="#course-media" class="nav-link appear appear--soft" style="--d: 0.28s;">ویدیو و موزیک دلاری با AI</a>
@@ -1139,7 +1161,7 @@
     </footer>
 
     <!-- ========================================================
-         سکشن دوره‌ها (خلوت، چشم‌نواز و مستقیم به صفحه جزئیات)
+         سکشن دوره‌ها (خلوت، چشم‌نواز و لینک مستقیم)
     ======================================================== -->
     <section class="courses-section" id="courses-list">
       <div class="section-header">
@@ -1157,7 +1179,7 @@
             <div class="course-icon-wrap">🚀</div>
             <div>
               <h3 class="course-heading-title">ساخت اپلیکیشن و بازی با هوش مصنوعی و پرامپت‌نویسی</h3>
-              <p style="color: #38bdf8; font-size: 13.5px; margin-top: 4px; font-weight: 600;">بدون نیاز به یک خط کدنویسی دستی | ارائه فایل نصبی واقعی APK و PWA</p>
+              <p style="color: #38bdf8; font-size: 13px; margin-top: 4px; font-weight: 600;">بدون نیاز به یک خط کدنویسی دستی | ارائه فایل نصبی واقعی APK و PWA</p>
             </div>
           </div>
           
@@ -1173,7 +1195,6 @@
           </div>
 
           <div class="course-actions">
-            <!-- لینک اختصاصی به صفحه جزئیات دوره -->
             <a href="AI-App&Game.html" class="btn btn-detail-link">
               <span>مشاهده سرفصل‌ها و توضیحات کامل دوره</span>
               <span>←</span>
@@ -1188,7 +1209,7 @@
             <div class="course-icon-wrap">🎬</div>
             <div>
               <h3 class="course-heading-title">ساخت ویدیو، عکس و صدا با هوش مصنوعی و درآمد دلاری</h3>
-              <p style="color: #a855f7; font-size: 13.5px; margin-top: 4px; font-weight: 600;">تولید محتوای سینمایی، کاراکترهای ثابت، ویس‌اور و موزیک استودیویی</p>
+              <p style="color: #a855f7; font-size: 13px; margin-top: 4px; font-weight: 600;">تولید محتوای سینمایی، کاراکترهای ثابت، ویس‌اور و موزیک استودیویی</p>
             </div>
           </div>
           
@@ -1217,7 +1238,7 @@
             <div class="course-icon-wrap">🌐</div>
             <div>
               <h3 class="course-heading-title">طراحی و راه‌اندازی وب‌سایت با هوش مصنوعی بدون کدنویسی</h3>
-              <p style="color: #34d399; font-size: 13.5px; margin-top: 4px; font-weight: 600;">طراحی سریع انواع لندینگ‌پیج‌ها، سایت‌های شرکتی و فروشگاهی</p>
+              <p style="color: #34d399; font-size: 13px; margin-top: 4px; font-weight: 600;">طراحی سریع انواع لندینگ‌پیج‌ها، سایت‌های شرکتی و فروشگاهی</p>
             </div>
           </div>
           
@@ -1257,7 +1278,7 @@
       <div class="close-modal" id="closeModalBtn" title="بستن">✕</div>
       
       <div class="support-icon-top">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="#38bdf8">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#38bdf8">
           <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
         </svg>
       </div>
@@ -1316,6 +1337,7 @@
       const burger = document.getElementById('burger-btn');
       const backdrop = document.getElementById('menu-backdrop');
       const navLinks = document.querySelectorAll('#site-nav a');
+      const video = document.getElementById('heroVideo');
 
       // انیمیشن‌های شروع
       appears.forEach(el => {
@@ -1349,7 +1371,77 @@
         });
       });
 
-      // منوی موبایل
+      // =========================================================
+      // سیستم تعاملی و ابریشمی انیمیشن ویدیو برای دسکتاپ و موبایل
+      // =========================================================
+      if (video) {
+        let isSeeking = false;
+        let targetTime = 0;
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+        // اطمینان از پخش خودکار اولیه بدون محدودیت مرورگرها
+        const forcePlay = () => {
+          video.muted = true;
+          video.play().catch(() => {});
+        };
+        forcePlay();
+        window.addEventListener('touchstart', forcePlay, { once: true });
+        window.addEventListener('click', forcePlay, { once: true });
+
+        // لوپ چرخش روان (LERP) برای دسکتاپ و اسکرول تعاملی
+        function renderLoop() {
+          if (video && video.duration && !isSeeking) {
+            const current = video.currentTime;
+            const diff = targetTime - current;
+
+            // فقط در صورتی که نیاز به تغییر جهت است نرم دنبال کن
+            if (Math.abs(diff) > 0.05) {
+              isSeeking = true;
+              video.currentTime = current + diff * 0.08;
+            }
+          }
+          requestAnimationFrame(renderLoop);
+        }
+        requestAnimationFrame(renderLoop);
+
+        video.addEventListener('seeked', () => {
+          isSeeking = false;
+        });
+
+        if (!isTouchDevice) {
+          // چرخش با ماوس در کامپیوتر
+          window.addEventListener('mousemove', (e) => {
+            if (!video || !video.duration) return;
+            const ratio = 1 - (e.clientX / window.innerWidth);
+            targetTime = Math.min(Math.max(ratio * video.duration, 0.05), video.duration - 0.05);
+          }, { passive: true });
+        } else {
+          // در موبایل: کنترل نرم با لمس دست روی صفحه هیرو
+          let touchStartX = 0;
+          const heroEl = document.querySelector('.hero');
+          
+          if (heroEl) {
+            heroEl.addEventListener('touchstart', (e) => {
+              if (e.touches && e.touches[0]) {
+                touchStartX = e.touches[0].clientX;
+              }
+            }, { passive: true });
+
+            heroEl.addEventListener('touchmove', (e) => {
+              if (!video || !video.duration || !e.touches || !e.touches[0]) return;
+              const touchX = e.touches[0].clientX;
+              const ratio = 1 - (touchX / window.innerWidth);
+              targetTime = Math.min(Math.max(ratio * video.duration, 0.05), video.duration - 0.05);
+            }, { passive: true });
+          }
+
+          // اگر کاربر لمس نکرد، ویدیو به آرامی و مثل نبض با سرعت روان پخش خودکار می‌ماند
+          video.loop = true;
+          video.playbackRate = 0.85;
+        }
+      }
+
+      // مدیریت منوی موبایل
       function closeMenu() {
         if (document.body.classList.contains('menu-open')) {
           document.body.classList.remove('menu-open');
