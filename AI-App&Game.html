@@ -58,7 +58,6 @@
       animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* تکان خوردن ملایم و شناور باکس‌های سه‌گانه */
     @keyframes floatBox {
       0%, 100% {
         transform: translateY(0px);
@@ -126,7 +125,7 @@
 
       const videoRef = useRef(null);
       const targetTimeRef = useRef(0);
-      const lastMouseMoveTimeRef = useRef(0);
+      const isSeekingRef = useRef(false);
 
       const typewriterText = "دیگه لازم نیست سال‌ها کد بنویسی تا ایده‌هات زنده بشن؛ امروز فقط اراده کن، هوش مصنوعی برات خلقش می‌کنه. آماده‌ای بازی خودت رو بسازی؟";
       const { displayed, done } = useTypewriter(typewriterText, 35, 450);
@@ -138,55 +137,46 @@
         return () => clearTimeout(timer);
       }, []);
 
-      // تابع اصلی اعمال فریم بدون ایجاد صف یا فریز مرورگر
-      const applySeek = () => {
-        const video = videoRef.current;
-        if (!video || !video.duration) return;
-
-        // اگر ویدیو در حال حاضر در حال seek فریم قبلی است، درخواست جدید را منتظر می‌گذاریم
-        if (video.seeking) return;
-
-        const diff = targetTimeRef.current - video.currentTime;
-        // آستانه نرم برای جلوگیری از فراخوانی بیهوده
-        if (Math.abs(diff) > 0.02) {
-          video.currentTime = targetTimeRef.current;
-        }
-      };
-
-      // موتور حرکتی روان: هماهنگی خودکار در صورت بیکاری ماوس یا صفحات لمسی
+      // موتور هوشمند چرخش ویدیو: نرم، بی‌صدا و بدون لگ روی موبایل
       useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
+        // تشخیص دقیق دستگاه لمسی / موبایل
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        if (isTouchDevice) {
+          // در موبایل ویدیو به طور بومی، کاملاً روان و سبک مثل نسیم پخش می‌شود تا پردازنده و دیکودر لگ نزند
+          video.loop = true;
+          video.playbackRate = 0.85;
+          video.play().catch(() => {});
+          return;
+        }
+
+        // در دسکتاپ: اتصال فوق روان به ماوس با شتاب‌دهنده Lerp
         let animationFrameId;
 
-        const autoLoop = (timestamp) => {
-          if (video && video.duration) {
-            const timeSinceLastMouseMove = timestamp - lastMouseMoveTimeRef.current;
+        const renderLoop = () => {
+          if (video && video.duration && !isSeekingRef.current) {
+            const current = video.currentTime;
+            const target = targetTimeRef.current;
+            const diff = target - current;
 
-            // فقط در حالتی که کاربر ماوس را تکان نداده، حرکت موجی آرام فعال باشد
-            if (timeSinceLastMouseMove > 1000) {
-              const progress = (Math.sin(timestamp * 0.001) + 1) / 2;
-              targetTimeRef.current = progress * video.duration;
-              applySeek();
+            // در صورتی که فاصله وجود دارد به آرامی سر را دنبال کن
+            if (Math.abs(diff) > 0.04) {
+              isSeekingRef.current = true;
+              video.currentTime = current + diff * 0.08;
             }
           }
-          animationFrameId = requestAnimationFrame(autoLoop);
+          animationFrameId = requestAnimationFrame(renderLoop);
         };
 
-        animationFrameId = requestAnimationFrame(autoLoop);
+        animationFrameId = requestAnimationFrame(renderLoop);
 
-        // دنبال کردن فوق‌العاده سریع و روان ماوس
         const handleMouseMove = (e) => {
           if (!video || !video.duration) return;
-
-          lastMouseMoveTimeRef.current = performance.now();
-
-          // محاسبه موقعیت افقی ماوس به زمان دقیق ویدیو
           const ratio = 1 - (e.clientX / window.innerWidth);
-          targetTimeRef.current = Math.min(Math.max(ratio * video.duration, 0), video.duration);
-
-          applySeek();
+          targetTimeRef.current = Math.min(Math.max(ratio * video.duration, 0.05), video.duration - 0.05);
         };
 
         window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -197,9 +187,8 @@
         };
       }, []);
 
-      // وقتی مرورگر فریم قبلی را با موفقیت نمایش داد، فوراً موقعیت جدید ماوس را اعمال می‌کند
       const handleSeeked = () => {
-        applySeek();
+        isSeekingRef.current = false;
       };
 
       const scrollToCourse = () => {
@@ -207,26 +196,62 @@
         if (el) el.scrollIntoView({ behavior: "smooth" });
       };
 
-      // کپی آیدی پشتیبانی تلگرام
       const copySupportTgId = () => {
         navigator.clipboard.writeText("@PythonTop0");
         setCopiedSupportTg(true);
         setTimeout(() => setCopiedSupportTg(false), 2000);
       };
 
-      // کپی آیدی پشتیبانی پیام‌رسان‌های ایرانی
       const copySupportIranId = () => {
         navigator.clipboard.writeText("@PythonTop");
         setCopiedSupportIran(true);
         setTimeout(() => setCopiedSupportIran(false), 2000);
       };
 
-      // کپی آیدی کانال‌های رسمی
       const copyChannelId = () => {
         navigator.clipboard.writeText("@PythonTopacademy");
         setCopiedChannel(true);
         setTimeout(() => setCopiedChannel(false), 2000);
       };
+
+      // فهرست روان و شفاف سرفصل‌های داکس
+      const syllabusList = [
+        {
+          num: "فصل ۱",
+          title: "ورود به دنیای بدون کد و جعبه‌ابزار ابری",
+          desc: "شکستن سد ترس از برنامه‌نویسی، نقشه راه ۲۱ درس و آماده‌سازی رایگان Google AI Studio بدون نیاز به نصب حتی یک مگابایت نرم‌افزار سنگین روی سیستم."
+        },
+        {
+          num: "فصل ۲",
+          title: "کالبدشکافی ارگونومی اپلیکیشن و منطقه شست",
+          desc: "رازهای UI/UX موبایلی (Thumb Zone)، دکمه‌های لمسی ۴۸ پیکسلی، سیستم ناوبری Bottom Nav و Drawer، لودینگ اسکلتون و طراحی امن Safe Area برای آیفون و سامسونگ."
+        },
+        {
+          num: "فصل ۳",
+          title: "فرمول طلایی پرامپت‌نویسی ۵ بخشی",
+          desc: "چطور هوش مصنوعی رو مثل یک برنامه‌نویس ارشد سیلیکون‌ولی هدایت کنیم تا کدهای ناقص ندهد؟ صدور دستورات معماری، ظاهر شیشه‌ای مدرن و استایل‌های ریسپانسیو."
+        },
+        {
+          num: "فصل ۴",
+          title: "کارگاه ساخت عملی اپلیکیشن + هوش مصنوعی گوگل",
+          desc: "ساخت گام‌به‌گام داشبورد لمسی، ذخیره دائمی دیتا در حافظه گوشی (LocalStorage)، سیستم اعتیادآور گیمیفیکیشن (استریک و XP) و اتصال مستقیم به مغز Gemini API."
+        },
+        {
+          num: "فصل ۵",
+          title: "تکنیک شکار باگ و دیباگ معکوس در ۱۰ ثانیه",
+          desc: "مهار صفحه سفید، عیب‌یابی سریع خطاهای کنسول با ارسال لاگ به AI، رفع به هم ریختگی‌های ظاهری در گوشی‌های مختلف و کنترل خطاهای فراموشی هوش مصنوعی."
+        },
+        {
+          num: "فصل ۶",
+          title: "خروجی واقعی نصبی اندروید (APK) و PWA",
+          desc: "تبدیل پروژه وب به وب‌اپلیکیشن نصب‌شونده (PWA)، ساخت فایل شناسنامه Manifest، تولید فایل نصبی رسمی اندروید با ابزار ابری مایکروسافت و آماده‌سازی آیکون ۳بعدی."
+        },
+        {
+          num: "فصل ۷",
+          title: "۴ استراتژی پول‌ساز کسب درآمد دلاری و پروژه‌ای",
+          desc: "چگونه این مهارت را به درآمد تبدیل کنیم؟ قراردادهای ۱۰ تا ۳۰ میلیونی با مشاغل محلی، درآمد غیرفعال از تبلیغات کافه‌بازار/مایکت و فروش اشتراک خدمات هوش مصنوعی."
+        }
+      ];
 
       return (
         <div className="relative w-full">
@@ -242,8 +267,8 @@
             onSeeked={handleSeeked}
           />
 
-          {/* گرادیانت تیره در سمت راست برای خوانایی بهتر متون */}
-          <div className="fixed inset-0 z-[1] bg-gradient-to-l from-black/80 via-black/40 to-transparent pointer-events-none" />
+          {/* گرادیانت تیره در سمت راست برای خوانایی متون */}
+          <div className="fixed inset-0 z-[1] bg-gradient-to-l from-black/85 via-black/45 to-transparent pointer-events-none" />
 
           {/* ===================== نوبار ===================== */}
           <header className="fixed top-0 left-0 right-0 z-20 flex w-full items-center justify-between px-4 sm:px-8 md:px-12 py-4 sm:py-5">
@@ -259,8 +284,8 @@
                 معرفی دوره
               </button>
               <span className="opacity-40">،</span>
-              <a href="#features" className="hover:text-amber-400 transition-colors">
-                سرفصل‌ها
+              <a href="#syllabus" className="hover:text-amber-400 transition-colors">
+                سرفصل‌های ۲۱ درس
               </a>
               <span className="opacity-40">،</span>
               <button onClick={() => setChannelModalOpen(true)} className="hover:text-amber-400 transition-colors">
@@ -301,8 +326,8 @@
             <button onClick={() => { scrollToCourse(); setMenuOpen(false); }} className="text-xl sm:text-2xl font-bold text-right text-white hover:text-amber-400">
               درباره دوره جدید
             </button>
-            <a href="#features" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
-              ویژگی‌ها و سرفصل‌ها
+            <a href="#syllabus" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
+              سرفصل‌های جامع ۲۱ درس
             </a>
             <a href="#pricing" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
               شهریه و تخفیف ۹۸۰ تومانی
@@ -414,16 +439,16 @@
                 فکر می‌کنی برای ساخت اپلیکیشن و بازی موبایل حتماً باید برنامه‌نویسی بلد باشی یا سیستم قدرتمندی داشته باشی؟ وقتشه جور دیگه‌ای فکر کنی! توی این دوره یاد می‌گیری چطور با کمک هوش مصنوعی، ایده‌هات رو به اپلیکیشن‌ها و بازی‌های پولساز تبدیل کنی؛ حتی اگر از صفر شروع کنی! 🔥
               </p>
 
-              {/* ۳ باکس مجزا با انیمیشن ملایم تکان خوردن و بدون خط عمودی */}
+              {/* ۳ باکس مجزا با انیمیشن ملایم تکان خوردن */}
               <div className="mb-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
                 <div className="animate-float-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
                   <span className="text-xl">☁️</span>
-                  <span className="text-sm sm:text-base font-bold text-amber-300">کاملاً آنلاین</span>
+                  <span className="text-sm sm:text-base font-bold text-amber-300">کاملاً آنلاین و ابری</span>
                 </div>
 
                 <div className="animate-float-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
                   <span className="text-xl">🎓</span>
-                  <span className="text-sm sm:text-base font-bold text-amber-300">پشتیبانی تا انتشار</span>
+                  <span className="text-sm sm:text-base font-bold text-amber-300">پشتیبانی مستقیم تا انتشار</span>
                 </div>
 
                 <div className="animate-float-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
@@ -432,34 +457,73 @@
                 </div>
               </div>
 
-              {/* کارت‌های سرفصل */}
+              {/* ۴ ویژگی برجسته */}
               <div id="features" className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-16">
                 <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
                   <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
                     <span className="text-2xl">📱</span> ساخت اپلیکیشن با هوش مصنوعی
                   </div>
-                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">تولید منطق و رابط کاربری نرم‌افزار بدون کدنویسی دستی و فقط با پرامپت‌نویسی اصولی.</p>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">تولید رابط کاربری لمسی و کدهای مدرن بدون کدنویسی دستی و فقط با هنر دستور دادن.</p>
                 </div>
 
                 <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
                   <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
                     <span className="text-2xl">🎮</span> طراحی و ساخت بازی‌های موبایلی با AI
                   </div>
-                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">خلق مکانیک بازی، کاراکترها و اسپرایت‌های گرافیکی و صداگذاری بدون نیاز به سیستم سنگین.</p>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">خلق مکانیک بازی، انیمیشن‌ها، گرافیک و گیمیفیکیشن‌های اعتیادآور و پول‌ساز.</p>
                 </div>
 
                 <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
                   <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
-                    <span className="text-2xl">☁️</span> ابزارهای آنلاین و ابری بدون سیستم قوی
+                    <span className="text-2xl">☁️</span> ابزارهای آنلاین بدون نیاز به سخت‌افزار قوی
                   </div>
-                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">نیازی به سخت‌افزار گرون قیمت نداری؛ تمام مراحل روی ابزارهای آنلاین و ابری اجرا میشه.</p>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">بدون سیستم‌های گران‌قیمت یا نصب برنامه‌های سنگین؛ همه چیز روی مرورگر اجرا می‌شود.</p>
                 </div>
 
                 <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
                   <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
-                    <span className="text-2xl">📲</span> انتشار و درآمدزایی از بازار و مایکت
+                    <span className="text-2xl">📲</span> خروجی واقعی نصبی APK و درآمدزایی
                   </div>
-                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">آشنایی با مسیر خروجی APK، تایید در استورها و مدل‌های درآمدزایی از تبلیغات و فروش درون‌برنامه‌ای.</p>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">تولید مستقیم فایل نصبی APK برای اشتراک در پیام‌رسان‌ها و انتشار در بازار و مایکت.</p>
+                </div>
+              </div>
+
+              {/* ===================== سرفصل‌های داکس به صورت ساده، روان و خفن ===================== */}
+              <div id="syllabus" className="mb-16">
+                <div className="text-center md:text-right mb-8">
+                  <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold inline-block mb-2">
+                    نقشه راه عملیاتی دوره
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">
+                    سرفصل‌های ۲۱ درس جامع و کاربردی
+                  </h3>
+                  <p className="text-xs sm:text-sm text-neutral-400 mt-2">
+                    از قدم صفر تا گرفتن فایل نصبی اندروید و رسیدن به درآمدهای پروژه‌ای و دلاری
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {syllabusList.map((item, index) => (
+                    <div
+                      key={index}
+                      className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-amber-400/40 transition-all duration-300 flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="px-2.5 py-1 bg-amber-400/15 border border-amber-400/30 text-amber-300 rounded-lg text-xs font-black">
+                            {item.num}
+                          </span>
+                          <span className="text-neutral-500 text-xs font-mono">جلسه اختصاصی</span>
+                        </div>
+                        <h4 className="text-base sm:text-lg font-bold text-white mb-2 leading-snug">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -482,7 +546,7 @@
                 </ul>
               </div>
 
-              {/* باکس قیمت و مشخص بودن تخفیف با رنگ قرمز و برجسته */}
+              {/* باکس قیمت و مشخص بودن تخفیف */}
               <div id="pricing" className="p-6 sm:p-10 md:p-12 rounded-3xl bg-neutral-900/90 border border-neutral-700/80 relative overflow-hidden shadow-2xl">
                 <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
                   <div>
@@ -492,7 +556,6 @@
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-white">ثبت‌نام زودهنگام در دوره</h3>
                     <p className="text-neutral-400 text-xs sm:text-sm">ثبت‌نام با این قیمت تا تکمیل ظرفیت ۱۰ نفره ادامه دارد.</p>
                     
-                    {/* ساختار قیمت با تاکید قرمز روی ۳ میلیون و درخشش ۹۸۰ هزار تومان */}
                     <div className="flex flex-wrap items-baseline gap-3.5 mt-5">
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-3xl sm:text-5xl font-black text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.35)]">۹۸۰,۰۰۰</span>
@@ -517,7 +580,6 @@
                     </a>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {/* دکمه کانال‌های رسمی در تمام پیام‌رسان‌ها */}
                       <button
                         onClick={() => setChannelModalOpen(true)}
                         className="w-full px-4 py-3 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 border border-amber-400/40 text-amber-300 text-center font-bold rounded-full hover:bg-amber-400/30 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm"
@@ -526,7 +588,6 @@
                         <span>کانال در تمام پیام‌رسان‌ها</span>
                       </button>
 
-                      {/* دکمه ارتباط مستقیم با پشتیبانی و مشاوره */}
                       <button
                         onClick={() => setSupportModalOpen(true)}
                         className="w-full px-4 py-3 bg-white/5 border border-white/20 text-white text-center font-medium rounded-full hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm"
@@ -536,7 +597,6 @@
                       </button>
                     </div>
 
-                    {/* دکمه تماس با قابلیت شماره‌گیری مستقیم */}
                     <a
                       href="tel:09102655884"
                       target="_self"
@@ -549,7 +609,7 @@
                 </div>
               </div>
 
-              {/* فوتر بهینه‌شده با شماره تماس مستقیم */}
+              {/* فوتر بهینه‌شده */}
               <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-neutral-400 gap-4">
                 <span>© ۲۰۲۶ تمامی حقوق محفوظ و متعلق به آکادمی پایتون‌تاپ است.</span>
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
@@ -571,7 +631,7 @@
             </div>
           </section>
 
-          {/* ===================== پاپ‌آپ ۱: کانال رسمی در تمام پیام‌رسان‌ها (@PythonTopacademy) ===================== */}
+          {/* ===================== پاپ‌آپ ۱: کانال رسمی ===================== */}
           {channelModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-modal">
               <div className="bg-[#22252a] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center relative">
@@ -642,7 +702,7 @@
             </div>
           )}
 
-          {/* ===================== پاپ‌آپ ۲: ارتباط با پشتیبانی و مشاوره ===================== */}
+          {/* ===================== پاپ‌آپ ۲: ارتباط با پشتیبانی ===================== */}
           {supportModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-modal">
               <div className="bg-[#22252a] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center relative max-h-[90vh] overflow-y-auto">
@@ -663,7 +723,6 @@
                 </p>
 
                 <div className="flex flex-col gap-2.5">
-                  {/* پشتیبانی تلگرام با آیدی @PythonTop0 */}
                   <div className="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-2">
                     <button
                       onClick={() => {
@@ -683,7 +742,6 @@
                     </button>
                   </div>
 
-                  {/* پشتیبانی در پیام‌رسان‌های ایرانی با آیدی @PythonTop */}
                   <div className="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-2">
                     <div className="text-[11px] sm:text-xs text-amber-300/90 text-right pr-1">
                       پیام‌رسان‌های ایرانی (آیدی پشتیبانی: <span className="font-mono">@PythonTop</span>)
@@ -726,7 +784,6 @@
                     </button>
                   </div>
 
-                  {/* تماس مستقیم تلفنی */}
                   <a
                     href="tel:09102655884"
                     target="_self"
