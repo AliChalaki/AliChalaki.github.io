@@ -142,18 +142,15 @@
         const video = videoRef.current;
         if (!video) return;
 
-        // تشخیص دقیق دستگاه لمسی / موبایل
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         if (isTouchDevice) {
-          // در موبایل ویدیو به طور بومی، کاملاً روان و سبک مثل نسیم پخش می‌شود تا پردازنده و دیکودر لگ نزند
           video.loop = true;
           video.playbackRate = 0.85;
           video.play().catch(() => {});
           return;
         }
 
-        // در دسکتاپ: اتصال فوق روان به ماوس با شتاب‌دهنده Lerp
         let animationFrameId;
 
         const renderLoop = () => {
@@ -162,7 +159,6 @@
             const target = targetTimeRef.current;
             const diff = target - current;
 
-            // در صورتی که فاصله وجود دارد به آرامی سر را دنبال کن
             if (Math.abs(diff) > 0.04) {
               isSeekingRef.current = true;
               video.currentTime = current + diff * 0.08;
@@ -279,13 +275,30 @@
               <span className="text-xl sm:text-2xl text-amber-400 select-none animate-pulse">✳︎</span>
             </div>
 
-            <nav className="hidden lg:flex items-center text-base sm:text-lg text-white/90 font-medium gap-2">
+            <nav className="hidden lg:flex items-center text-sm xl:text-base text-white/90 font-medium gap-2">
+              <a 
+                href="https://alichalaki.github.io/ai-academy.html"
+                className="px-3.5 py-1.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/30 hover:bg-amber-400 hover:text-black transition-all flex items-center gap-1.5 text-xs xl:text-sm font-semibold ml-2"
+              >
+                <span>بازگشت به آکادمی AI</span>
+                <span className="text-sm">→</span>
+              </a>
+
               <button onClick={scrollToCourse} className="hover:text-amber-400 transition-colors">
                 معرفی دوره
               </button>
               <span className="opacity-40">،</span>
               <a href="#syllabus" className="hover:text-amber-400 transition-colors">
-                سرفصل‌ها
+                سرفصل‌های ۲۱ درس
+              </a>
+              <span className="opacity-40">،</span>
+              <a 
+                href="https://alichalaki.github.io/" 
+                target="_blank" 
+                rel="noopener"
+                className="hover:text-amber-400 transition-colors"
+              >
+                رزومه مدرس (علی چالاکی)
               </a>
               <span className="opacity-40">،</span>
               <button onClick={() => setChannelModalOpen(true)} className="hover:text-amber-400 transition-colors">
@@ -319,15 +332,34 @@
 
           {/* منوی موبایل */}
           <div
-            className={`fixed inset-0 z-20 bg-[#1a1c1e]/98 backdrop-blur-2xl flex flex-col justify-center px-8 gap-6 transition-all duration-300 lg:hidden ${
+            className={`fixed inset-0 z-20 bg-[#1a1c1e]/98 backdrop-blur-2xl flex flex-col justify-center px-8 gap-5 transition-all duration-300 lg:hidden ${
               menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
             }`}
           >
+            <a 
+              href="https://alichalaki.github.io/ai-academy.html"
+              onClick={() => setMenuOpen(false)}
+              className="py-2.5 px-4 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-300 font-bold text-base flex items-center justify-between"
+            >
+              <span>بازگشت به آکادمی هوش مصنوعی</span>
+              <span>→</span>
+            </a>
+
             <button onClick={() => { scrollToCourse(); setMenuOpen(false); }} className="text-xl sm:text-2xl font-bold text-right text-white hover:text-amber-400">
               درباره دوره جدید
             </button>
             <a href="#syllabus" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
               سرفصل‌های جامع ۲۱ درس
+            </a>
+            <a 
+              href="https://alichalaki.github.io/" 
+              target="_blank" 
+              rel="noopener"
+              onClick={() => setMenuOpen(false)} 
+              className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400 flex items-center gap-2"
+            >
+              <span>👨‍🏫</span>
+              <span>رزومه مدرس (علی چالاکی)</span>
             </a>
             <a href="#pricing" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
               شهریه و تخفیف ۹۸۰ تومانی
@@ -421,8 +453,18 @@
           <section id="course-details" className="relative z-10 bg-[#1a1c1e] text-white py-14 sm:py-20 px-4 sm:px-10 md:px-16 lg:px-20 text-right">
             <div className="max-w-5xl mx-auto">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-amber-300 text-xs sm:text-sm mb-6 backdrop-blur-md">
-                <span>⚡ دوره اختصاصی آکادمی پایتون‌تاپ</span>
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-amber-300 text-xs sm:text-sm backdrop-blur-md">
+                  <span>⚡ دوره اختصاصی آکادمی پایتون‌تاپ</span>
+                </div>
+
+                <a
+                  href="https://alichalaki.github.io/ai-academy.html"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-neutral-400 hover:text-amber-300 transition-colors"
+                >
+                  <span>بازگشت به منوی دوره‌های AI</span>
+                  <span>←</span>
+                </a>
               </div>
 
               {/* عنوان اصلی دوره */}
@@ -488,7 +530,7 @@
                 </div>
               </div>
 
-              {/* ===================== سرفصل‌های داکس به صورت ساده، روان و خفن ===================== */}
+              {/* ===================== سرفصل‌های داکس ===================== */}
               <div id="syllabus" className="mb-16">
                 <div className="text-center md:text-right mb-8">
                   <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-bold inline-block mb-2">
@@ -525,6 +567,30 @@
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* ===================== بخش معرفی و رزومه مدرس ===================== */}
+              <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-400/10 via-white/[0.03] to-white/[0.01] border border-amber-400/25 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4 text-right w-full md:w-auto">
+                  <div className="w-14 h-14 rounded-2xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-3xl shrink-0">
+                    👨‍🏫
+                  </div>
+                  <div>
+                    <span className="text-xs text-amber-300 font-bold">مدرس و هدایت‌کننده دوره</span>
+                    <h4 className="text-xl sm:text-2xl font-black text-white">علی چالاکی</h4>
+                    <p className="text-xs sm:text-sm text-neutral-400 mt-0.5">مدرس دوره‌های تخصصی هوش مصنوعی و مؤسس آکادمی پایتون‌تاپ</p>
+                  </div>
+                </div>
+
+                <a
+                  href="https://alichalaki.github.io/"
+                  target="_blank"
+                  rel="noopener"
+                  className="w-full md:w-auto px-6 py-3 rounded-full bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 transition-all duration-300 text-center font-bold text-xs sm:text-sm backdrop-blur-md shadow-lg shrink-0 flex items-center justify-center gap-2"
+                >
+                  <span>مشاهده رزومه و وب‌سایت مدرس</span>
+                  <span>↗</span>
+                </a>
               </div>
 
               {/* این دوره برای چه کسانی است */}
@@ -615,6 +681,12 @@
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                   <a href="tel:09102655884" target="_self" className="text-amber-400 font-bold hover:underline" dir="ltr">
                     📞 09102655884
+                  </a>
+                  <a href="https://alichalaki.github.io/" target="_blank" rel="noopener" className="hover:text-amber-400 transition-colors">
+                    رزومه مدرس (علی چالاکی)
+                  </a>
+                  <a href="https://alichalaki.github.io/ai-academy.html" className="text-amber-300 hover:underline transition-colors">
+                    آکادمی AI
                   </a>
                   <button onClick={() => setChannelModalOpen(true)} className="hover:text-amber-400 transition-colors">
                     کانال‌های رسمی
