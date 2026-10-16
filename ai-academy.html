@@ -917,8 +917,8 @@
     @media (max-width: 900px) {
       :root {
         --logo: 16px;
-        --h1: 26px;
-        --lede: 14.5px;
+        --h1: 34px;
+        --lede: 15px;
         --header-x: 20px;
         --stats-x: 20px;
         --stats-y: 24px;
@@ -973,14 +973,8 @@
         border-radius: 10px;
       }
       .hero {
-        padding: 40px 16px 40px;
+        padding: 40px 20px 40px;
         min-height: auto;
-      }
-      .hero h1 {
-        white-space: nowrap;
-      }
-      .headline-line {
-        white-space: nowrap;
       }
       .stats {
         flex-direction: column;
@@ -1006,20 +1000,7 @@
 
     @media (max-width: 560px) {
       :root {
-        --h1: clamp(15px, 4.3vw, 20px);
-      }
-      .headline-line {
-        white-space: nowrap;
-        overflow: visible;
-      }
-      .hero h1 {
-        white-space: nowrap;
-      }
-      .course-heading-title {
-        font-size: 17px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        --h1: 28px;
       }
       .hero-actions {
         flex-direction: column;
@@ -1028,9 +1009,33 @@
       .hero-actions .btn {
         width: 100%;
       }
-      .section-title {
-        font-size: 20px;
+
+      /* عنوان اصلی: هر خط تک‌خطی و با سایز کوچک‌تر */
+      .hero {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .hero h1 {
+        font-size: 4.3vw;
+        line-height: 1.6;
+        width: 100%;
+        letter-spacing: 0;
+      }
+      .headline-line {
         white-space: nowrap;
+        overflow: visible;
+        padding: 0.05em 0;
+        max-width: 100%;
+      }
+      .headline-line > span {
+        white-space: nowrap;
+      }
+
+      /* عنوان بخش دوره‌ها: تک‌خطی و کوچک‌تر */
+      .section-title {
+        font-size: 5.4vw;
+        white-space: nowrap;
+        letter-spacing: 0;
       }
     }
   </style>
@@ -1040,7 +1045,7 @@
 
   <!-- ویدیوی پس زمینه با تم سایبر و هوش مصنوعی -->
   <div class="hero-photo">
-    <video id="bgVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+    <video id="bg-video" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
   </div>
@@ -1337,23 +1342,40 @@
       const backdrop = document.getElementById('menu-backdrop');
       const navLinks = document.querySelectorAll('#site-nav a');
 
-      // اجبار پخش ویدیو در موبایل (حل محدودیت Low Power Mode و Autoplay Policy)
-      const bgVideo = document.getElementById('bgVideo');
+      // پخش ویدیوی پس‌زمینه در موبایل و دسکتاپ
+      const bgVideo = document.getElementById('bg-video');
       if (bgVideo) {
         bgVideo.muted = true;
         bgVideo.defaultMuted = true;
-        const playPromise = bgVideo.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            const triggerPlay = () => {
-              bgVideo.play();
-              window.removeEventListener('touchstart', triggerPlay);
-              window.removeEventListener('scroll', triggerPlay);
-            };
-            window.addEventListener('touchstart', triggerPlay, { once: true });
-            window.addEventListener('scroll', triggerPlay, { once: true });
-          });
-        }
+        bgVideo.setAttribute('muted', '');
+        bgVideo.setAttribute('playsinline', '');
+        bgVideo.setAttribute('webkit-playsinline', '');
+
+        const tryPlay = () => {
+          if (!bgVideo.paused) return;
+          const p = bgVideo.play();
+          if (p && typeof p.catch === 'function') {
+            p.catch(() => { /* منتظر تعامل کاربر */ });
+          }
+        };
+
+        tryPlay();
+        bgVideo.addEventListener('loadeddata', tryPlay);
+        bgVideo.addEventListener('canplay', tryPlay);
+        window.addEventListener('load', tryPlay);
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) tryPlay();
+        });
+
+        // اگر مرورگر موبایل autoplay را بلاک کرد، با اولین تعامل پخش شود
+        ['touchstart', 'touchend', 'click', 'scroll', 'keydown'].forEach(evt => {
+          window.addEventListener(evt, function once() {
+            tryPlay();
+            if (!bgVideo.paused) {
+              window.removeEventListener(evt, once);
+            }
+          }, { passive: true });
+        });
       }
 
       // انیمیشن‌های شروع
