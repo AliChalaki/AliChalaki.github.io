@@ -917,8 +917,8 @@
     @media (max-width: 900px) {
       :root {
         --logo: 16px;
-        --h1: 34px;
-        --lede: 15px;
+        --h1: 26px;
+        --lede: 14.5px;
         --header-x: 20px;
         --stats-x: 20px;
         --stats-y: 24px;
@@ -973,8 +973,14 @@
         border-radius: 10px;
       }
       .hero {
-        padding: 40px 20px 40px;
+        padding: 40px 16px 40px;
         min-height: auto;
+      }
+      .hero h1 {
+        white-space: nowrap;
+      }
+      .headline-line {
+        white-space: nowrap;
       }
       .stats {
         flex-direction: column;
@@ -1000,7 +1006,20 @@
 
     @media (max-width: 560px) {
       :root {
-        --h1: 28px;
+        --h1: clamp(15px, 4.3vw, 20px);
+      }
+      .headline-line {
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .hero h1 {
+        white-space: nowrap;
+      }
+      .course-heading-title {
+        font-size: 17px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .hero-actions {
         flex-direction: column;
@@ -1010,7 +1029,8 @@
         width: 100%;
       }
       .section-title {
-        font-size: 26px;
+        font-size: 20px;
+        white-space: nowrap;
       }
     }
   </style>
@@ -1020,7 +1040,7 @@
 
   <!-- ویدیوی پس زمینه با تم سایبر و هوش مصنوعی -->
   <div class="hero-photo">
-    <video autoplay loop muted playsinline preload="auto">
+    <video id="bgVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
   </div>
@@ -1316,6 +1336,25 @@
       const burger = document.getElementById('burger-btn');
       const backdrop = document.getElementById('menu-backdrop');
       const navLinks = document.querySelectorAll('#site-nav a');
+
+      // اجبار پخش ویدیو در موبایل (حل محدودیت Low Power Mode و Autoplay Policy)
+      const bgVideo = document.getElementById('bgVideo');
+      if (bgVideo) {
+        bgVideo.muted = true;
+        bgVideo.defaultMuted = true;
+        const playPromise = bgVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            const triggerPlay = () => {
+              bgVideo.play();
+              window.removeEventListener('touchstart', triggerPlay);
+              window.removeEventListener('scroll', triggerPlay);
+            };
+            window.addEventListener('touchstart', triggerPlay, { once: true });
+            window.addEventListener('scroll', triggerPlay, { once: true });
+          });
+        }
+      }
 
       // انیمیشن‌های شروع
       appears.forEach(el => {
