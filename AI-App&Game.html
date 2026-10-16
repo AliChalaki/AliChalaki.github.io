@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>آکادمی پایتون‌تاپ | ساخت آینده با هوش مصنوعی</title>
+
+  <!-- فونت وزیرمتن باکیفیت برای تمامی دستگاه‌ها -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React 18 & Babel Standalone -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --font-main: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      background-color: #1a1c1e;
+      color: #f3f4f6;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .animate-blink {
+      animation: blink 0.9s step-end infinite;
+    }
+
+    .hero-text-shadow {
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-modal {
+      animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* تکان خوردن ملایم و شناور باکس‌های سه‌گانه */
+    @keyframes floatBox {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .animate-float-1 {
+      animation: floatBox 3.2s ease-in-out infinite;
+    }
+    .animate-float-2 {
+      animation: floatBox 3.8s ease-in-out 0.3s infinite;
+    }
+    .animate-float-3 {
+      animation: floatBox 3.5s ease-in-out 0.6s infinite;
+    }
+  </style>
+</head>
+<body class="select-none">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    function useTypewriter(text, speed = 36, startDelay = 450) {
+      const [displayed, setDisplayed] = useState("");
+      const [done, setDone] = useState(false);
+
+      useEffect(() => {
+        let timeoutId;
+        let intervalId;
+        let currentIndex = 0;
+
+        timeoutId = setTimeout(() => {
+          intervalId = setInterval(() => {
+            if (currentIndex < text.length) {
+              setDisplayed(text.slice(0, currentIndex + 1));
+              currentIndex++;
+            } else {
+              setDone(true);
+              clearInterval(intervalId);
+            }
+          }, speed);
+        }, startDelay);
+
+        return () => {
+          clearTimeout(timeoutId);
+          clearInterval(intervalId);
+        };
+      }, [text, speed, startDelay]);
+
+      return { displayed, done };
+    }
+
+    function App() {
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [buttonsVisible, setButtonsVisible] = useState(false);
+      const [supportModalOpen, setSupportModalOpen] = useState(false);
+      const [channelModalOpen, setChannelModalOpen] = useState(false);
+      const [copiedSupportTg, setCopiedSupportTg] = useState(false);
+      const [copiedSupportIran, setCopiedSupportIran] = useState(false);
+      const [copiedChannel, setCopiedChannel] = useState(false);
+
+      const videoRef = useRef(null);
+      const targetTimeRef = useRef(0);
+      const lastMouseMoveTimeRef = useRef(0);
+
+      const typewriterText = "دیگه لازم نیست سال‌ها کد بنویسی تا ایده‌هات زنده بشن؛ امروز فقط اراده کن، هوش مصنوعی برات خلقش می‌کنه. آماده‌ای بازی خودت رو بسازی؟";
+      const { displayed, done } = useTypewriter(typewriterText, 35, 450);
+
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setButtonsVisible(true);
+        }, 350);
+        return () => clearTimeout(timer);
+      }, []);
+
+      // تابع اصلی اعمال فریم بدون ایجاد صف یا فریز مرورگر
+      const applySeek = () => {
+        const video = videoRef.current;
+        if (!video || !video.duration) return;
+
+        // اگر ویدیو در حال حاضر در حال seek فریم قبلی است، درخواست جدید را منتظر می‌گذاریم
+        if (video.seeking) return;
+
+        const diff = targetTimeRef.current - video.currentTime;
+        // آستانه نرم برای جلوگیری از فراخوانی بیهوده
+        if (Math.abs(diff) > 0.02) {
+          video.currentTime = targetTimeRef.current;
+        }
+      };
+
+      // موتور حرکتی روان: هماهنگی خودکار در صورت بیکاری ماوس یا صفحات لمسی
+      useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        let animationFrameId;
+
+        const autoLoop = (timestamp) => {
+          if (video && video.duration) {
+            const timeSinceLastMouseMove = timestamp - lastMouseMoveTimeRef.current;
+
+            // فقط در حالتی که کاربر ماوس را تکان نداده، حرکت موجی آرام فعال باشد
+            if (timeSinceLastMouseMove > 1000) {
+              const progress = (Math.sin(timestamp * 0.001) + 1) / 2;
+              targetTimeRef.current = progress * video.duration;
+              applySeek();
+            }
+          }
+          animationFrameId = requestAnimationFrame(autoLoop);
+        };
+
+        animationFrameId = requestAnimationFrame(autoLoop);
+
+        // دنبال کردن فوق‌العاده سریع و روان ماوس
+        const handleMouseMove = (e) => {
+          if (!video || !video.duration) return;
+
+          lastMouseMoveTimeRef.current = performance.now();
+
+          // محاسبه موقعیت افقی ماوس به زمان دقیق ویدیو
+          const ratio = 1 - (e.clientX / window.innerWidth);
+          targetTimeRef.current = Math.min(Math.max(ratio * video.duration, 0), video.duration);
+
+          applySeek();
+        };
+
+        window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+        return () => {
+          cancelAnimationFrame(animationFrameId);
+          window.removeEventListener("mousemove", handleMouseMove);
+        };
+      }, []);
+
+      // وقتی مرورگر فریم قبلی را با موفقیت نمایش داد، فوراً موقعیت جدید ماوس را اعمال می‌کند
+      const handleSeeked = () => {
+        applySeek();
+      };
+
+      const scrollToCourse = () => {
+        const el = document.getElementById("course-details");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      };
+
+      // کپی آیدی پشتیبانی تلگرام
+      const copySupportTgId = () => {
+        navigator.clipboard.writeText("@PythonTop0");
+        setCopiedSupportTg(true);
+        setTimeout(() => setCopiedSupportTg(false), 2000);
+      };
+
+      // کپی آیدی پشتیبانی پیام‌رسان‌های ایرانی
+      const copySupportIranId = () => {
+        navigator.clipboard.writeText("@PythonTop");
+        setCopiedSupportIran(true);
+        setTimeout(() => setCopiedSupportIran(false), 2000);
+      };
+
+      // کپی آیدی کانال‌های رسمی
+      const copyChannelId = () => {
+        navigator.clipboard.writeText("@PythonTopacademy");
+        setCopiedChannel(true);
+        setTimeout(() => setCopiedChannel(false), 2000);
+      };
+
+      return (
+        <div className="relative w-full">
+          {/* ویدیو پس‌زمینه با فلیپ افقی */}
+          <video
+            ref={videoRef}
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
+            className="fixed inset-0 z-0 h-screen w-screen object-cover pointer-events-none transform -scale-x-100"
+            style={{ objectPosition: "75% center" }}
+            muted
+            playsInline
+            preload="auto"
+            onSeeked={handleSeeked}
+          />
+
+          {/* گرادیانت تیره در سمت راست برای خوانایی بهتر متون */}
+          <div className="fixed inset-0 z-[1] bg-gradient-to-l from-black/80 via-black/40 to-transparent pointer-events-none" />
+
+          {/* ===================== نوبار ===================== */}
+          <header className="fixed top-0 left-0 right-0 z-20 flex w-full items-center justify-between px-4 sm:px-8 md:px-12 py-4 sm:py-5">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-lg sm:text-2xl font-black tracking-tight text-white hero-text-shadow">
+                پایتون‌تاپ <span className="text-xs sm:text-sm font-normal text-amber-400">| AI Studio</span>
+              </span>
+              <span className="text-xl sm:text-2xl text-amber-400 select-none animate-pulse">✳︎</span>
+            </div>
+
+            <nav className="hidden lg:flex items-center text-base sm:text-lg text-white/90 font-medium gap-2">
+              <button onClick={scrollToCourse} className="hover:text-amber-400 transition-colors">
+                معرفی دوره
+              </button>
+              <span className="opacity-40">،</span>
+              <a href="#features" className="hover:text-amber-400 transition-colors">
+                سرفصل‌ها
+              </a>
+              <span className="opacity-40">،</span>
+              <button onClick={() => setChannelModalOpen(true)} className="hover:text-amber-400 transition-colors">
+                کانال رسمی آکادمی
+              </button>
+              <span className="opacity-40">،</span>
+              <button onClick={() => setSupportModalOpen(true)} className="hover:text-amber-400 transition-colors">
+                پشتیبانی و مشاوره
+              </button>
+            </nav>
+
+            <div className="hidden sm:block">
+              <a
+                href="#pricing"
+                className="px-5 py-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 transition-all duration-300 backdrop-blur-md text-xs sm:text-sm font-semibold shadow-lg"
+              >
+                ثبت‌نام با تخفیف ویژه
+              </a>
+            </div>
+
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px] z-30 focus:outline-none"
+              aria-label="Toggle Menu"
+            >
+              <span className={`w-6 h-[2px] bg-white transition-all duration-300 transform ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+              <span className={`w-6 h-[2px] bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+              <span className={`w-6 h-[2px] bg-white transition-all duration-300 transform ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            </button>
+          </header>
+
+          {/* منوی موبایل */}
+          <div
+            className={`fixed inset-0 z-20 bg-[#1a1c1e]/98 backdrop-blur-2xl flex flex-col justify-center px-8 gap-6 transition-all duration-300 lg:hidden ${
+              menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            }`}
+          >
+            <button onClick={() => { scrollToCourse(); setMenuOpen(false); }} className="text-xl sm:text-2xl font-bold text-right text-white hover:text-amber-400">
+              درباره دوره جدید
+            </button>
+            <a href="#features" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
+              ویژگی‌ها و سرفصل‌ها
+            </a>
+            <a href="#pricing" onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold text-white hover:text-amber-400">
+              شهریه و تخفیف ۹۸۰ تومانی
+            </a>
+            <a
+              href="tel:09102655884"
+              target="_self"
+              onClick={() => setMenuOpen(false)}
+              className="text-lg font-bold text-amber-400 text-right flex items-center gap-2"
+            >
+              <span>📞</span>
+              <span>شماره‌گیری فوری: 09102655884</span>
+            </a>
+            <div className="flex flex-col gap-3 pt-2">
+              <button
+                onClick={() => { setMenuOpen(false); setChannelModalOpen(true); }}
+                className="py-3 bg-amber-400 text-black font-bold text-center rounded-xl flex items-center justify-center gap-2 shadow-lg"
+              >
+                <span>📢</span>
+                <span>کانال رسمی آکادمی (@PythonTopacademy)</span>
+              </button>
+              <button
+                onClick={() => { setMenuOpen(false); setSupportModalOpen(true); }}
+                className="py-3 bg-white/10 border border-white/20 text-white font-bold text-center rounded-xl flex items-center justify-center gap-2"
+              >
+                <span>💬</span>
+                <span>پشتیبانی و مشاوره</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ===================== بخش هیرو ===================== */}
+          <section className="relative z-10 h-screen w-full flex flex-col justify-center px-5 sm:px-10 md:px-16 lg:px-20 overflow-hidden">
+            <div className="w-full max-w-xl relative z-10 text-right mr-0 ml-auto">
+              
+              <div
+                className="pointer-events-none select-none mb-3 sm:mb-4 text-white/80 font-light"
+                style={{
+                  fontSize: "clamp(14px, 3.2vw, 20px)",
+                  lineHeight: "1.5",
+                  filter: "blur(2px)",
+                }}
+              >
+                خوش اومدی به نسل جدید خلق کردن؛<br />
+                جایی که هوش مصنوعی دست‌های توئه...
+              </div>
+
+              <p
+                className="text-white font-medium mb-6 hero-text-shadow"
+                style={{
+                  fontSize: "clamp(16px, 4vw, 24px)",
+                  lineHeight: "1.7",
+                  minHeight: "75px",
+                }}
+              >
+                {displayed}
+                {!done && (
+                  <span className="inline-block w-[3px] h-[1.1em] bg-amber-400 align-middle mr-1.5 animate-blink" />
+                )}
+              </p>
+
+              <div
+                className="flex flex-wrap gap-2.5 sm:gap-3 transition-all duration-500 ease-out"
+                style={{
+                  opacity: buttonsVisible ? 1 : 0,
+                  transform: buttonsVisible ? "translateY(0)" : "translateY(12px)",
+                }}
+              >
+                <button
+                  onClick={scrollToCourse}
+                  className="inline-flex items-center justify-center bg-white text-black font-bold text-xs sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-amber-400 transition-all duration-300 shadow-xl hover:scale-105"
+                >
+                  🚀 ورود به دنیای بدون کدنویسی
+                </button>
+
+                <a
+                  href="#pricing"
+                  className="inline-flex items-center justify-center bg-black/40 text-white border border-white/20 font-medium text-xs sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-md shadow-xl"
+                >
+                  🔥 رزرو تخفیف ویژه (فقط ۱۰ نفر)
+                </a>
+              </div>
+
+            </div>
+          </section>
+
+          {/* محوکننده ترنزیشن */}
+          <div className="relative z-10 w-full h-36 bg-gradient-to-b from-transparent via-[#1a1c1e]/85 to-[#1a1c1e] pointer-events-none -mt-36" />
+
+          {/* ===================== بخش توضیحات دوره ===================== */}
+          <section id="course-details" className="relative z-10 bg-[#1a1c1e] text-white py-14 sm:py-20 px-4 sm:px-10 md:px-16 lg:px-20 text-right">
+            <div className="max-w-5xl mx-auto">
+              
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-amber-300 text-xs sm:text-sm mb-6 backdrop-blur-md">
+                <span>⚡ دوره اختصاصی آکادمی پایتون‌تاپ</span>
+              </div>
+
+              {/* عنوان اصلی دوره */}
+              <div className="mb-8">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.4] sm:leading-[1.35] text-white">
+                  بدون یک خط کدنویسی و با هوش مصنوعی،
+                  <span className="block mt-2 sm:mt-3 bg-gradient-to-l from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
+                    اپ و بازی خودتو بساز، انتشارش بده و درآمد کسب کن!
+                  </span>
+                </h2>
+              </div>
+
+              <p className="text-sm sm:text-lg md:text-xl text-neutral-300 leading-relaxed mb-10 max-w-3xl font-light">
+                فکر می‌کنی برای ساخت اپلیکیشن و بازی موبایل حتماً باید برنامه‌نویسی بلد باشی یا سیستم قدرتمندی داشته باشی؟ وقتشه جور دیگه‌ای فکر کنی! توی این دوره یاد می‌گیری چطور با کمک هوش مصنوعی، ایده‌هات رو به اپلیکیشن‌ها و بازی‌های پولساز تبدیل کنی؛ حتی اگر از صفر شروع کنی! 🔥
+              </p>
+
+              {/* ۳ باکس مجزا با انیمیشن ملایم تکان خوردن و بدون خط عمودی */}
+              <div className="mb-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                <div className="animate-float-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
+                  <span className="text-xl">☁️</span>
+                  <span className="text-sm sm:text-base font-bold text-amber-300">کاملاً آنلاین</span>
+                </div>
+
+                <div className="animate-float-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
+                  <span className="text-xl">🎓</span>
+                  <span className="text-sm sm:text-base font-bold text-amber-300">پشتیبانی تا انتشار</span>
+                </div>
+
+                <div className="animate-float-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400/15 via-white/5 to-amber-400/15 border border-amber-400/35 backdrop-blur-md shadow-lg flex items-center gap-2 hover:border-amber-400/60 transition-colors">
+                  <span className="text-xl">🔒</span>
+                  <span className="text-sm sm:text-base font-bold text-amber-300">دوره نیمه‌خصوصی، فقط ۱۰ نفر</span>
+                </div>
+              </div>
+
+              {/* کارت‌های سرفصل */}
+              <div id="features" className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-16">
+                <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
+                  <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
+                    <span className="text-2xl">📱</span> ساخت اپلیکیشن با هوش مصنوعی
+                  </div>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">تولید منطق و رابط کاربری نرم‌افزار بدون کدنویسی دستی و فقط با پرامپت‌نویسی اصولی.</p>
+                </div>
+
+                <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
+                  <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
+                    <span className="text-2xl">🎮</span> طراحی و ساخت بازی‌های موبایلی با AI
+                  </div>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">خلق مکانیک بازی، کاراکترها و اسپرایت‌های گرافیکی و صداگذاری بدون نیاز به سیستم سنگین.</p>
+                </div>
+
+                <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
+                  <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
+                    <span className="text-2xl">☁️</span> ابزارهای آنلاین و ابری بدون سیستم قوی
+                  </div>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">نیازی به سخت‌افزار گرون قیمت نداری؛ تمام مراحل روی ابزارهای آنلاین و ابری اجرا میشه.</p>
+                </div>
+
+                <div className="p-6 sm:p-7 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-amber-400/50 transition-all duration-300">
+                  <div className="text-lg sm:text-xl font-bold mb-2.5 flex items-center gap-3 text-white">
+                    <span className="text-2xl">📲</span> انتشار و درآمدزایی از بازار و مایکت
+                  </div>
+                  <p className="text-neutral-400 leading-relaxed text-xs sm:text-sm md:text-base">آشنایی با مسیر خروجی APK، تایید در استورها و مدل‌های درآمدزایی از تبلیغات و فروش درون‌برنامه‌ای.</p>
+                </div>
+              </div>
+
+              {/* این دوره برای چه کسانی است */}
+              <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10">
+                <h3 className="text-xl sm:text-2xl font-bold mb-5 text-white">🎯 این دوره برای توئه اگر می‌خوای:</h3>
+                <ul className="space-y-3.5 text-neutral-300 text-sm sm:text-base md:text-lg">
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+                    اولین اپلیکیشن یا بازی اختصاصی خودت رو بسازی.
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+                    بدون ورود به مسیر پیچیده برنامه‌نویسی، ساخت محصول دیجیتال رو تجربه کنی.
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+                    مهارتی کاربردی یاد بگیری و مسیرهای درآمدزایی واقعی ازش رو بشناسی.
+                  </li>
+                </ul>
+              </div>
+
+              {/* باکس قیمت و مشخص بودن تخفیف با رنگ قرمز و برجسته */}
+              <div id="pricing" className="p-6 sm:p-10 md:p-12 rounded-3xl bg-neutral-900/90 border border-neutral-700/80 relative overflow-hidden shadow-2xl">
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div>
+                    <span className="inline-block px-3 py-1 bg-red-500/20 text-red-400 border border-red-500/30 rounded-full text-xs font-bold mb-3">
+                      🔥 تخفیف ویژه رونمایی - فقط ۱۰ نفر اول
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-white">ثبت‌نام زودهنگام در دوره</h3>
+                    <p className="text-neutral-400 text-xs sm:text-sm">ثبت‌نام با این قیمت تا تکمیل ظرفیت ۱۰ نفره ادامه دارد.</p>
+                    
+                    {/* ساختار قیمت با تاکید قرمز روی ۳ میلیون و درخشش ۹۸۰ هزار تومان */}
+                    <div className="flex flex-wrap items-baseline gap-3.5 mt-5">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-3xl sm:text-5xl font-black text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.35)]">۹۸۰,۰۰۰</span>
+                        <span className="text-sm sm:text-base font-medium text-neutral-200">تومان</span>
+                      </div>
+
+                      <div className="flex items-baseline gap-1 bg-red-500/10 border border-red-500/25 px-2.5 py-1 rounded-lg">
+                        <span className="text-base sm:text-2xl font-black line-through text-red-500 decoration-red-500 decoration-2">۳,۰۰۰,۰۰۰</span>
+                        <span className="text-xs sm:text-sm font-bold text-red-400/90">تومان</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col w-full lg:w-auto gap-3">
+                    <a
+                      href="https://pythontop.ir/courses/ai-no-code-app-game-development"
+                      target="_blank"
+                      className="w-full px-6 py-3.5 bg-amber-400 text-black text-center font-black text-base sm:text-lg rounded-full hover:bg-amber-300 transition-all duration-300 shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                      <span>🔍</span>
+                      <span>مشاهده جزئیات دوره</span>
+                    </a>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {/* دکمه کانال‌های رسمی در تمام پیام‌رسان‌ها */}
+                      <button
+                        onClick={() => setChannelModalOpen(true)}
+                        className="w-full px-4 py-3 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 border border-amber-400/40 text-amber-300 text-center font-bold rounded-full hover:bg-amber-400/30 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm"
+                      >
+                        <span>📢</span>
+                        <span>کانال در تمام پیام‌رسان‌ها</span>
+                      </button>
+
+                      {/* دکمه ارتباط مستقیم با پشتیبانی و مشاوره */}
+                      <button
+                        onClick={() => setSupportModalOpen(true)}
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 text-white text-center font-medium rounded-full hover:bg-white/10 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm"
+                      >
+                        <span>💬</span>
+                        <span>مشاوره و پشتیبانی</span>
+                      </button>
+                    </div>
+
+                    {/* دکمه تماس با قابلیت شماره‌گیری مستقیم */}
+                    <a
+                      href="tel:09102655884"
+                      target="_self"
+                      className="w-full py-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-center font-bold rounded-full hover:bg-emerald-500/20 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm"
+                      dir="ltr"
+                    >
+                      <span>📞 تماس مستقیم: 09102655884</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* فوتر بهینه‌شده با شماره تماس مستقیم */}
+              <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-neutral-400 gap-4">
+                <span>© ۲۰۲۶ تمامی حقوق محفوظ و متعلق به آکادمی پایتون‌تاپ است.</span>
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                  <a href="tel:09102655884" target="_self" className="text-amber-400 font-bold hover:underline" dir="ltr">
+                    📞 09102655884
+                  </a>
+                  <button onClick={() => setChannelModalOpen(true)} className="hover:text-amber-400 transition-colors">
+                    کانال‌های رسمی
+                  </button>
+                  <button onClick={() => setSupportModalOpen(true)} className="hover:text-amber-400 transition-colors">
+                    پشتیبانی و ثبت‌نام
+                  </button>
+                  <a href="https://pythontop.ir" target="_blank" className="hover:text-amber-400 transition-colors">
+                    وب‌سایت رسمی پایتون‌تاپ
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          {/* ===================== پاپ‌آپ ۱: کانال رسمی در تمام پیام‌رسان‌ها (@PythonTopacademy) ===================== */}
+          {channelModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-modal">
+              <div className="bg-[#22252a] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center relative">
+                <button
+                  onClick={() => setChannelModalOpen(false)}
+                  className="absolute top-4 left-4 text-neutral-400 hover:text-white text-xl p-1 focus:outline-none"
+                >
+                  ✕
+                </button>
+
+                <div className="w-14 h-14 bg-amber-400/10 text-amber-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-amber-400/20">
+                  📢
+                </div>
+
+                <h4 className="text-xl font-bold text-white mb-2">کانال رسمی آکادمی پایتون‌تاپ</h4>
+                <p className="text-xs sm:text-sm text-amber-300/90 bg-amber-400/10 border border-amber-400/20 py-2.5 px-3 rounded-xl mb-5">
+                  آیدی کانال رسمی در تمامی پیام‌رسان‌ها: <strong className="font-mono text-base mr-1">@PythonTopacademy</strong>
+                </p>
+
+                <div className="flex flex-col gap-2.5">
+                  <button
+                    onClick={() => {
+                      window.location.href = "tg://resolve?domain=pythonTopacademy";
+                      setTimeout(() => window.open("https://t.me/pythonTopacademy", "_blank"), 500);
+                    }}
+                    className="w-full py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  >
+                    <span>✈️</span>
+                    <span>عضویت در کانال تلگرام</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      window.location.href = "rubika://channel?username=PythonTopacademy";
+                      setTimeout(() => window.open("https://rubika.ir/PythonTopacademy", "_blank"), 500);
+                    }}
+                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  >
+                    <span>🟣</span>
+                    <span>عضویت در کانال روبیکا</span>
+                  </button>
+
+                  <button
+                    onClick={() => window.open("https://eitaa.com/PythonTopacademy", "_blank")}
+                    className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  >
+                    <span>🟠</span>
+                    <span>عضویت در کانال ایتا</span>
+                  </button>
+
+                  <button
+                    onClick={() => window.open("https://ble.ir/PythonTopacademy", "_blank")}
+                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  >
+                    <span>🟢</span>
+                    <span>عضویت در کانال بله</span>
+                  </button>
+
+                  <button
+                    onClick={copyChannelId}
+                    className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-2 text-xs sm:text-sm mt-1"
+                  >
+                    <span>📋</span>
+                    <span>{copiedChannel ? "آیدی کپی شد! (@PythonTopacademy)" : "کپی کردن آیدی کانال (@PythonTopacademy)"}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ===================== پاپ‌آپ ۲: ارتباط با پشتیبانی و مشاوره ===================== */}
+          {supportModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-modal">
+              <div className="bg-[#22252a] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center relative max-h-[90vh] overflow-y-auto">
+                <button
+                  onClick={() => setSupportModalOpen(false)}
+                  className="absolute top-4 left-4 text-neutral-400 hover:text-white text-xl p-1 focus:outline-none"
+                >
+                  ✕
+                </button>
+
+                <div className="w-14 h-14 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 border border-sky-500/20">
+                  💬
+                </div>
+
+                <h4 className="text-xl font-bold text-white mb-2">پشتیبانی و مشاوره دوره</h4>
+                <p className="text-xs sm:text-sm text-neutral-400 mb-4">
+                  جهت دریافت مشاوره و راهنمایی ثبت‌نام، پلتفرم مورد نظر خود را انتخاب کنید:
+                </p>
+
+                <div className="flex flex-col gap-2.5">
+                  {/* پشتیبانی تلگرام با آیدی @PythonTop0 */}
+                  <div className="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-2">
+                    <button
+                      onClick={() => {
+                        window.location.href = "tg://resolve?domain=PythonTop0";
+                        setTimeout(() => window.open("https://t.me/PythonTop0", "_blank"), 500);
+                      }}
+                      className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm"
+                    >
+                      <span>✈️</span>
+                      <span>گفتگو در تلگرام (@PythonTop0)</span>
+                    </button>
+                    <button
+                      onClick={copySupportTgId}
+                      className="w-full py-1.5 bg-white/5 hover:bg-white/10 text-neutral-300 text-xs rounded-lg transition-all"
+                    >
+                      {copiedSupportTg ? "آیدی تلگرام کپی شد!" : "📋 کپی آیدی تلگرام: @PythonTop0"}
+                    </button>
+                  </div>
+
+                  {/* پشتیبانی در پیام‌رسان‌های ایرانی با آیدی @PythonTop */}
+                  <div className="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-2">
+                    <div className="text-[11px] sm:text-xs text-amber-300/90 text-right pr-1">
+                      پیام‌رسان‌های ایرانی (آیدی پشتیبانی: <span className="font-mono">@PythonTop</span>)
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                      <button
+                        onClick={() => {
+                          window.location.href = "rubika://user?username=PythonTop";
+                          setTimeout(() => window.open("https://rubika.ir/PythonTop", "_blank"), 500);
+                        }}
+                        className="py-2 bg-purple-600/80 hover:bg-purple-600 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-1.5 text-xs"
+                      >
+                        <span>🟣</span>
+                        <span>روبیکا</span>
+                      </button>
+
+                      <button
+                        onClick={() => window.open("https://eitaa.com/PythonTop", "_blank")}
+                        className="py-2 bg-amber-600/80 hover:bg-amber-600 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-1.5 text-xs"
+                      >
+                        <span>🟠</span>
+                        <span>ایتا</span>
+                      </button>
+
+                      <button
+                        onClick={() => window.open("https://ble.ir/PythonTop", "_blank")}
+                        className="py-2 bg-emerald-600/80 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-1.5 text-xs"
+                      >
+                        <span>🟢</span>
+                        <span>بله</span>
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={copySupportIranId}
+                      className="w-full py-1.5 bg-white/5 hover:bg-white/10 text-neutral-300 text-xs rounded-lg transition-all"
+                    >
+                      {copiedSupportIran ? "آیدی کپی شد!" : "📋 کپی آیدی پشتیبانی ایرانی: @PythonTop"}
+                    </button>
+                  </div>
+
+                  {/* تماس مستقیم تلفنی */}
+                  <a
+                    href="tel:09102655884"
+                    target="_self"
+                    className="w-full py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-center font-bold rounded-xl hover:bg-emerald-500/20 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm mt-1"
+                    dir="ltr"
+                  >
+                    <span>📞 09102655884 (تماس تلفنی)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
