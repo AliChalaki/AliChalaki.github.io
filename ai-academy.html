@@ -1,1331 +1,963 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>آکادمی پایتون تاپ | دوره های جامع هوش مصنوعی و درآمد دلاری — علی چالاکی</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Ccircle cx='7.3' cy='3.2' r='1.45'/%3E%3Crect x='5.5' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Crect x='14.9' y='4.7' width='3.6' height='14.6' rx='1.8'/%3E%3Ccircle cx='16.7' cy='20.8' r='1.45'/%3E%3C/g%3E%3C/svg%3E">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelligence Designed To Evolve</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- BubbledotICG-FinePos CDN -->
+  <link
+    href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome 6.5.2 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
   <style>
-    /* قفل بلک بدون فلش سفید */
-    html, body { background: #000000 !important; color: #ffffff; }
+    /* ==========================================================================
+       Font-face & Design Variables
+       ========================================================================== */
+    @font-face {
+      font-family: "Geist Pixel Circle";
+      src: url("fonts/GeistPixel-Circle.woff2") format("woff2");
+      font-weight: 400;
+      font-display: swap;
+    }
 
     :root {
       --bg: #000000;
       --text: #ffffff;
-      --muted: #a3a3a3;
-      --stat: #d8d8d8;
-      --border: rgba(255, 255, 255, 0.16);
-      --border-soft: rgba(255, 255, 255, 0.12);
-
-      --logo: 16px;
-      --logo-mark: 22px;
-      --nav: 13.5px;
-      --nav-h: 40px;
-      --btn: 13.5px;
-      --btn-h: 40px;
-      --hero-btn-h: 44px;
-      --h1: 44px;
-      --lede: 16px;
-      --badge: 13px;
-      --stat-size: 13.5px;
-      --header-y: 22px;
-      --header-x: 40px;
-      --stats-x: 64px;
-      --stats-y: 34px;
-      --hero-gap: 70px;
-      --copy-max: 920px;
-      --lede-max: 600px;
-      --icon-size: 20px;
-      --icon-wide-w: 38px;
-      --icon-wide-h: 21px;
+      --muted: #8e8e8e;
+      --nav-text: #2e2e2e;
+      --pill-dark: #28282a;
+      --sign-in-text: #c8c8c8;
+      --nav-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+      --trust-bg: #28282a;
+      --trust-border: rgba(255, 255, 255, 0.4);
+      --trust-text: #c4c2c3;
+      --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+      --font-display: "BubbledotICG-FinePos", "Geist Pixel Circle", monospace;
     }
 
+    /* ==========================================================================
+       Base & Reset
+       ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     html, body {
-      background: #000000;
-      background: var(--bg, #000000);
-      color: #ffffff;
-      color: var(--text, #ffffff);
-      min-height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: "Vazirmatn", "Inter", system-ui, -apple-system, sans-serif;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      position: relative;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-      background: none;
-      border: none;
-      color: inherit;
-    }
-
-    /* گرین تصویر */
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      pointer-events: none;
-      opacity: 0.035;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-
-    /* ویدیوی پس زمینه */
-    .hero-photo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100vh;
-      min-height: 700px;
-      z-index: 0;
+    body.menu-open {
       overflow: hidden;
-      pointer-events: none;
     }
 
-    .hero-photo video {
+    /* ==========================================================================
+       Video Background Layer
+       ========================================================================== */
+    .bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background-color: var(--bg);
+      z-index: 0;
+    }
+
+    .bg-video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.75;
-      display: block;
-    }
-
-    .hero-photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,1) 98%);
       pointer-events: none;
+      z-index: 0;
     }
 
-    /* ساختار کلی صفحه */
+    /* ==========================================================================
+       Page Layout (1-viewport, 3 regions)
+       ========================================================================== */
     .page {
       position: relative;
       z-index: 1;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(16px, 2.4vh, 28px) clamp(14px, 3vw, 32px);
+      overflow: hidden;
     }
 
-    /* هدر */
+    /* ==========================================================================
+       Animations
+       ========================================================================== */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes headlineFade {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.98);
+        filter: blur(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes revealPulse {
+      0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.96);
+        filter: blur(6px);
+      }
+      70% {
+        transform: translateY(-2px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .anim {
+      opacity: 0;
+      animation: reveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: var(--d, 0s);
+    }
+
+    /* ==========================================================================
+       1. Header
+       ========================================================================== */
     .header {
-      position: relative;
-      z-index: 50;
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 2.8vw, 28px);
+      flex-shrink: 0;
+      animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      z-index: 10;
+    }
+
+    .logo-btn {
+      width: clamp(40px, 4.4vw, 46px);
+      height: clamp(40px, 4.4vw, 46px);
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: var(--nav-shadow);
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: var(--header-y) var(--header-x) 10px;
+      place-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: transform 0.25s ease;
     }
 
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      justify-self: start;
-      font-size: var(--logo);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #fff;
+    .logo-btn:hover {
+      transform: scale(1.04);
     }
 
-    .logo svg {
-      width: var(--logo-mark);
-      height: var(--logo-mark);
+    .logo-img {
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
       display: block;
     }
 
-    .logo-suffix {
-      color: #38bdf8;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-    }
-
-    #site-nav {
+    .nav-pill {
+      height: clamp(44px, 5.2vw, 48px);
+      max-width: 430px;
+      flex: 1;
+      background: #ffffff;
+      border-radius: 999px;
+      box-shadow: var(--nav-shadow);
       display: flex;
       align-items: center;
-      gap: 8px;
-      justify-self: center;
+      justify-content: space-evenly;
+      padding: 4px 8px;
     }
 
     .nav-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: var(--nav-h);
-      padding: 0 16px;
-      border-radius: 7px;
-      overflow: hidden;
       position: relative;
-      border: 1px solid rgba(198, 198, 198, 0.4);
-      background: linear-gradient(105deg, #050505 0%, #202020 48%, #383838 100%);
-      color: #f3f3f3;
-      font-size: var(--nav);
+      text-decoration: none;
+      color: var(--nav-text);
+      font-size: clamp(13px, 1.4vw, 15px);
       font-weight: 500;
-      white-space: nowrap;
-      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-    }
-
-    .nav-link::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.16) 50%, transparent 70%);
-      transform: translateX(-120%);
-      transition: transform 0.6s ease;
-      pointer-events: none;
+      letter-spacing: -0.01em;
+      opacity: 0.5;
+      padding: 6px 10px;
+      transition: opacity 0.2s ease;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .nav-link:hover {
-      border-color: rgba(56, 189, 248, 0.8);
-      background: linear-gradient(105deg, #111111 0%, #2c2c2c 45%, #4a4a4a 100%);
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.25);
+      opacity: 0.75;
     }
 
-    .nav-link:hover::before {
-      transform: translateX(120%);
+    .nav-link.active {
+      opacity: 1;
     }
 
-    .header-cta {
-      justify-self: end;
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: 5px;
+      width: 3px;
+      height: 3px;
+      background: #000000;
+      border-radius: 50%;
+      box-shadow: -5px 0 0 #000000, 5px 0 0 #000000;
     }
 
-    /* دکمه‌ها */
-    .btn {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
+    .sign-in-btn {
+      height: clamp(44px, 5.2vw, 48px);
+      background: var(--pill-dark);
+      color: var(--sign-in-text);
+      font-size: clamp(13px, 1.4vw, 15px);
+      font-weight: 500;
+      border-radius: 999px;
+      padding: 0 clamp(16px, 2vw, 22px);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: var(--btn-h);
-      padding: 0 18px;
-      border-radius: 7px;
-      font-size: var(--btn);
-      font-weight: 600;
-      line-height: 1;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.35s ease;
+      text-decoration: none;
+      box-shadow: var(--nav-shadow);
+      flex-shrink: 0;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
-    .btn::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.45) 48%, transparent 76%);
-      transform: translateX(-130%);
-      transition: transform 0.65s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .btn:hover::after {
-      transform: translateX(130%);
-    }
-
-    .btn-solid {
-      background: linear-gradient(180deg, #ffffff 0%, #e7e7e7 48%, #cfcfcf 100%);
-      color: #0b0b0b;
-      border: 1px solid #ffffff;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    }
-
-    .btn-solid:hover {
-      background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 42%, #d5def2 100%);
-      border-color: #f2f6ff;
-      box-shadow: inset 0 1px 0 #ffffff, 0 0 24px rgba(56, 189, 248, 0.4), 0 8px 18px rgba(255, 255, 255, 0.12);
-    }
-
-    .hero-btn {
-      height: var(--hero-btn-h);
-      padding: 0 22px;
-    }
-
-    .hero-btn.btn-ghost {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.5) 46%, rgba(150, 170, 200, 0.1));
+    .sign-in-btn:hover {
+      background: #323234;
       color: #ffffff;
-      border: 1px solid rgba(198, 198, 198, 0.55);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
     }
 
-    .hero-btn.btn-ghost:hover {
-      background: linear-gradient(135deg, rgba(210, 225, 255, 0.18), rgba(0, 0, 0, 0.35) 48%, rgba(180, 195, 220, 0.16));
-      border-color: rgba(56, 189, 248, 0.8);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 0 24px rgba(56, 189, 248, 0.3);
-    }
-
-    /* همبرگر برای موبایل */
-    .burger {
+    /* Mobile Hamburger Trigger */
+    .burger-btn {
       display: none;
-      width: 42px;
-      height: 42px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: rgba(8, 8, 8, 0.55);
-      z-index: 60;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--pill-dark);
+      border: none;
       cursor: pointer;
-      align-content: center;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
       gap: 5px;
       padding: 0;
-      transition: border-color 0.25s, background-color 0.25s;
+      transition: background 0.25s ease;
+      z-index: 100;
     }
 
     .burger-bar {
-      display: block;
-      width: 16px;
+      width: 18px;
       height: 1.5px;
       background: #ffffff;
-      border-radius: 1px;
-      transition: transform 0.25s ease, opacity 0.2s ease;
+      border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease, opacity 0.2s ease;
     }
 
-    body.menu-open .burger-bar:nth-child(1) {
+    .burger-btn[aria-expanded="true"] {
+      background: #ffffff;
+    }
+
+    .burger-btn[aria-expanded="true"] .burger-bar {
+      background: #000000;
+    }
+
+    .burger-btn[aria-expanded="true"] .burger-bar:nth-child(1) {
       transform: translateY(6.5px) rotate(45deg);
     }
-    body.menu-open .burger-bar:nth-child(2) {
+
+    .burger-btn[aria-expanded="true"] .burger-bar:nth-child(2) {
       opacity: 0;
     }
-    body.menu-open .burger-bar:nth-child(3) {
+
+    .burger-btn[aria-expanded="true"] .burger-bar:nth-child(3) {
       transform: translateY(-6.5px) rotate(-45deg);
     }
 
-    .menu-backdrop {
-      display: none;
-    }
-
-    /* هیرو سکشن */
+    /* ==========================================================================
+       2. Hero Section
+       ========================================================================== */
     .hero {
+      flex: 1;
+      width: 100%;
+      max-width: 900px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px var(--hero-gap);
-      min-height: calc(100vh - 80px);
-    }
-
-    .hero-copy {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      max-width: var(--copy-max);
-      width: 100%;
+      z-index: 1;
     }
 
-    .badge {
+    /* Trust Row */
+    .trust-row {
+      --trust-size: clamp(36px, 4.5vw, 42px);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 22px;
-      padding: 8px 16px;
-      border: 0;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #444 0%, #1e1e1e 52%, #0a0a0a 100%);
-      color: #f2f2f2;
-      font-size: var(--badge);
-      font-weight: 500;
-      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: clamp(16px, 2.5vh, 26px);
     }
 
-    .badge-star {
-      width: 18px;
-      height: 20px;
-      fill: #38bdf8;
-      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
-      display: block;
-      animation: in-star 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
-    }
-
-    .hero h1 {
-      font-size: var(--h1);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
+    .trust-avatars {
+      display: inline-flex;
       align-items: center;
+    }
+
+    .avatar-ring {
+      width: var(--trust-size);
+      height: var(--trust-size);
+      background: var(--trust-bg);
+      border: 1px solid var(--trust-border);
+      border-radius: 50%;
+      padding: 5px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      transition: transform 0.35s ease;
+    }
+
+    .avatar-ring:nth-child(1) { z-index: 1; }
+    .avatar-ring:nth-child(2) {
+      z-index: 2;
+      margin-left: calc(var(--trust-size) * -0.42);
+    }
+    .avatar-ring:nth-child(3) {
+      z-index: 4;
+      margin-left: calc(var(--trust-size) * -0.42);
+    }
+
+    .avatar-ring:nth-child(1):hover { transform: translateY(-2px); }
+    .avatar-ring:nth-child(2):hover { transform: translateY(-4px); }
+    .avatar-ring:nth-child(3):hover { transform: translateY(-2px); }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #ffffff;
+      display: grid;
+      place-items: center;
+    }
+
+    .avatar-inner i {
+      color: #111111;
+      font-size: calc(var(--trust-size) * 0.34);
+    }
+
+    .trust-pill {
+      height: var(--trust-size);
+      background: var(--trust-bg);
+      border: 1px solid var(--trust-border);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      margin-left: calc(var(--trust-size) * -0.42);
+      padding-left: calc(var(--trust-size) * 0.58);
+      padding-right: clamp(12px, 2vw, 18px);
+      color: var(--trust-text);
+      font-size: clamp(12px, 1.4vw, 13.5px);
+      font-weight: 500;
+      white-space: nowrap;
+      z-index: 3;
+    }
+
+    /* Headline */
+    .headline {
+      font-family: var(--font-display);
+      color: #ffffff;
+      font-size: clamp(28px, 6.2vw, 80px);
+      letter-spacing: -0.04em;
+      line-height: 1.12;
+      margin-bottom: clamp(14px, 2.2vh, 22px);
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     .headline-line {
       display: block;
-      overflow: hidden;
-      padding: 0.05em 0.1em;
+      opacity: 0;
+      animation: headlineFade 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(120deg, #38bdf8 0%, #a855f7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-      animation: in-em 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
-    }
+    .headline-line:nth-child(1) { animation-delay: 0.12s; }
+    .headline-line:nth-child(2) { animation-delay: 0.3s; }
 
-    .lede {
-      max-width: var(--lede-max);
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: var(--lede);
+    /* Subhead */
+    .subhead {
+      max-width: min(500px, 92%);
+      font-size: clamp(calc(13.5px + 2pt), calc(1.55vw + 2pt), calc(16.5px + 2pt));
+      color: #d0d0d0;
+      opacity: 0.8;
+      line-height: 1.55;
       font-weight: 400;
-      line-height: 1.7;
+      margin-bottom: clamp(20px, 3vh, 32px);
     }
 
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    /* فوتر آمار */
-    .stats {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 0 var(--stats-x) var(--stats-y);
-      color: var(--stat);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .stat {
+    /* CTA */
+    .cta-btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: var(--stat-size);
-      white-space: nowrap;
-    }
-
-    .stat-icon {
-      width: var(--icon-size);
-      height: var(--icon-size);
-      flex-shrink: 0;
-      display: block;
-    }
-
-    .stat-icon-wide {
-      width: var(--icon-wide-w);
-      height: var(--icon-wide-h);
-      flex-shrink: 0;
-      display: block;
-    }
-
-    /* ========================================================
-       سکشن دوره‌ها (خلوت، شیک و بدون سرفصل‌های شلوغ)
-    ======================================================== */
-    .courses-section {
-      position: relative;
-      z-index: 2;
-      background: #000000;
-      padding: 90px 24px 100px;
-      max-width: 1240px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .section-tag {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 6px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #38bdf8;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 34px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-
-    .section-desc {
-      font-size: 16px;
-      color: #94a3b8;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    .courses-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-
-    .course-card {
-      background: linear-gradient(135deg, rgba(20, 24, 33, 0.85) 0%, rgba(11, 14, 20, 0.95) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-    }
-
-    .course-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 24px 50px rgba(56, 189, 248, 0.08);
-    }
-
-    .course-card.highlight {
-      border-color: rgba(56, 189, 248, 0.5);
-      background: linear-gradient(135deg, rgba(23, 31, 46, 0.9) 0%, rgba(13, 17, 26, 0.98) 100%);
-    }
-
-    .course-badge-flag {
-      position: absolute;
-      top: 24px;
-      left: 24px;
-      padding: 6px 14px;
-      background: linear-gradient(90deg, #0284c7, #38bdf8);
-      color: #000;
-      font-size: 12.5px;
-      font-weight: 800;
-      border-radius: 20px;
-    }
-
-    .course-top-meta {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .course-icon-wrap {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 26px;
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      font-size: clamp(13.5px, 1.5vw, 14.5px);
+      padding: clamp(11px, 1.6vh, 13px) clamp(22px, 3vw, 28px);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 0 22px rgba(255, 255, 255, 0.32),
+        0 0 44px rgba(255, 255, 255, 0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation-name: revealPulse;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.25),
+        0 0 28px rgba(255, 255, 255, 0.45),
+        0 0 54px rgba(255, 255, 255, 0.2);
+    }
+
+    /* ==========================================================================
+       3. Stats Footer
+       ========================================================================== */
+    .stats-footer {
+      width: 100%;
+      max-width: 920px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(14px, 2vw, 24px);
       flex-shrink: 0;
+      z-index: 1;
     }
 
-    .course-heading-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #ffffff;
-      line-height: 1.4;
-    }
-
-    .course-pitch {
+    .stat-item {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 22px;
-    }
-
-    .pitch-main {
-      font-size: 17px;
-      font-weight: 700;
-      color: #38bdf8;
-      line-height: 1.5;
-    }
-
-    .pitch-sub {
-      font-size: 15px;
-      color: #f1f5f9;
-      font-weight: 500;
-      line-height: 1.6;
-    }
-
-    .pitch-features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .feature-chip {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      color: #cbd5e1;
-      font-weight: 500;
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      text-align: center;
     }
 
-    .course-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 14px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .course-actions .btn {
-      height: 46px;
-      padding: 0 24px;
-      font-size: 14px;
-      border-radius: 8px;
-    }
-
-    .btn-detail-link {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(0, 0, 0, 0.5));
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-
-    .btn-detail-link:hover {
-      background: #38bdf8;
-      color: #000;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-    }
-
-    /* پاپ‌آپ شیک اعلان کپی (Toast) */
-    .toast-notification {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid #38bdf8;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(56, 189, 248, 0.3);
-      backdrop-filter: blur(12px);
+    .stat-glyph {
+      font-family: var(--font-display);
       color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 50px;
-      font-size: 14px;
-      font-weight: 600;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: clamp(22px, 3vw, 33px);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--font-sans);
+      color: #ffffff;
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: clamp(11px, 1.2vw, 12.5px);
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       Mobile Sheet & Overlay
+       ========================================================================== */
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 90;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.28s ease;
     }
 
-    .toast-notification.show {
-      transform: translateX(-50%) translateY(0);
+    .mobile-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    /* مدال پشتیبانی و مشاوره */
-    .modal-overlay {
+    .mobile-sheet {
+      display: none;
       position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .support-card {
-      background: #181d24;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      width: 100%;
+      top: 80px;
+      left: 14px;
+      right: 14px;
       max-width: 440px;
-      padding: 30px 24px;
-      position: relative;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.85);
-      text-align: center;
-      transform: scale(0.92);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 22px 18px 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      z-index: 95;
+      transform: translateY(-20px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .modal-overlay.active .support-card {
-      transform: scale(1);
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      color: #8b949e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: all 0.2s;
-    }
-
-    .close-modal:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.1);
-    }
-
-    .support-icon-top {
-      width: 62px;
-      height: 62px;
-      background: #1e293b;
-      border-radius: 18px;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
-    }
-
-    .support-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .support-desc {
-      font-size: 13.5px;
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
-
-    .tg-box-wrapper {
-      background: #1e2633;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 10px;
-      margin-bottom: 14px;
-    }
-
-    .btn-telegram {
-      background: #0288d1;
-      color: #fff;
-      width: 100%;
-      height: 46px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 700;
-      transition: background 0.2s;
-    }
-
-    .btn-telegram:hover {
-      background: #039be5;
-    }
-
-    .copy-id-row {
-      margin-top: 8px;
-      background: #161c24;
-      border: 1px dashed rgba(255, 255, 255, 0.16);
-      border-radius: 8px;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #cbd5e1;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .copy-id-row:hover {
-      background: #1f2733;
-      color: #fff;
-    }
-
-    .iranian-apps-box {
-      background: #1e2633;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 14px 10px 10px;
-      margin-bottom: 14px;
-    }
-
-    .iranian-title {
-      font-size: 13px;
-      color: #facc15;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .iranian-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-    }
-
-    .btn-app {
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .app-rubika { background: #7c3aed; }
-    .app-eitaa { background: #ea580c; }
-    .app-bale { background: #059669; }
-
-    .call-teacher {
-      border: 1px solid #059669;
-      background: rgba(5, 150, 105, 0.12);
-      border-radius: 12px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      color: #34d399;
-      transition: background 0.2s;
-    }
-
-    .call-teacher:hover {
-      background: rgba(5, 150, 105, 0.22);
-    }
-
-    /* انیمیشن‌های شروع */
-    .appear {
+    .mobile-sheet.active {
+      transform: translateY(0) scale(1);
       opacity: 1;
-      animation-duration: 1.05s;
-      animation-fill-mode: both;
-      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-      animation-delay: var(--d, 0.08s);
+      pointer-events: auto;
     }
 
-    .appear--scale { animation-name: in-scale; }
-    .appear--soft  { animation-name: in-soft; }
-    .appear--pop   { animation-name: in-pop; }
-    .appear--mask  { animation-name: in-mask; }
-    .appear--btn   { animation-name: in-btn; }
-    .appear--side  { animation-name: in-side; }
-    .appear--stat  { animation-name: in-stat; }
-
-    .is-in {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 16px;
     }
 
-    @keyframes in-scale {
-      0% { opacity: 0; transform: scale(0.84); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes in-soft {
-      0% { opacity: 0; transform: translateY(14px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes in-mask {
-      0% { opacity: 0; transform: translateY(40%); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes in-pop {
-      0% { opacity: 0; transform: scale(0.9); }
-      70% { transform: scale(1.03); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes in-btn {
-      0% { opacity: 0; transform: translateY(18px) scale(0.94); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes in-side {
-      0% { opacity: 0; transform: translateX(22px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes in-stat {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes in-star {
-      0% { opacity: 0; transform: scale(0.2) rotate(-50deg); }
-      65% { transform: scale(1.2) rotate(8deg); }
-      100% { opacity: 1; transform: scale(1) rotate(0deg); }
-    }
-    @keyframes in-em {
-      0% { opacity: 0.35; filter: blur(4px); }
-      100% { opacity: 1; filter: blur(0); }
+    .mobile-link {
+      position: relative;
+      text-decoration: none;
+      color: var(--nav-text);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 14px;
+      border-radius: 14px;
+      text-align: center;
+      transition: background 0.2s ease;
     }
 
-    /* ریسپانسیو */
-    @media (max-width: 900px) {
-      :root {
-        --logo: 16px;
-        --h1: 34px;
-        --lede: 15px;
-        --header-x: 20px;
-        --stats-x: 20px;
-        --stats-y: 24px;
-        --hero-gap: 40px;
-      }
-      /* موبایل: ویدیوی تمام‌صفحه و ثابت، دقیقا مثل کد مرجع */
-      .hero-photo {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-      }
+    .mobile-link:hover {
+      background: #f4f4f4;
+    }
+
+    .mobile-link.active {
+      font-weight: 600;
+    }
+
+    .mobile-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      background: #000000;
+      border-radius: 50%;
+      box-shadow: -5px 0 0 #000000, 5px 0 0 #000000;
+    }
+
+    .mobile-sign-in {
+      width: 100%;
+      height: 48px;
+      background: var(--pill-dark);
+      color: var(--sign-in-text);
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-sign-in:hover {
+      background: #323234;
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       Responsive Breakpoints
+       ========================================================================== */
+    @media (max-width: 720px) {
       .header {
-        grid-template-columns: 1fr auto auto;
-        gap: 8px;
+        justify-content: space-between;
+        max-width: 100%;
       }
-      .burger {
-        display: grid;
+
+      .logo-btn {
+        width: 48px;
+        height: 48px;
       }
-      .menu-backdrop {
+
+      .nav-pill,
+      .sign-in-btn {
+        display: none;
+      }
+
+      .burger-btn {
+        display: flex;
+      }
+
+      .mobile-overlay,
+      .mobile-sheet {
         display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 40;
-        background: rgba(8, 8, 8, 0.42);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.28s ease, visibility 0.28s ease;
       }
-      body.menu-open .menu-backdrop {
-        opacity: 1;
-        visibility: visible;
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+
+      .headline {
+        letter-spacing: -0.08em;
+        line-height: 1.05;
       }
-      #site-nav {
-        position: fixed;
-        inset: 0;
-        z-index: 45;
-        flex-direction: column;
-        justify-content: center;
-        background: transparent;
-        gap: 12px;
-        padding: 96px 22px 32px;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity 0.28s ease;
+
+      .stats-footer {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
       }
-      body.menu-open #site-nav {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
+    }
+
+    @media (max-width: 420px) {
+      .trust-row {
+        --trust-size: 34px;
       }
-      .nav-link {
-        width: 100%;
-        height: 52px;
-        font-size: 16px;
-        border-radius: 10px;
+
+      .trust-pill {
+        font-size: 12px;
       }
-      .hero {
-        padding: 40px 20px 40px;
-        min-height: auto;
+
+      .headline {
+        letter-spacing: -0.09em;
+        line-height: 1.04;
       }
-      .stats {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        text-align: center;
-      }
-      .course-card {
-        padding: 24px 20px;
-      }
-      .course-badge-flag {
-        position: static;
-        display: inline-block;
+    }
+
+    @media (max-height: 700px) {
+      .trust-row {
         margin-bottom: 12px;
       }
-      .course-actions {
-        flex-direction: column;
+      .headline {
+        margin-bottom: 10px;
       }
-      .course-actions .btn {
-        width: 100%;
+      .subhead {
+        margin-bottom: 16px;
       }
     }
 
-    @media (max-width: 560px) {
-      :root {
-        --h1: 28px;
-      }
-      .hero-actions {
-        flex-direction: column;
-        width: 100%;
-      }
-      .hero-actions .btn {
-        width: 100%;
-      }
-
-      /* عنوان اصلی: هر خط تک‌خطی (اندازه دقیق را اسکریپت تنظیم می‌کند) */
-      .hero {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-      .hero h1 {
-        font-size: 4.3vw;
-        line-height: 1.6;
-        width: 100%;
-        letter-spacing: 0;
-      }
-      .headline-line {
-        white-space: nowrap;
-        overflow: visible;
-        padding: 0.05em 0;
-        max-width: none;
-      }
-      .headline-line > span {
-        white-space: nowrap;
-      }
-
-      /* عنوان بخش دوره‌ها: تک‌خطی */
-      .section-title {
-        font-size: 5.4vw;
-        white-space: nowrap;
-        letter-spacing: 0;
-      }
-
-      /* کارت‌های دوره: آیکون بالا، عنوان تک‌خطی با تمام عرض کارت */
-      .courses-section {
-        padding: 60px 16px 70px;
-      }
-      .course-card {
-        padding: 22px 16px;
-      }
-      .course-top-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .course-top-meta > div:last-child {
-        width: 100%;
-        min-width: 0;
-      }
-      .course-icon-wrap {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
-        border-radius: 12px;
-      }
-      .course-heading-title {
-        font-size: 3.6vw;
-        line-height: 1.6;
-        white-space: nowrap;
+    /* ==========================================================================
+       Accessibility: Reduced Motion
+       ========================================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      .anim,
+      .header,
+      .headline-line,
+      .cta-btn,
+      .mobile-overlay,
+      .mobile-sheet {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
       }
     }
   </style>
 </head>
-<body style="background:#000;color:#fff">
-  <div class="grain"></div>
+<body>
 
-  <!-- ویدیوی پس زمینه با تم سایبر و هوش مصنوعی -->
-  <div class="hero-photo">
-    <video id="bg-video" autoplay loop muted playsinline preload="auto">
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
+  <!-- Full-viewport Cover Video -->
+  <div class="bg">
+    <video class="bg-video" autoplay muted loop playsinline>
+      <source
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4"
+        type="video/mp4"
+      />
     </video>
   </div>
 
   <div class="page">
-    <div class="menu-backdrop" id="menu-backdrop"></div>
-
-    <!-- هدر -->
+    <!-- 1. Header -->
     <header class="header">
-      <a href="https://PythonTop.ir" class="logo appear appear--scale" style="--d: 0.08s;" aria-label="PythonTop">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <g transform="rotate(-30 12 12)">
-            <circle cx="7.3" cy="3.2" r="1.45" />
-            <rect x="5.5" y="4.7" width="3.6" height="14.6" rx="1.8" />
-            <rect x="14.9" y="4.7" width="3.6" height="14.6" rx="1.8" />
-            <circle cx="16.7" cy="20.8" r="1.45" />
-          </g>
-        </svg>
-        <span>پایتون تاپ<span class="logo-suffix">.AI</span></span>
+      <a href="#" class="logo-btn" aria-label="Home">
+        <img src="assets/logo.webp" alt="" width="52" height="52" class="logo-img" />
       </a>
 
-      <!-- منوی دوره های هوش مصنوعی -->
-      <nav id="site-nav" aria-label="منوی دوره‌ها">
-        <a href="AI-App&Game.html" class="nav-link appear appear--scale" style="--d: 0.16s;">ساخت اپ و بازی با AI</a>
-        <a href="#course-media" class="nav-link appear appear--soft" style="--d: 0.28s;">ویدیو و موزیک دلاری با AI</a>
-        <a href="#course-web" class="nav-link appear appear--scale" style="--d: 0.40s;">طراحی سایت بدون کد</a>
-        <a href="https://alichalaki.github.io/" target="_blank" rel="noopener" class="nav-link appear appear--soft" style="--d: 0.52s;">درباره علی چالاکی</a>
+      <nav class="nav-pill" aria-label="Main Navigation">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#product" class="nav-link">Product</a>
+        <a href="#case-studies" class="nav-link">Case Studies</a>
+        <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
-      <!-- دکمه مشاوره -->
-      <button type="button" class="btn btn-solid header-cta appear appear--scale open-support-btn" style="--d: 0.34s;">مشاوره و پشتیبانی</button>
+      <a href="#signin" class="sign-in-btn">Sign in</a>
 
-      <button class="burger appear appear--scale" id="burger-btn" style="--d: 0.34s;" aria-controls="site-nav" aria-expanded="false" aria-label="باز کردن منو">
+      <button class="burger-btn" aria-label="Toggle navigation menu" aria-expanded="false" id="burgerToggle">
         <span class="burger-bar"></span>
         <span class="burger-bar"></span>
         <span class="burger-bar"></span>
       </button>
     </header>
 
-    <!-- هیرو سکشن -->
-    <main class="hero" id="top">
-      <div class="hero-copy">
-        <div class="badge appear appear--pop" style="--d: 0.22s;">
-          <svg class="badge-star" viewBox="0 0 24 24">
-            <path d="M12 2.6C12.55 2.6 12.88 3.15 13.08 4.7c.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22C11.12 3.15 11.45 2.6 12 2.6Z" />
-          </svg>
-          <span>آموزش کاربردی هوش مصنوعی با علی چالاکی</span>
+    <!-- 2. Hero -->
+    <main class="hero">
+      <!-- Trust row -->
+      <div class="trust-row anim" style="--d: 0.05s;">
+        <div class="trust-avatars">
+          <div class="avatar-ring">
+            <div class="avatar-inner">
+              <i class="fa-brands fa-microsoft"></i>
+            </div>
+          </div>
+          <div class="avatar-ring">
+            <div class="avatar-inner">
+              <i class="fa-brands fa-amazon"></i>
+            </div>
+          </div>
+          <div class="avatar-ring">
+            <div class="avatar-inner">
+              <i class="fa-brands fa-google"></i>
+            </div>
+          </div>
         </div>
-
-        <h1>
-          <span class="headline-line"><span class="appear appear--mask" style="--d: 0.42s; display: inline-block;">با قدرت <em>هوش مصنوعی</em> به درآمد دلاری برسید</span></span>
-          <span class="headline-line"><span class="appear appear--mask" style="--d: 0.62s; display: inline-block;">و ماشین درآمد غیرفعال خودت رو بساز.</span></span>
-        </h1>
-
-        <p class="lede appear appear--soft" style="--d: 0.82s;">
-          یادگیری سریع کار با پیشرفته‌ترین مدل‌های هوش مصنوعی؛ بدون نیاز به یک خط کدنویسی، وب‌سایت، اپلیکیشن، بازی و محتوای پولساز و بین‌المللی تولید کن.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#courses-list" class="btn btn-solid hero-btn appear appear--btn" style="--d: 0.96s;">مشاهده دوره‌ها و ثبت‌نام</a>
-          <button type="button" class="btn btn-ghost hero-btn appear appear--side open-support-btn" style="--d: 1.10s;">دریافت مشاوره رایگان</button>
+        <div class="trust-pill">
+          Trusted by 2000+ Enterprises
         </div>
       </div>
+
+      <!-- Headline -->
+      <h1 class="headline">
+        <span class="headline-line">Intelligence</span>
+        <span class="headline-line">Designed To Evolve</span>
+      </h1>
+
+      <!-- Subhead -->
+      <p class="subhead anim" style="--d: 0.28s;">
+        Build applications that reason, adapt and collaborate using a modular AI platform designed for production.
+      </p>
+
+      <!-- CTA -->
+      <a href="#get-started" class="cta-btn anim" style="--d: 0.4s;">
+        Get Started
+      </a>
     </main>
 
-    <!-- فوتر آمار -->
-    <footer class="stats">
-      <div class="stat appear appear--stat" style="--d: 1.12s;">
-        <svg class="stat-icon" viewBox="0 0 24 24">
-          <defs>
-            <linearGradient id="pillGrad1" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
-              <stop offset="100%" stop-color="#1e293b" stop-opacity="0.6" />
-            </linearGradient>
-            <linearGradient id="pillGrad2" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#1e293b" stop-opacity="0.6" />
-              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.9" />
-            </linearGradient>
-          </defs>
-          <rect x="3.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#pillGrad1)" />
-          <rect x="13.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#pillGrad2)" />
-          <rect x="9.2" y="10.9" width="5.6" height="2.2" rx="1.1" fill="#38bdf8" />
-        </svg>
-        <span>۱۰۰٪ پروژه‌محور و بدون نیاز به پیش‌نیاز</span>
+    <!-- 3. Stats Footer -->
+    <footer class="stats-footer">
+      <div class="stat-item anim" style="--d: 0.5s;">
+        <div class="stat-glyph">&lt;</div>
+        <div class="stat-value" data-target="120" data-decimals="0" data-suffix="ms">0ms</div>
+        <div class="stat-label">Inference Time</div>
       </div>
 
-      <div class="stat appear appear--stat" style="--d: 1.28s;">
-        <svg class="stat-icon" viewBox="0 0 24 24">
-          <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="#ffffff" />
-          <path d="M12 7.1v7.4" stroke="#111111" stroke-width="1.85" stroke-linecap="round" />
-          <path d="M8.15 12.35L12 16.2l3.85-3.85" stroke="#111111" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span>راهنمای ورود به بازارهای دلاری و فریلنسری بین‌الملل</span>
+      <div class="stat-item anim" style="--d: 0.58s;">
+        <div class="stat-glyph">%</div>
+        <div class="stat-value" data-target="99.99" data-decimals="2" data-suffix="%">0.00%</div>
+        <div class="stat-label">Platform Uptime</div>
       </div>
 
-      <div class="stat appear appear--stat" style="--d: 1.44s;">
-        <svg class="stat-icon-wide" viewBox="0 0 40 22">
-          <circle cx="10.2" cy="11" r="9.2" fill="#2b2b2b" />
-          <polygon points="7.2,3.8 8.8,6.8 5.6,6.8" fill="#f4f4f4" />
-          <polygon points="13.2,3.8 14.8,6.8 11.6,6.8" fill="#f4f4f4" />
-          <ellipse cx="10.2" cy="12.1" rx="4.15" ry="3.7" fill="#f4f4f4" />
-          <circle cx="9" cy="11.5" r="0.7" fill="#1a1a1a" />
-          <circle cx="11.4" cy="11.5" r="0.7" fill="#1a1a1a" />
+      <div class="stat-item anim" style="--d: 0.66s;">
+        <div class="stat-glyph">*</div>
+        <div class="stat-value" data-target="24" data-decimals="0" data-suffix="/7">0/7</div>
+        <div class="stat-label">Autonomous Runtime</div>
+      </div>
 
-          <circle cx="20.2" cy="11" r="9.2" fill="#ffffff" />
-          <circle cx="17.7" cy="9.8" r="1.7" fill="#111111" />
-          <circle cx="22.7" cy="9.8" r="1.7" fill="#111111" />
-          <ellipse cx="20.2" cy="12" rx="0.9" ry="0.6" fill="#111111" />
-          <path d="M17.8 14.2 Q20.2 16.5 22.6 14.2" stroke="#111111" stroke-width="1.2" stroke-linecap="round" fill="none" />
-
-          <circle cx="30.2" cy="11" r="9.2" fill="#38bdf8" />
-          <text x="30.2" y="15.1" fill="#000" font-family="'Inter', sans-serif" font-weight="800" font-size="12" text-anchor="middle">AI</text>
-        </svg>
-        <span>پشتیبانی مستقیم توسط علی چالاکی</span>
+      <div class="stat-item anim" style="--d: 0.74s;">
+        <div class="stat-glyph">#</div>
+        <div class="stat-value" data-target="2.4" data-decimals="1" data-suffix="M">0.0M</div>
+        <div class="stat-label">Context Windows</div>
       </div>
     </footer>
-
-    <!-- ========================================================
-         سکشن دوره‌ها (خلوت، چشم‌نواز و مستقیم به صفحه جزئیات)
-    ======================================================== -->
-    <section class="courses-section" id="courses-list">
-      <div class="section-header">
-        <span class="section-tag">مسیرهای پردرآمد هوش مصنوعی</span>
-        <h2 class="section-title">دوره‌های تخصصی آکادمی پایتون تاپ</h2>
-        <p class="section-desc">آموزش‌های کاربردی و پروژه‌محور برای تبدیل ایده به پول و ساخت درآمدهای پایدار دلاری</p>
-      </div>
-
-      <div class="courses-grid">
-        
-        <!-- دوره ۱: ساخت اپ و بازی با AI -->
-        <article class="course-card highlight" id="course-apps">
-          <span class="course-badge-flag">دوره طلایی ۲۱ درس</span>
-          <div class="course-top-meta">
-            <div class="course-icon-wrap">🚀</div>
-            <div>
-              <h3 class="course-heading-title">ساخت اپلیکیشن و بازی با هوش مصنوعی و پرامپت‌نویسی</h3>
-              <p style="color: #38bdf8; font-size: 13.5px; margin-top: 4px; font-weight: 600;">بدون نیاز به یک خط کدنویسی دستی | ارائه فایل نصبی واقعی APK و PWA</p>
-            </div>
-          </div>
-          
-          <div class="course-pitch">
-            <div class="pitch-main">🚀 ایده‌تو با هوش مصنوعی به اپلیکیشن و بازی تبدیل کن!</div>
-            <div class="pitch-sub">🤖 بدون حتی یک خط کدنویسی، اپ و بازی بساز، منتشر کن و مسیر کسب درآمد دلاری رو یاد بگیر! 💰</div>
-            <div class="pitch-features">
-              <span class="feature-chip">☁️ ۱۰۰٪ آنلاین و ابری</span>
-              <span class="feature-chip">🎓 پشتیبانی مستقیم تا انتشار</span>
-              <span class="feature-chip">📱 خروجی واقعی موبایل (APK)</span>
-              <span class="feature-chip">🔒 ظرفیت محدود برای پشتیبانی اختصاصی</span>
-            </div>
-          </div>
-
-          <div class="course-actions">
-            <!-- لینک اختصاصی به صفحه جزئیات دوره -->
-            <a href="AI-App&Game.html" class="btn btn-detail-link">
-              <span>مشاهده سرفصل‌ها و توضیحات کامل دوره</span>
-              <span>←</span>
-            </a>
-            <button type="button" class="btn btn-solid open-support-btn">مشاوره و ثبت‌نام سریع</button>
-          </div>
-        </article>
-
-        <!-- دوره ۲: ساخت ویدیو، عکس و صدا با AI -->
-        <article class="course-card" id="course-media">
-          <div class="course-top-meta">
-            <div class="course-icon-wrap">🎬</div>
-            <div>
-              <h3 class="course-heading-title">ساخت ویدیو، عکس و صدا با هوش مصنوعی و درآمد دلاری</h3>
-              <p style="color: #a855f7; font-size: 13.5px; margin-top: 4px; font-weight: 600;">تولید محتوای سینمایی، کاراکترهای ثابت، ویس‌اور و موزیک استودیویی</p>
-            </div>
-          </div>
-          
-          <div class="course-pitch">
-            <div class="pitch-main">🎥 کانال‌های یوتیوب و شبکه‌های اجتماعی پولساز بدون چهره بساز!</div>
-            <div class="pitch-sub">🎙️ تولید محتوای ویدیویی ترند جهانی با شبیه‌سازی صدا، تصویرسازی و موسیقی بدون کپی‌رایت! 💵</div>
-            <div class="pitch-features">
-              <span class="feature-chip">🌐 درآمد مستقیم ارزی و دلاری</span>
-              <span class="feature-chip">🤖 کار با مدل‌های Grok و ابزارهای ترند</span>
-              <span class="feature-chip">🎵 ساخت موزیک و دوبله چندزبانه</span>
-            </div>
-          </div>
-
-          <div class="course-actions">
-            <a href="AI-Video&Audio.html" class="btn btn-detail-link" style="border-color: rgba(168,85,247,0.4); color: #c084fc;">
-              <span>مشاهده توضیحات کامل دوره</span>
-              <span>←</span>
-            </a>
-            <button type="button" class="btn btn-solid open-support-btn">مشاوره و ثبت‌نام سریع</button>
-          </div>
-        </article>
-
-        <!-- دوره ۳: ساخت سایت با هوش مصنوعی بدون کدنویسی -->
-        <article class="course-card" id="course-web">
-          <div class="course-top-meta">
-            <div class="course-icon-wrap">🌐</div>
-            <div>
-              <h3 class="course-heading-title">طراحی و راه‌اندازی وب‌سایت با هوش مصنوعی بدون کدنویسی</h3>
-              <p style="color: #34d399; font-size: 13.5px; margin-top: 4px; font-weight: 600;">طراحی سریع انواع لندینگ‌پیج‌ها، سایت‌های شرکتی و فروشگاهی</p>
-            </div>
-          </div>
-          
-          <div class="course-pitch">
-            <div class="pitch-main">💻 در کمتر از چند دقیقه سایت‌های مدرن و چشم‌نواز تحویل بگیر!</div>
-            <div class="pitch-sub">⚡ بدون درگیری با کدهای سخت، پروژه‌های طراحی وب تحویل بده و درآمد پروژه‌ای عالی بگیر! 💳</div>
-            <div class="pitch-features">
-              <span class="feature-chip">🚀 مناسب بازار کار و فریلنسری</span>
-              <span class="feature-chip">🛍️ لندینگ‌پیج‌های پرفروش</span>
-              <span class="feature-chip">🌍 هاست رایگان و اتصال دامنه</span>
-            </div>
-          </div>
-
-          <div class="course-actions">
-            <a href="AI-Website.html" class="btn btn-detail-link" style="border-color: rgba(52,211,153,0.4); color: #34d399;">
-              <span>مشاهده توضیحات کامل دوره</span>
-              <span>←</span>
-            </a>
-            <button type="button" class="btn btn-solid open-support-btn">مشاوره و ثبت‌نام سریع</button>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
   </div>
 
-  <!-- پاپ‌آپ شیک اعلان کپی (Toast) -->
-  <div class="toast-notification" id="toastNotice">
-    <span>✓</span>
-    <span id="toastMessage">آیدی با موفقیت کپی شد!</span>
-  </div>
+  <!-- Mobile Drawer & Backdrop -->
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+  <aside class="mobile-sheet" id="mobileSheet" aria-hidden="true">
+    <nav class="mobile-nav-links">
+      <a href="#home" class="mobile-link active">Home</a>
+      <a href="#product" class="mobile-link">Product</a>
+      <a href="#case-studies" class="mobile-link">Case Studies</a>
+      <a href="#contact" class="mobile-link">Contact</a>
+    </nav>
+    <a href="#signin" class="mobile-sign-in">Sign in</a>
+  </aside>
 
-  <!-- مدال پشتیبانی و مشاوره -->
-  <div class="modal-overlay" id="supportModal">
-    <div class="support-card">
-      <div class="close-modal" id="closeModalBtn" title="بستن">✕</div>
-      
-      <div class="support-icon-top">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="#38bdf8">
-          <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
-        </svg>
-      </div>
+  <!-- Interaction & Count-up Scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // -------------------------------------------------------------
+      // Mobile Drawer Controller
+      // -------------------------------------------------------------
+      const burger = document.getElementById("burgerToggle");
+      const overlay = document.getElementById("mobileOverlay");
+      const sheet = document.getElementById("mobileSheet");
+      const mobileLinks = sheet.querySelectorAll("a");
 
-      <h3 class="support-title">پشتیبانی و مشاوره دوره</h3>
-      <p class="support-desc">جهت دریافت مشاوره و راهنمایی ثبت‌نام، پلتفرم مورد نظر خود را انتخاب کنید:</p>
+      function openMenu() {
+        burger.setAttribute("aria-expanded", "true");
+        overlay.classList.add("active");
+        sheet.classList.add("active");
+        overlay.removeAttribute("aria-hidden");
+        sheet.removeAttribute("aria-hidden");
+        document.body.classList.add("menu-open");
+      }
 
-      <!-- تلگرام -->
-      <div class="tg-box-wrapper">
-        <a href="https://t.me/PythonTop0" target="_blank" rel="noopener" class="btn-telegram">
+      function closeMenu() {
+        burger.setAttribute("aria-expanded", "false");
+        overlay.classList.remove("active");
+        sheet.classList.remove("active");
+        overlay.setAttribute("aria-hidden", "true");
+        sheet.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("menu-open");
+      }
+
+      burger.addEventListener("click", () => {
+        const isOpen = burger.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      overlay.addEventListener("click", closeMenu);
+
+      mobileLinks.forEach(link => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 720 && burger.getAttribute("aria-expanded") === "true") {
+          closeMenu();
+        }
+      });
+
+      // -------------------------------------------------------------
+      // Stats Counter (easeOutCubic + Staggered Timers)
+      // -------------------------------------------------------------
+      const statItems = document.querySelectorAll(".stat-item");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function easeOutCubic(x) {
+        return 1 - Math.pow(1 - x, 3);
+      }
+
+      function animateStat(valueEl, index) {
+        const target = parseFloat(valueEl.getAttribute("data-target"));
+        const decimals = parseInt(valueEl.getAttribute("data-decimals"), 10) || 0;
+        const suffix = valueEl.getAttribute("data-suffix") || "";
+
+        if (prefersReducedMotion) {
+          valueEl.textContent = target.toFixed(decimals) + suffix;
+          return;
+        }
+
+        const duration = 1500 + index * 80;
+        const delay = 480 + index * 90;
+
+        setTimeout(() => {
+          let startTime = null;
+
+          function tick(now) {
+            if (!startTime) startTime = now;
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutCubic(progress);
+
+            const current = easedProgress * target;
+            valueEl.textContent = current.toFixed(decimals) + suffix;
+
+            if (progress < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              valueEl.textContent = target.toFixed(decimals) + suffix;
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }, delay);
+      }
+
+      let animated = false;
+      const statsFooter = document.querySelector(".stats-footer");
+
+      if ("IntersectionObserver" in window && statsFooter) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+              animated = true;
+              statItems.forEach((item, i) => {
+                const val = item.querySelector(".stat-value");
+                if (val) animateStat(val, i);
+              });
+              observer.unobserve(statsFooter);
+            }
+          });
+        }, { threshold: 0.25 });
+
+        observer.observe(statsFooter);
+      } else {
+        statItems.forEach((item, i) => {
+          const val = item.querySelector(".stat-value");
+          if (val) animateStat(val, i);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
