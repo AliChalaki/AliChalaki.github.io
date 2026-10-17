@@ -108,6 +108,8 @@
     }
 
     .hero-photo video {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -119,8 +121,61 @@
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 2;
       background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,1) 98%);
       pointer-events: none;
+    }
+
+    /* پس‌زمینه متحرک موج‌دار (فقط موبایل، زیر ویدیو) */
+    .wave-bg {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #050505;
+    }
+
+    .wave-bg .wave {
+      position: absolute;
+      left: -35%;
+      width: 170%;
+      border-radius: 50%;
+      will-change: transform;
+      background: radial-gradient(ellipse at center, rgba(205, 205, 205, 0.5) 0%, rgba(140, 140, 140, 0.28) 38%, rgba(60, 60, 60, 0.1) 62%, transparent 74%);
+    }
+
+    .wave-bg .w1 {
+      top: 6%;
+      height: 46%;
+      animation: wave-a 11s ease-in-out infinite alternate;
+    }
+
+    .wave-bg .w2 {
+      top: 30%;
+      height: 52%;
+      opacity: 0.8;
+      animation: wave-b 15s ease-in-out infinite alternate;
+    }
+
+    .wave-bg .w3 {
+      top: 52%;
+      height: 44%;
+      opacity: 0.6;
+      animation: wave-c 19s ease-in-out infinite alternate;
+    }
+
+    @keyframes wave-a {
+      0%   { transform: translate3d(-9%, 0, 0) rotate(-6deg) scale(1); }
+      100% { transform: translate3d(9%, 7%, 0) rotate(4deg) scale(1.12); }
+    }
+    @keyframes wave-b {
+      0%   { transform: translate3d(10%, 4%, 0) rotate(5deg) scale(1.08); }
+      100% { transform: translate3d(-10%, -5%, 0) rotate(-5deg) scale(0.96); }
+    }
+    @keyframes wave-c {
+      0%   { transform: translate3d(-7%, -4%, 0) rotate(-3deg) scale(0.98); }
+      100% { transform: translate3d(8%, 6%, 0) rotate(6deg) scale(1.1); }
     }
 
     /* ساختار کلی صفحه */
@@ -924,6 +979,15 @@
         --stats-y: 24px;
         --hero-gap: 40px;
       }
+      /* فعال شدن پس‌زمینه موجی در موبایل */
+      .wave-bg {
+        display: block;
+      }
+      .hero-photo {
+        height: 100vh;
+        height: 100svh;
+        min-height: 640px;
+      }
       .header {
         grid-template-columns: 1fr auto auto;
         gap: 8px;
@@ -1010,7 +1074,7 @@
         width: 100%;
       }
 
-      /* عنوان اصلی: هر خط تک‌خطی و با سایز کوچک‌تر */
+      /* عنوان اصلی: هر خط تک‌خطی (اندازه دقیق را اسکریپت تنظیم می‌کند) */
       .hero {
         padding-left: 12px;
         padding-right: 12px;
@@ -1025,17 +1089,45 @@
         white-space: nowrap;
         overflow: visible;
         padding: 0.05em 0;
-        max-width: 100%;
+        max-width: none;
       }
       .headline-line > span {
         white-space: nowrap;
       }
 
-      /* عنوان بخش دوره‌ها: تک‌خطی و کوچک‌تر */
+      /* عنوان بخش دوره‌ها: تک‌خطی */
       .section-title {
         font-size: 5.4vw;
         white-space: nowrap;
         letter-spacing: 0;
+      }
+
+      /* کارت‌های دوره: آیدکون بالا، عنوان تک‌خطی با تمام عرض کارت */
+      .courses-section {
+        padding: 60px 16px 70px;
+      }
+      .course-card {
+        padding: 22px 16px;
+      }
+      .course-top-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .course-top-meta > div:last-child {
+        width: 100%;
+        min-width: 0;
+      }
+      .course-icon-wrap {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        border-radius: 12px;
+      }
+      .course-heading-title {
+        font-size: 3.6vw;
+        line-height: 1.6;
+        white-space: nowrap;
       }
     }
   </style>
@@ -1043,8 +1135,13 @@
 <body style="background:#000;color:#fff">
   <div class="grain"></div>
 
-  <!-- ویدیوی پس زمینه با تم سایبر و هوش مصنوعی -->
+  <!-- پس‌زمینه ویدیویی + موج‌های متحرک جایگزین برای موبایل -->
   <div class="hero-photo">
+    <div class="wave-bg" aria-hidden="true">
+      <div class="wave w1"></div>
+      <div class="wave w2"></div>
+      <div class="wave w3"></div>
+    </div>
     <video id="bg-video" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
@@ -1376,6 +1473,48 @@
             }
           }, { passive: true });
         });
+      }
+
+      // تنظیم خودکار سایز عنوان‌ها در موبایل تا هر عنوان تک‌خطی بماند
+      const mqMobile = window.matchMedia('(max-width: 560px)');
+
+      function fitSingle(el) {
+        el.style.fontSize = '';
+        if (!mqMobile.matches) return;
+        let size = parseFloat(getComputedStyle(el).fontSize);
+        const min = 9;
+        while (el.scrollWidth > el.clientWidth + 0.5 && size > min) {
+          size -= 0.5;
+          el.style.fontSize = size + 'px';
+        }
+      }
+
+      function fitHero() {
+        const h1 = document.querySelector('.hero h1');
+        if (!h1) return;
+        const lines = Array.from(h1.querySelectorAll('.headline-line'));
+        h1.style.fontSize = '';
+        if (!mqMobile.matches) return;
+        let size = parseFloat(getComputedStyle(h1).fontSize);
+        const min = 9;
+        const overflowing = () => lines.some(l => l.scrollWidth > h1.clientWidth + 0.5);
+        while (overflowing() && size > min) {
+          size -= 0.5;
+          h1.style.fontSize = size + 'px';
+        }
+      }
+
+      function fitAll() {
+        fitHero();
+        document.querySelectorAll('.section-title, .course-heading-title').forEach(fitSingle);
+      }
+
+      fitAll();
+      window.addEventListener('load', fitAll);
+      window.addEventListener('resize', fitAll);
+      window.addEventListener('orientationchange', fitAll);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(fitAll);
       }
 
       // انیمیشن‌های شروع
