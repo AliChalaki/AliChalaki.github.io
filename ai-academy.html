@@ -126,56 +126,15 @@
       pointer-events: none;
     }
 
-    /* پس‌زمینه متحرک موج‌دار (فقط موبایل، زیر ویدیو) */
-    .wave-bg {
+    /* پس‌زمینه متحرک canvas (فقط موبایل، زیر ویدیو) */
+    .wave-canvas {
       display: none;
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
-      overflow: hidden;
       background: #050505;
-    }
-
-    .wave-bg .wave {
-      position: absolute;
-      left: -35%;
-      width: 170%;
-      border-radius: 50%;
-      will-change: transform;
-      background: radial-gradient(ellipse at center, rgba(205, 205, 205, 0.5) 0%, rgba(140, 140, 140, 0.28) 38%, rgba(60, 60, 60, 0.1) 62%, transparent 74%);
-    }
-
-    .wave-bg .w1 {
-      top: 6%;
-      height: 46%;
-      animation: wave-a 11s ease-in-out infinite alternate;
-    }
-
-    .wave-bg .w2 {
-      top: 30%;
-      height: 52%;
-      opacity: 0.8;
-      animation: wave-b 15s ease-in-out infinite alternate;
-    }
-
-    .wave-bg .w3 {
-      top: 52%;
-      height: 44%;
-      opacity: 0.6;
-      animation: wave-c 19s ease-in-out infinite alternate;
-    }
-
-    @keyframes wave-a {
-      0%   { transform: translate3d(-9%, 0, 0) rotate(-6deg) scale(1); }
-      100% { transform: translate3d(9%, 7%, 0) rotate(4deg) scale(1.12); }
-    }
-    @keyframes wave-b {
-      0%   { transform: translate3d(10%, 4%, 0) rotate(5deg) scale(1.08); }
-      100% { transform: translate3d(-10%, -5%, 0) rotate(-5deg) scale(0.96); }
-    }
-    @keyframes wave-c {
-      0%   { transform: translate3d(-7%, -4%, 0) rotate(-3deg) scale(0.98); }
-      100% { transform: translate3d(8%, 6%, 0) rotate(6deg) scale(1.1); }
     }
 
     /* ساختار کلی صفحه */
@@ -979,14 +938,22 @@
         --stats-y: 24px;
         --hero-gap: 40px;
       }
-      /* فعال شدن پس‌زمینه موجی در موبایل */
-      .wave-bg {
+      /* فعال شدن پس‌زمینه canvas در موبایل */
+      .wave-canvas {
         display: block;
       }
       .hero-photo {
         height: 100vh;
         height: 100svh;
         min-height: 640px;
+      }
+      /* ویدیو در موبایل تا وقتی واقعا پخش نشده مخفی است */
+      .hero-photo video {
+        opacity: 0;
+        transition: opacity 0.9s ease;
+      }
+      .hero-photo video.is-playing {
+        opacity: 0.75;
       }
       .header {
         grid-template-columns: 1fr auto auto;
@@ -1102,7 +1069,7 @@
         letter-spacing: 0;
       }
 
-      /* کارت‌های دوره: آیدکون بالا، عنوان تک‌خطی با تمام عرض کارت */
+      /* کارت‌های دوره: آیکون بالا، عنوان تک‌خطی با تمام عرض کارت */
       .courses-section {
         padding: 60px 16px 70px;
       }
@@ -1135,13 +1102,9 @@
 <body style="background:#000;color:#fff">
   <div class="grain"></div>
 
-  <!-- پس‌زمینه ویدیویی + موج‌های متحرک جایگزین برای موبایل -->
+  <!-- پس‌زمینه ویدیویی + انیمیشن canvas جایگزین برای موبایل -->
   <div class="hero-photo">
-    <div class="wave-bg" aria-hidden="true">
-      <div class="wave w1"></div>
-      <div class="wave w2"></div>
-      <div class="wave w3"></div>
-    </div>
+    <canvas class="wave-canvas" id="wave-canvas" aria-hidden="true"></canvas>
     <video id="bg-video" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4">
     </video>
@@ -1439,7 +1402,7 @@
       const backdrop = document.getElementById('menu-backdrop');
       const navLinks = document.querySelectorAll('#site-nav a');
 
-      // پخش ویدیوی پس‌زمینه در موبایل و دسکتاپ
+      // پخش ویدیوی پس‌زمینه؛ فقط وقتی واقعا پخش شد نمایش داده می‌شود (موبایل)
       const bgVideo = document.getElementById('bg-video');
       if (bgVideo) {
         bgVideo.muted = true;
@@ -1455,6 +1418,16 @@
             p.catch(() => { /* منتظر تعامل کاربر */ });
           }
         };
+
+        // ویدیو فقط زمانی نمایش داده می‌شود که زمانش واقعا جلو برود
+        bgVideo.addEventListener('timeupdate', () => {
+          if (bgVideo.currentTime > 0.25 && !bgVideo.paused) {
+            bgVideo.classList.add('is-playing');
+          }
+        });
+        bgVideo.addEventListener('pause', () => {
+          bgVideo.classList.remove('is-playing');
+        });
 
         tryPlay();
         bgVideo.addEventListener('loadeddata', tryPlay);
@@ -1473,6 +1446,111 @@
             }
           }, { passive: true });
         });
+      }
+
+      // انیمیشن موج‌های خاکستری با canvas (فقط موبایل)
+      const canvas = document.getElementById('wave-canvas');
+      const mqWave = window.matchMedia('(max-width: 900px)');
+
+      if (canvas && canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+        let cw = 0, ch = 0, rafId = null;
+
+        const layers = [
+          { y: 0.30, amp: 0.075, len: 1.25, speed: 0.00042, phase: 0.0, thick: 0.20, alpha: 0.46 },
+          { y: 0.46, amp: 0.095, len: 0.95, speed: 0.00031, phase: 2.1, thick: 0.26, alpha: 0.40 },
+          { y: 0.60, amp: 0.080, len: 1.45, speed: 0.00052, phase: 4.2, thick: 0.22, alpha: 0.34 },
+          { y: 0.74, amp: 0.060, len: 1.10, speed: 0.00036, phase: 1.3, thick: 0.18, alpha: 0.26 }
+        ];
+
+        function resizeCanvas() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          const rect = canvas.getBoundingClientRect();
+          cw = rect.width;
+          ch = rect.height;
+          if (!cw || !ch) return;
+          canvas.width = Math.round(cw * dpr);
+          canvas.height = Math.round(ch * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function drawWaves(t) {
+          if (!cw || !ch) { resizeCanvas(); }
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.fillStyle = '#050505';
+          ctx.fillRect(0, 0, cw, ch);
+
+          const step = 10;
+          layers.forEach(L => {
+            const base = ch * L.y;
+            const amp = ch * L.amp;
+            const k = (Math.PI * 2 * L.len) / cw;
+            const tt = t * L.speed;
+
+            const topY = x =>
+              base +
+              Math.sin(x * k + tt * 6 + L.phase) * amp +
+              Math.sin(x * k * 0.55 - tt * 4 + L.phase * 1.7) * amp * 0.65;
+
+            const thickAt = x =>
+              ch * L.thick * (0.75 + 0.25 * Math.sin(x * k * 0.8 + tt * 5 + L.phase));
+
+            ctx.beginPath();
+            ctx.moveTo(0, topY(0));
+            for (let x = step; x <= cw + step; x += step) {
+              ctx.lineTo(x, topY(x));
+            }
+            for (let x = cw + step; x >= 0; x -= step) {
+              ctx.lineTo(x, topY(x) + thickAt(x));
+            }
+            ctx.closePath();
+
+            const g = ctx.createLinearGradient(0, base - amp, 0, base + amp + ch * L.thick);
+            g.addColorStop(0.0, 'rgba(215,215,215,0)');
+            g.addColorStop(0.35, 'rgba(215,215,215,' + L.alpha + ')');
+            g.addColorStop(0.65, 'rgba(120,120,120,' + (L.alpha * 0.55) + ')');
+            g.addColorStop(1.0, 'rgba(60,60,60,0)');
+            ctx.fillStyle = g;
+            ctx.fill();
+          });
+        }
+
+        function loop(t) {
+          drawWaves(t);
+          rafId = requestAnimationFrame(loop);
+        }
+
+        function startWaves() {
+          if (rafId || !mqWave.matches) return;
+          resizeCanvas();
+          rafId = requestAnimationFrame(loop);
+        }
+
+        function stopWaves() {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        }
+
+        function syncWaves() {
+          if (mqWave.matches && !document.hidden) {
+            startWaves();
+          } else {
+            stopWaves();
+          }
+        }
+
+        syncWaves();
+        window.addEventListener('resize', () => {
+          if (mqWave.matches) resizeCanvas();
+          syncWaves();
+        });
+        window.addEventListener('orientationchange', () => {
+          setTimeout(() => { resizeCanvas(); syncWaves(); }, 250);
+        });
+        document.addEventListener('visibilitychange', syncWaves);
+        window.addEventListener('load', () => { resizeCanvas(); syncWaves(); });
       }
 
       // تنظیم خودکار سایز عنوان‌ها در موبایل تا هر عنوان تک‌خطی بماند
